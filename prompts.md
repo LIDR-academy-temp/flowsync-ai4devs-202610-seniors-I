@@ -1,35 +1,30 @@
 # Prompts
 
-Aquí van **todos los prompts que lanzaste** para hacer el ejercicio, en el orden en que los
-lanzaste, con el modelo y la herramienta de cada uno.
-
-Esto no es papeleo. Lo que se revisa es **cómo pediste las cosas**, no solo lo que salió: un
-resultado flojo con un prompt bueno y un resultado flojo con un prompt vago necesitan feedback
-distinto, y sin este archivo no se distinguen.
-
-## Cómo rellenarlo
-
-- Un apartado `## Prompt N` por cada prompt.
-- **Pega el prompt tal cual lo lanzaste**, dentro del bloque de código, aunque ocupe diez líneas
-  y aunque tenga faltas. No lo reescribas para que quede bien: el que arreglaste mentalmente
-  después no es el que lanzaste.
-- Incluye también los que **no funcionaron**. Suelen ser los más útiles de leer.
-- `Modelo` y `Herramienta` en todos. Si cambiaste de una a otra a mitad, se nota aquí.
-
-Borra el ejemplo de abajo cuando escribas el primero.
-
----
-
 ## Prompt 1
 
-**Modelo:** Opus 1M xHigh
+**Modelo:** claude-opus-5-5
 **Herramienta:** Claude Code
 
 ```
-Este es el ejemplo. Bórralo.
+Descripción
 
-El prompt va aquí dentro, entero y con sus saltos de línea,
-para que se sepa dónde empieza y dónde acaba.
+Como usuario de FlowSync, quiero poder crear una cuenta e iniciar sesión desde la web, para acceder a mi perfil. El backend ya ofrece la autenticación; falta la parte visual en el frontend.
+
+Criterios de aceptación
+
+Existe una pantalla de registro donde el usuario introduce su email y una contraseña.
+
+Existe una pantalla de login donde el usuario introduce su email y su contraseña.
+
+Tras iniciar sesión correctamente, el usuario llega a una página de perfil que muestra sus datos.
+
+Si el usuario recarga la página, sigue con la sesión iniciada.
+
+Si las credenciales son incorrectas, se muestra un mensaje claro.
+
+Si el email ya está registrado, se muestra un mensaje claro.
+
+Desde el login se puede ir al registro, y desde el registro al login.
 ```
 
-**Qué salió:** (opcional, una línea) funcionó a la primera / tuve que insistir / me inventó una ruta que no existe.
+**Qué salió:** mismo texto lanzado en las dos copias; las dos funcionaron a la primera, sin intervenciones. Con harness: leyó el contrato del backend y lo probó con `curl`, separó cliente HTTP / token / errores en archivos propios, no añadió dependencias, lint y build pasaron; no explicó antes qué archivos iba a tocar y no pudo probar en el navegador. Sin harness: también acertó el contrato del backend (`passwordConfirmation`, mínimo 8), pero añadió `react-router` y concentró la lógica HTTP en un solo `api.ts`.
