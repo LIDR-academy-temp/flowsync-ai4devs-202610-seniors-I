@@ -15,21 +15,97 @@ distinto, y sin este archivo no se distinguen.
   después no es el que lanzaste.
 - Incluye también los que **no funcionaron**. Suelen ser los más útiles de leer.
 - `Modelo` y `Herramienta` en todos. Si cambiaste de una a otra a mitad, se nota aquí.
-
-Borra el ejemplo de abajo cuando escribas el primero.
-
 ---
 
 ## Prompt 1
 
-**Modelo:** Opus 1M xHigh
+**Modelo:** Opus 5.5 (claude-opus-5-5)
 **Herramienta:** Claude Code
 
 ```
-Este es el ejemplo. Bórralo.
-
-El prompt va aquí dentro, entero y con sus saltos de línea,
-para que se sepa dónde empieza y dónde acaba.
+I want you to be able to connect to jira and read tickets
 ```
 
-**Qué salió:** (opcional, una línea) funcionó a la primera / tuve que insistir / me inventó una ruta que no existe.
+## Prompt 2
+
+**Modelo:** Opus 5.5 (claude-opus-5-5)
+**Herramienta:** Claude Code
+
+```
+Attlasian is not an option
+```
+
+## Prompt 3
+
+**Modelo:** Opus 5.5 (claude-opus-5-5)
+**Herramienta:** Claude Code
+
+```
+/init
+```
+
+## Prompt 4
+
+**Modelo:** Opus 5.5 (claude-opus-5-5)
+**Herramienta:** Claude Code
+
+```
+/skill-creator:skill-creator priority-ticket
+```
+
+## Prompt 5
+
+**Modelo:** Opus 5.5 (claude-opus-5-5)
+**Herramienta:** Claude Code
+
+```
+/skill-creator:skill-creator commit
+```
+
+## Prompt 6
+
+**Modelo:** Opus 5.5 (claude-opus-5-5)
+**Herramienta:** Claude Code (`/agents`)
+
+```
+create a adversarial-reviewer que revisa un pull request intentando romperlo, no aprobarlo, y sin editar nada
+```
+
+## Prompt 7
+
+**Modelo:** Opus 5.5 (claude-opus-5-5)
+**Herramienta:** Claude Code
+
+```
+claude mcp add --transport http atlassian https://mcp.atlassian.com/v2/mcp
+```
+
+## Prompt 8
+
+**Modelo:** Opus 5.5 (claude-opus-5-5)
+**Herramienta:** Claude Code
+
+```
+/priority-ticket
+```
+
+## Prompt 9
+
+**Modelo:** Opus 5.5 (claude-opus-5-5)
+**Herramienta:** Claude Code
+
+```
+2
+```
+
+## Prompt 10
+
+**Modelo:** Opus 5.5 (claude-opus-5-5)
+**Herramienta:** Claude Code
+
+```
+/priority-ticket
+```
+
+**Qué salió:** lo relancé 6 veces seguidas, con `/mcp` entre medias para autenticar Atlassian.
+
