@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "f=$(jq -r '.tool_input.file_path // .tool_response.filePath'); case \"$f\" in \"$CLAUDE_PROJECT_DIR\"/frontend/src/*) \"$CLAUDE_PROJECT_DIR/frontend/node_modules/.bin/prettier\" --write \"$f\" ;; esac 2>/dev/null || true",
+            "statusMessage": "Formateando con Prettier (frontend/src)…"
+          }
+        ]
+      }
+    ]
+  }
+}
