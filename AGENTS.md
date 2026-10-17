@@ -1,0 +1,1 @@
+D:/mtris/Documents/Cursos/LIDR Power Skills/flowsync-ai4devs-202610-seniors-I/CLAUDE.md
