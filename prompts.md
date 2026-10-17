@@ -22,14 +22,33 @@ Borra el ejemplo de abajo cuando escribas el primero.
 
 ## Prompt 1
 
-**Modelo:** Opus 1M xHigh
+**Modelo:** Sonnet Medium
 **Herramienta:** Claude Code
 
 ```
-Este es el ejemplo. Bórralo.
-
-El prompt va aquí dentro, entero y con sus saltos de línea,
-para que se sepa dónde empieza y dónde acaba.
+/init Todo el contenido debe estar en español. Crea un fichero en `docs/frontend-architecture.md` con la arquitectura del frontend propuesta, siguiendo buenas prácticas del framework utilizado, estructura de carpeta clean, etc. Referencia el fichero en CLAUDE.md explicando que se lea el fichero cuando sea necesario entender la arquitectura. Añade un Agente de Claude que se llame `adversarial-reviewer`, cuyo objetivo sea refutar el trabajo del otro, no confirmarlo. Crea el fichero `docs/frontend-conventions.md` con las convenciones del frontend. Si no detectas convenciones, propón alguna. Añade un fichero `docs/frontend-test.md` con detalles dobre cómo implementar los tests del frontend, siguiendo buenas prácticas. Debe haber una sección de Gotchas donde ponga que `No introducir dependencias nuevas sin justificarlas en el PR.` y alguna que propongas. Se deben utilizar componentes `shadcn/ui`. Se debe crear un hook para ejecutar comandos necesarios para validar que el trabajo no rompe lint, ni tests, ni build cada vez que se edita. 
 ```
 
-**Qué salió:** (opcional, una línea) funcionó a la primera / tuve que insistir / me inventó una ruta que no existe.
+**Qué salió:** funcionó a la primera.
+
+## Prompt 2
+
+**Modelo:** Sonnet Medium
+**Herramienta:** Claude Code
+
+```
+implementa la tarea https://winmo.atlassian.net/browse/FLOW-2 
+```
+
+**Qué salió:** el login funcionaba pero no almacenaba el token en el localStorage.
+1
+## Prompt 3
+
+**Modelo:** Sonnet Medium
+**Herramienta:** Claude Code
+
+```
+al hacer el login, el tocken que se almacena en el localStorage tiene como valor undefined y no funciona la recarga
+```
+
+**Qué salió:** funcionó a la primera.
