@@ -29,6 +29,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    let cancelled = false;
     const token = localStorage.getItem("token");
     if (!token) {
       setIsLoading(false);
@@ -37,11 +38,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     api
       .getProfile()
-      .then(setUser)
-      .catch(() => {
-        localStorage.removeItem("token");
+      .then((profile) => {
+        if (!cancelled) setUser(profile);
       })
-      .finally(() => setIsLoading(false));
+      .catch(() => {
+        if (!cancelled) localStorage.removeItem("token");
+      })
+      .finally(() => {
+        if (!cancelled) setIsLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   async function signup(data: {
