@@ -1,35 +1,72 @@
+
 # Prompts
 
-Aquí van **todos los prompts que lanzaste** para hacer el ejercicio, en el orden en que los
-lanzaste, con el modelo y la herramienta de cada uno.
-
-Esto no es papeleo. Lo que se revisa es **cómo pediste las cosas**, no solo lo que salió: un
-resultado flojo con un prompt bueno y un resultado flojo con un prompt vago necesitan feedback
-distinto, y sin este archivo no se distinguen.
-
-## Cómo rellenarlo
-
-- Un apartado `## Prompt N` por cada prompt.
-- **Pega el prompt tal cual lo lanzaste**, dentro del bloque de código, aunque ocupe diez líneas
-  y aunque tenga faltas. No lo reescribas para que quede bien: el que arreglaste mentalmente
-  después no es el que lanzaste.
-- Incluye también los que **no funcionaron**. Suelen ser los más útiles de leer.
-- `Modelo` y `Herramienta` en todos. Si cambiaste de una a otra a mitad, se nota aquí.
-
-Borra el ejemplo de abajo cuando escribas el primero.
-
----
+Aquí van todos los prompts que lancé durante el ejercicio, en el orden en que los fui usando, junto con el modelo y la herramienta.
 
 ## Prompt 1
 
-**Modelo:** Opus 1M xHigh
+**Modelo:** Opus 4.8  
 **Herramienta:** Claude Code
 
-```
-Este es el ejemplo. Bórralo.
+```text
+Acceso de usuario y dashboard inicial
 
-El prompt va aquí dentro, entero y con sus saltos de línea,
-para que se sepa dónde empieza y dónde acaba.
+Como usuario de FlowSync quiero poder iniciar sesión y, una vez dentro, acceder a un dashboard inicial donde pueda identificar mi cuenta y gestionar opciones básicas de usuario.
+
+Criterios de aceptación:
+
+El usuario debe poder iniciar sesión con correo y contraseña.
+
+Después de iniciar sesión debe acceder a un dashboard inicial.
+
+El dashboard debe tener una navegación principal visible.
+
+Debe mostrarse el nombre del usuario en una zona visible.
+
+Al acceder a las opciones del usuario debe poder ver al menos perfil, configuración y cerrar sesión.
+
+Al cerrar sesión debe regresar a la pantalla de acceso.
 ```
 
-**Qué salió:** (opcional, una línea) funcionó a la primera / tuve que insistir / me inventó una ruta que no existe.
+**Qué salió:**  
+La corrida con harness sí empezó a trabajar en el frontend, modificó varios archivos, hizo pruebas y llegó a ejecutar revisiones antes de terminar.
+
+## Prompt 2
+
+**Modelo:** Opus 4.8  
+**Herramienta:** Claude Code
+
+```text
+Usa el revisor que configuré para revisar los cambios que acabas de hacer.
+```
+
+**Qué salió:**  
+El revisor encontró varios puntos por corregir y el agente hizo ajustes después de esa revisión.
+
+## Prompt 3
+
+**Modelo:** Opus 4.8  
+**Herramienta:** Claude Code
+
+```text
+Acceso de usuario y dashboard inicial
+
+Como usuario de FlowSync quiero poder iniciar sesión y, una vez dentro, acceder a un dashboard inicial donde pueda identificar mi cuenta y gestionar opciones básicas de usuario.
+
+Criterios de aceptación:
+
+El usuario debe poder iniciar sesión con correo y contraseña.
+
+Después de iniciar sesión debe acceder a un dashboard inicial.
+
+El dashboard debe tener una navegación principal visible.
+
+Debe mostrarse el nombre del usuario en una zona visible.
+
+Al acceder a las opciones del usuario debe poder ver al menos perfil, configuración y cerrar sesión.
+
+Al cerrar sesión debe regresar a la pantalla de acceso.
+```
+
+**Qué salió:**  
+La corrida sin harness revisó el proyecto y entró en modo de planificación. Me pidió decidir cómo resolver el tema de la cuenta de usuario y, como no debía rescatar esa copia, no respondí. Cuando terminó el tiempo no había modificado archivos.
