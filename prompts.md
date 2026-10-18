@@ -20,16 +20,28 @@ Borra el ejemplo de abajo cuando escribas el primero.
 
 ---
 
-## Prompt 1
+## Prompt 1 (lanzado en A con harness y en B sin harness, mismo texto)
 
-**Modelo:** Opus 1M xHigh
-**Herramienta:** Claude Code
+**Modelo:** Sonnet 5.5 (claude-sonnet-5-5), esfuerzo medio, en ambas sesiones
+**Herramienta:** Claude Code, auto mode activado en ambas. Versión 2.1.296 en A y 2.1.302 en B (se actualizó entre una sesión y otra)
 
 ```
-Este es el ejemplo. Bórralo.
+Implementa el siguiente ticket de Jira (FLOW-1).
 
-El prompt va aquí dentro, entero y con sus saltos de línea,
-para que se sepa dónde empieza y dónde acaba.
+Editar mi nombre en el perfil
+
+Como usuario registrado quiero cambiar el nombre que aparece en mi perfil.
+
+Resultado esperado.
+Se puede cambiar el nombre que aparece en el perfil.
+
+Criterios de aceptación:
+* Con la sesión iniciada puedo enviar un nombre nuevo.
+* Sin sesión iniciada no puedo cambiarlo.
+* Un nombre vacío no se acepta y recibo un mensaje claro.
+* Tras el cambio, al consultar mi perfil veo el nombre nuevo.
+* Se acepta texto alfanumérico.
+* Solo se aceptan letras, caracteres especiales como tildes, ñ, espacios y números, no se aceptan otros simbolos.
 ```
 
-**Qué salió:** (opcional, una línea) funcionó a la primera / tuve que insistir / me inventó una ruta que no existe.
+**Qué salió:** A y B terminaron en un solo turno, sin ninguna intervención.
