@@ -78,3 +78,14 @@ Actualizar Las reglas de proceso, al final del `CLAUDE.md`, se crea una rama nue
 Agrega AGENTS.md como enlace a CLAUDE.md**, para que lo lean también otras herramientas.
 
 ```
+
+## Prompt 7
+
+**Modelo:** Opus 5.5 
+**Herramienta:** Claude Code
+
+```
+
+Entra en plan mode y utiliza el skill priority ticket para planear la implementación de lo solicitado en el ticket cumpliendo los criterios de aceptación
+
+```
