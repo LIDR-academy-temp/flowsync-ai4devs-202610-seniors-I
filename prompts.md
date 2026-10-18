@@ -21,15 +21,62 @@ Borra el ejemplo de abajo cuando escribas el primero.
 ---
 
 ## Prompt 1
+/init
 
-**Modelo:** Opus 1M xHigh
+## Prompt 2
+Crea una skill de proyecto llamada priority-ticket en .claude/skills/priority-ticket/SKILL.md.
+Cuando la invoque con /priority-ticket debe:
+1. Usar el MCP de Atlassian para buscar en mi proyecto FLOW de Jira el ticket de mayor prioridad asignado a mí que esté en la primera columna del tablero (Por hacer / To Do). Consulta los estados reales del proyecto en vez de suponer el nombre.
+2. Mostrarme un resumen corto del ticket y sus criterios de aceptación.
+3. Entrar en plan mode y proponer cómo implementarlo, explorando el código real del proyecto (por ejemplo los validadores del backend) para cubrir lo que el ticket no especifica.
+4. Solo cuando yo apruebe el plan, mover el ticket a la columna En curso / In Progress.
+Restricciones: no escribas código ni muevas el ticket antes de mi aprobación. Al terminar, muéstrame el SKILL.md creado.
+
+Qué salió: no entró en plan mode y empezó a implementar; lo paré con Esc”
+
+## Prompt 3
+
+**Modelo:**  Sonnet 4.5 · Claude API
 **Herramienta:** Claude Code
 
 ```
-Este es el ejemplo. Bórralo.
-
-El prompt va aquí dentro, entero y con sus saltos de línea,
-para que se sepa dónde empieza y dónde acaba.
+Crea una skill de proyecto llamada commit en .claude/skills/commit/SKILL.md.
+Cuando la invoque debe mirar los cambios preparados (git diff --staged) y crear un commit con formato Conventional Commits: tipo(scope): descripción en imperativo, primera línea de 72 caracteres como máximo. Tipos: feat, fix, docs, refactor, test, chore; scope: backend o frontend según los archivos.
+Si no hay nada preparado, avísame en vez de hacer git add por tu cuenta. Nunca hagas push.
+Muéstrame el SKILL.md creado.
 ```
 
-**Qué salió:** (opcional, una línea) funcionó a la primera / tuve que insistir / me inventó una ruta que no existe.
+
+
+## Prompt 4
+Crea un subagente de proyecto llamado adversarial-reviewer en .claude/agents/adversarial-reviewer.md.
+Su trabajo: revisar un pull request intentando romperlo, no aprobarlo. Debe buscar bugs, casos límite, errores de validación sin manejar, problemas de seguridad y desvíos de las convenciones de CLAUDE.md, y devolver una lista de hallazgos ordenada por gravedad.
+Restricciones: solo puede leer (herramientas Read, Grep, Glob y Bash para gh pr diff/view); nunca edita archivos ni hace commits.
+Muéstrame el archivo creado.
+
+## Prompt 5
+
+Quiero un hook que formatee el frontend automáticamente.
+1. Instala Prettier como dependencia de desarrollo en frontend/ y crea un .prettierrc sencillo.
+2. Añade en .claude/settings.json (el compartido del proyecto, no settings.local.json) un hook PostToolUse para Edit, Write y MultiEdit que ejecute Prettier solo sobre el archivo editado, y solo si está dentro de frontend/src.
+3. Pruébalo: crea un archivo de prueba mal formateado en frontend/src, comprueba que el hook lo formatea y luego bórralo.
+Muéstrame el settings.json final.
+
+## Prompt 6
+El subagente .claude/agents/adversarial-reviewer.md no tiene frontmatter YAML. Añádele uno con name: adversarial-reviewer, una description de cuándo usarlo, y tools: Read, Grep, Glob, Bash, para que no pueda editar archivos. No cambies el resto del contenido ni ningún otro archivo.
+
+## Prompt 7
+
+El hook de .claude/settings.json no sigue el formato que Claude Code espera y usa una variable $FILE_PATH que no existe. Reescríbelo con el formato oficial: PostToolUse con matcher "Edit|Write|MultiEdit" y un hook de type "command" que lea la ruta del archivo editado del JSON que llega por stdin (tool_input.file_path, por ejemplo con jq), y que ejecute el Prettier instalado en frontend/ solo si el archivo está dentro de frontend/src. No silencies los errores. Solo toca .claude/settings.json.
+
+## Prompt 8
+
+En .claude/settings.json, el hook PostToolUse tiene "type" y "command" al mismo nivel que "matcher". Según el formato oficial deben ir dentro de un array "hooks": [{ "type": "command", "command": ... }] dentro de ese objeto. Corrígelo sin cambiar el comando y usa "$CLAUDE_PROJECT_DIR/frontend" en lugar de "cd frontend" para que no dependa de la carpeta actual. Solo toca ese archivo.
+
+## Prompt 9
+Añade al final de CLAUDE.md una sección "Reglas de proceso" con estas reglas, sin tocar el resto del archivo:
+1. Antes de tocar código, crea una rama nueva desde la actual.
+2. Al terminar, haz el commit con la skill /commit y abre el pull request con gh pr create.
+3. Después, lanza el subagente adversarial-reviewer sobre ese pull request.
+4. En el chat, al final, responde solo con la URL del pull request.
+
