@@ -108,6 +108,29 @@ Vamos a añadir unas reglas de proceso en nuestro fichero AGENTS.md. Hay que cre
 
 **Qué salió:** Ha añadido lo que le he indicado. El unico problema que ha tenido es que el subagente no tenia permisos para añadir el comentario en la pr y lo va a delegar al agente principal con gh.
 
+## Prompt 9
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+/priority-ticket
+```
+
+**Qué salió:** Ha obtenido la issue, resumido los criterios de aceptacion y me ha propuesto un plan detallado de la implementacion a realizar.
+
+## Prompt 10 (En el proyecto sin harness)
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+Trae el ticket de maxima prioridad que tengo en jira y entra en modo plan para implementarlo.
+```
+
+**Qué salió:** Me ha ofrecido o conectar el mcp o pegarle el ticket a mano. Entiendo que no tengo que ayudarle pero lo mas "rapido" es pegarle el ticket (Aunque claro no me esta priorizando lo estoy haciendo yo)
+
+
 
 
 
