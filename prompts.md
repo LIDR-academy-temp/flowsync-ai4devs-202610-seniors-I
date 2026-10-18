@@ -22,14 +22,80 @@ Borra el ejemplo de abajo cuando escribas el primero.
 
 ## Prompt 1
 
-**Modelo:** Opus 1M xHigh
+**Modelo:** Opus 5.5 
 **Herramienta:** Claude Code
 
 ```
-Este es el ejemplo. Bórralo.
+Crear un skill llamado priority-ticket que va a trear el ticket de mayor prioridad asignado a Sylvia Hernandez en «To Do», va a resumir los criterios de aceptación, entra en plan mode y propone cómo implementarlo; al aprobar el plan, lo mueve a «In progress».
 
-El prompt va aquí dentro, entero y con sus saltos de línea,
-para que se sepa dónde empieza y dónde acaba.
 ```
 
-**Qué salió:** (opcional, una línea) funcionó a la primera / tuve que insistir / me inventó una ruta que no existe.
+## Prompt 2
+
+**Modelo:** Opus 5.5 
+**Herramienta:** Claude Code
+
+```
+Crear una skill /commit para un commit convencional (tipo(scope): descripción) a partir de los cambios preparados.
+
+```
+
+## Prompt 3
+
+**Modelo:** Opus 5.5 
+**Herramienta:** Claude Code
+
+```
+ Crear un subagente llamado adversarial-reviewer, su trabaja va a ser revisar un pull request intentando romperlo, no aprobarlo, y sin editar nada.
+
+```
+## Prompt 4
+
+**Modelo:** Opus 5.5 
+**Herramienta:** Claude Code
+
+```
+
+Crear un hook que formatea el frontend cada vez que el agente edita un archivo. El frontend no trae formateador: instala Prettier en `frontend/` y dispáralo sobre `frontend/src/**`.
+
+```
+## Prompt 5
+
+**Modelo:** Opus 5.5 
+**Herramienta:** Claude Code
+
+```
+Actualizar Las reglas de proceso, al final del `CLAUDE.md`, se crea una rama nueva antes de tocar código; al cerrar,se debe utilizar `/commit` y el pull request debe realizarse con `gh pr create`; después, se debe utilizar el subagente revisor sobre el pull request; y en el chat, solo la URL del pull request. Además agrega el cambio del formateador y el uso del hook.
+
+```
+
+## Prompt 6
+
+**Modelo:** Opus 5.5 
+**Herramienta:** Claude Code
+
+```
+Agrega AGENTS.md como enlace a CLAUDE.md**, para que lo lean también otras herramientas.
+
+```
+
+## Prompt 7
+
+**Modelo:** Opus 5.5 
+**Herramienta:** Claude Code
+
+```
+
+Entra en plan mode y utiliza el skill priority ticket para planear la implementación de lo solicitado en el ticket cumpliendo los criterios de aceptación
+
+```
+
+## Prompt 8
+
+**Modelo:** Opus 5.5 
+**Herramienta:** Claude Code
+**Dónde:** copia sin harness (`flowsync-sin-harness`), escrito a mano en lugar de `/priority-ticket`
+
+```
+Utilizar el MCP de Jira para encontrar el ticket del projecto FLOW que se encuentra en To Do, entrar en plan mode y crear un plan para implementar lo requerido cumpliendo con los criterios de aceptación, preguntar cualquier cosa que no quede clara en los requerimientos
+```
