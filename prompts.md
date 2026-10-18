@@ -89,3 +89,13 @@ Agrega AGENTS.md como enlace a CLAUDE.md**, para que lo lean también otras herr
 Entra en plan mode y utiliza el skill priority ticket para planear la implementación de lo solicitado en el ticket cumpliendo los criterios de aceptación
 
 ```
+
+## Prompt 8
+
+**Modelo:** Opus 5.5 
+**Herramienta:** Claude Code
+**Dónde:** copia sin harness (`flowsync-sin-harness`), escrito a mano en lugar de `/priority-ticket`
+
+```
+Utilizar el MCP de Jira para encontrar el ticket del projecto FLOW que se encuentra en To Do, entrar en plan mode y crear un plan para implementar lo requerido cumpliendo con los criterios de aceptación, preguntar cualquier cosa que no quede clara en los requerimientos
+```
