@@ -99,3 +99,29 @@ Create a hook in the /frontend that uses prettifier to format the code
 ```
 
 **Qué salió:**  Modifico el CLAUDE.md para añadir estas reglas.
+
+## Prompt 7
+
+**Modelo:** Opus 5.5 Medium
+**Herramienta:** Claude Code
+
+```
+ /priority-ticket 
+```
+
+**Qué salió:**  Ejecutado en el proyecto con harness, consiguio el tiquet y creo un plan.
+
+
+## Prompt 8
+
+**Modelo:** Opus 5.5 Medium
+**Herramienta:** Claude Code
+
+```
+Connect to Jira and get the ticket in "to do" assigned to me  with more priority, summary the acceptance criteria and propouse a plan in plan mode.
+```
+
+**Qué salió:**  Ejecutado en el proyecto sin harness, consiguio el tiquet y creo un plan.
+
+
+
