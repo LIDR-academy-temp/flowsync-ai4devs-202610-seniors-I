@@ -1,7 +1,5 @@
 # Prompts
 
-> Prompts escritos con ayuda de mi tutor IA (Claude), en modo guiado; no tengo perfil de desarrollador.
-
 Aquí van **todos los prompts que lanzaste** para hacer el ejercicio, en el orden en que los
 lanzaste, con el modelo y la herramienta de cada uno.
 
@@ -75,5 +73,10 @@ El hook de .claude/settings.json no sigue el formato que Claude Code espera y us
 
 En .claude/settings.json, el hook PostToolUse tiene "type" y "command" al mismo nivel que "matcher". Según el formato oficial deben ir dentro de un array "hooks": [{ "type": "command", "command": ... }] dentro de ese objeto. Corrígelo sin cambiar el comando y usa "$CLAUDE_PROJECT_DIR/frontend" en lugar de "cd frontend" para que no dependa de la carpeta actual. Solo toca ese archivo.
 
-
+## Prompt 9
+Añade al final de CLAUDE.md una sección "Reglas de proceso" con estas reglas, sin tocar el resto del archivo:
+1. Antes de tocar código, crea una rama nueva desde la actual.
+2. Al terminar, haz el commit con la skill /commit y abre el pull request con gh pr create.
+3. Después, lanza el subagente adversarial-reviewer sobre ese pull request.
+4. En el chat, al final, responde solo con la URL del pull request.
 
