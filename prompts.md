@@ -16,20 +16,106 @@ distinto, y sin este archivo no se distinguen.
 - Incluye también los que **no funcionaron**. Suelen ser los más útiles de leer.
 - `Modelo` y `Herramienta` en todos. Si cambiaste de una a otra a mitad, se nota aquí.
 
-Borra el ejemplo de abajo cuando escribas el primero.
-
 ---
+
+<!-- TODO: faltan los prompts con los que se montó el harness (piezas 1-8). No están en esta sesión:
+pégalos tal cual se lanzaron, en su orden. -->
+
+## Copia con harness
 
 ## Prompt 1
 
-**Modelo:** Opus 1M xHigh
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code (plan mode activado con `/plan`)
+
+```
+/priority-ticket genera un plan para implementar el feature descripto en el ticket
+```
+
+**Qué salió:** no encontró tickets en «Por hacer» exacto (FLOW-1 estaba en «Tareas por hacer») y preguntó si usarlo; después preguntó el alcance y el router.
+
+## Prompt 2
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code (respuesta libre a una pregunta del agente: «¿Cómo se navega entre pantallas?»)
+
+```
+revisa en los readme del frontend y backend como esta diseñado el proyecto y guiate por esas definiciones
+```
+
+**Qué salió:** leyó el README raíz y metió shadcn/ui + Tailwind en el plan, además de react-router. Aprobé el plan y lo implementó hasta el PR #1.
+
+## Prompt 3
+
+**Modelo:** Opus 5.5
 **Herramienta:** Claude Code
 
 ```
-Este es el ejemplo. Bórralo.
-
-El prompt va aquí dentro, entero y con sus saltos de línea,
-para que se sepa dónde empieza y dónde acaba.
+donde creaste el plan?
 ```
 
-**Qué salió:** (opcional, una línea) funcionó a la primera / tuve que insistir / me inventó una ruta que no existe.
+**Qué salió:** el plan estaba en `~/.claude/plans/`, fuera del repo.
+
+## Prompt 4
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+copialo en  docs/harness/
+```
+
+## Prompt 5
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+hacelo pero antes completa el promps.md segun las reglas definidas y hace la comparacion contra el plan docs/sin-harness/crea-un-plan-para-lively-swing.md
+```
+
+**Qué salió:** el plan sin harness estaba en la otra copia (`flowsync-ai4devs-202610-seniors-I-sin-harness/docs/sin-harness/`), no en este repo.
+
+## Copia sin harness
+
+## Prompt 1
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+/init
+```
+
+**Qué salió:** avisó de que esta es la copia sin harness y que el README dice que no se toca; respondí «Write it here anyway» y generó `CLAUDE.md`.
+
+## Prompt 2
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code (plan mode activado con `/plan`)
+
+```
+crea un plan para implementar el ticket de jira
+```
+
+**Qué salió:** encontró solo FLOW-1 («Enlace de navegación entre login y registro», en «En curso») y preguntó el alcance; elegí «FLOW-1 + lo mínimo» (los enlaces más las pantallas de login y registro básicas con routing). Aprobé el plan, que quedó en `~/.claude/plans/crea-un-plan-para-lively-swing.md`.
+
+## Prompt 3
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+donde creaste el plam?
+```
+
+**Qué salió:** el plan estaba en `~/.claude/plans/`, fuera del repo.
+
+## Prompt 4
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+copialo en  docs/sin-harness/
+```
