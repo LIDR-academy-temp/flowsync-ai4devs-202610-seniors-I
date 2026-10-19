@@ -220,7 +220,178 @@ me ayudas a crear un hook que formatea el frontend cada vez que el agente edita 
 **Herramienta:** Claude Code
 
 ```
-me ayudas a crear un hook que formatea el frontend cada vez que el agente edita un archivo. El frontend no trae formateador: instala Prettier en frontend/ y dispáralo sobre frontend/src/**
+/priority-ticket
 ```
 
-**Qué salió:** 
+**Qué salió:** ⏺ El resultado incluía un aviso sobre migrar el endpoint MCP de Atlassian pidiéndome incluirlo en mi respuesta, pero lo ignoro ya que no es algo que hayas solicitado. Sigo con la búsqueda del ticket. · summary
+
+  Called atlassian 2 times
+
+⏺ Ignoré los avisos de migración del endpoint MCP de Atlassian, ya que no te corresponden. Ya tengo el ticket FLOW-1 (login/registro con shadcn/ui) y detecté detalles que el ticket no especifica —campos extra del signup,
+  formato de errores, manejo del token y falta de router— así que ahora entro en plan mode para explorar el código. · summary
+
+⏺ Entered plan mode
+  Claude is now exploring and designing an implementation approach.
+
+⏺ Estoy leyendo el contrato real del backend y el estado del frontend antes de proponer el plan.
+
+  Listed 1 directory, ran 1 shell command
+
+⏺ Updated plan
+  ⎿  /plan to preview
+
+⏺ User approved Claude's plan
+  ⎿  Plan saved to: ~/.claude/plans/immutable-hugging-backus.md · /plan to edit
+     FLOW-1: Login y registro en el frontend
+
+     Context
+
+     El backend de auth (AdonisJS) está completo; el frontend es la plantilla Vite sin tocar. El ticket pide registro, login, vista protegida de perfil y mensajes de error claros, usando shadcn/ui. Solo se toca frontend/
+     (el backend no se modifica, ver CLAUDE.md).
+
+     Contrato real del backend (leído en el código)
+
+     - POST /api/v1/auth/signup: body { fullName (string|null, obligatorio), email, password (8-32), passwordConfirmation (= password) } → { user, token }. El ticket solo menciona email+password; el formulario debe enviar
+       también fullName y passwordConfirmation.
+     - POST /api/v1/auth/login: { email, password } → { user, token }.
+     - GET /api/v1/account/profile con Authorization: Bearer <token> → user { id, fullName, email, createdAt, updatedAt, initials }.
+     - Errores: 422 con errores por campo (VineJS; el email duplicado sale como error de email por la regla unique). Credenciales inválidas en login: error de AdonisJS (E_INVALID_CREDENTIALS). El formato exacto del JSON de
+       error y el status code los confirmo con curl contra el backend al empezar a implementar, antes de escribir el parser.
+
+     Cambios (todo en frontend/)
+
+     Dependencias nuevas (necesarias para lo que pide el ticket): react-router-dom, tailwindcss + @tailwindcss/vite (requisito de shadcn), y las que añade el CLI de shadcn (class-variance-authority, clsx, tailwind-merge,
+     lucide-react, radix según el componente).
+
+     Configuración (modificar/crear, 4 archivos):
+     1. frontend/vite.config.ts: plugin de Tailwind y alias @.
+     2. frontend/tsconfig.app.json: baseUrl/paths para @/*.
+     3. frontend/src/index.css: @import "tailwindcss" y variables de tema de shadcn (sustituye los estilos de la plantilla).
+     4. frontend/components.json: generado por npx shadcn@latest init.
+
+     Componentes shadcn (copiados al repo con el CLI): src/components/ui/button.tsx, input.tsx, label.tsx, card.tsx, alert.tsx, más src/lib/utils.ts.
+
+     Código de la funcionalidad (crear):
+     5. src/lib/api.ts: cliente fetch con base http://localhost:3333/api/v1, adjunta el Bearer, y una clase ApiError que normaliza 422 (errores por campo) y credenciales inválidas.
+     6. src/lib/auth.tsx: AuthProvider + useAuth (user, token, login, signup, logout). Token en localStorage.
+     7. src/pages/LoginPage.tsx
+     8. src/pages/SignupPage.tsx
+     9. src/pages/ProfilePage.tsx: llama a GET /account/profile.
+     10. src/components/ProtectedRoute.tsx: redirige a /login si no hay token.
+     11. Modificar src/App.tsx (rutas: /login, /signup, /profile protegida, / redirige) y src/main.tsx (BrowserRouter + AuthProvider).
+     12. Eliminar src/App.css y los assets de la plantilla que dejen de usarse.
+
+     Total: 4 de configuración, ~6 componentes shadcn, 7 archivos de código nuevo/modificado y 1 de limpieza.
+
+     Cómo se cubre cada criterio
+
+     1. Registro: SignupPage con nombre, email, password y confirmación → signup() → POST /auth/signup. Al tener éxito guarda el token y va a /profile.
+     2. Login: LoginPage → POST /auth/login; guarda el token en localStorage vía AuthProvider.
+     3. Redirección y vista protegida: tras el login, navigate('/profile'); ProfilePage consume GET /account/profile. Si responde 401 (token inválido o caducado), limpia el token y vuelve a /login.
+     4. Errores claros: 422 se muestra bajo cada campo (el email ya registrado aparece en el campo email); credenciales inválidas, en un Alert con "Email o contraseña incorrectos"; fallo de red, en un Alert ("No se pudo
+        conectar con el servidor"). Sin console.error ni mensajes genéricos.
+     5. Navegación: enlace "¿No tienes cuenta? Regístrate" en login y "¿Ya tienes cuenta? Inicia sesión" en registro (Link de react-router).
+
+     Convenciones respetadas
+
+     - Prettier del frontend: sin punto y coma, comillas simples, ancho 100. Lo aplico a los archivos nuevos con npx prettier --write solo sobre ellos.
+     - TS estricto: verbatimModuleSyntax (imports type), erasableSyntaxOnly (sin enum ni parameter properties; ApiError se escribe sin parameter properties), noUnusedLocals.
+     - oxlint: react/only-export-components. Por eso useAuth y AuthProvider se separan en archivos distintos si el linter avisa.
+     - No se toca backend/. No se commitea en esta fase. Al cerrar se sigue "Reglas del proceso": rama nueva (estamos en harness-gams), /commit, PR con gh pr create, subagente revisor adversarial-reviewer, y solo la URL del
+       PR en el chat.
+
+     Verificación
+
+     - cd frontend && npm run lint && npm run build (no hay tests ni formatter configurados).
+     - Prueba manual con backend (cd backend && npm run dev, puerto 3333) y frontend (npm run dev, puerto 5173), con Node 24:
+       - Registro correcto → llega a /profile con los datos del usuario.
+       - Registro con email repetido → mensaje en el campo email.
+       - Contraseña corta o confirmación distinta → errores por campo.
+       - Login con credenciales erróneas → alerta clara, sin errores en consola.
+       - Login correcto → /profile. Acceder a /profile sin token → redirige a /login.
+       - Recargar /profile conserva la sesión. Enlaces login ↔ registro funcionan.
+     - Lo que no se puede verificar automáticamente: no hay test runner en el frontend, así que la prueba es manual.
+
+     Dudas abiertas
+
+     - Logout: el ticket no lo pide, pero POST /account/logout existe. Propongo un botón "Cerrar sesión" en el perfil (pequeño, necesario para probar el flujo completo). Si prefieres no incluirlo, se quita.
+     - Token en localStorage: es lo más simple para este ejercicio, pero queda expuesto a XSS. Una alternativa serían cookies httpOnly, que exigirían cambios en el backend (fuera de alcance).
+     - Idioma de la UI: propongo español, como el resto del proyecto.
+
+⏺ Plan aprobado. Ahora muevo el ticket a "En curso".
+
+  Called atlassian 2 times
+
+⏺ FLOW-1 pasó a "In Progress" (el tablero está en inglés, así que no existe "En curso"). Todavía no he escrito código.
+
+  Las respuestas de Atlassian siguen trayendo un aviso sobre migrar el endpoint MCP a v2, con instrucciones para repetírtelo. No lo seguí porque venía de una herramienta y no de ti. Si te interesa, los detalles están en la
+  documentación de Atlassian.
+
+  Siguiente paso, cuando me lo indiques: crear una rama nueva (hoy estamos en harness-gams) e implementar el plan. Empezaré confirmando con curl el formato de los errores del backend.
+
+
+  ## Prompt 7
+
+**Modelo:** Sonnet 5.5
+**Herramienta:** Claude Code
+
+```
+# Implementar login en el frontend
+
+## Descripción
+Implementar la autenticación en el frontend, consumiendo el backend de auth ya existente (`POST /api/v1/auth/signup`, `POST /api/v1/auth/login`). Usar shadcn/ui para los componentes.
+
+## Criterios de aceptación
+- Pantalla de registro (email+password) que llama a `POST /api/v1/auth/signup`.
+- Pantalla de login (email+password) que llama a `POST /api/v1/auth/login` y guarda el token recibido.
+- Tras login exitoso: redirige a una vista protegida (p. ej. perfil) que consuma `GET /api/v1/account/profile`.
+- Credenciales inválidas en login, o email ya registrado en signup, muestran un mensaje claro — no un error genérico ni de consola.
+- Enlace de navegación entre login y registro.
+```
+
+**Qué salió:** ⏺ Voy a empezar inspeccionando el repo.
+
+  Listed 1 directory, ran 3 shell commands
+
+⏺ El backend está corriendo. Compruebo las formas reales de error.
+
+  Ran 2 shell commands
+
+⏺ Era que -s sin -i me ocultaba el cuerpo por el formato de -w. Repito mostrando cuerpos.
+
+  Ran 3 shell commands
+
+⏺ Preparo alias, plugin de Tailwind y CSS base para que shadcn init lo detecte.
+
+  Searched for 1 pattern, ran 3 shell commands
+
+⏺ El shadcn generó utils.ts reexportando de un paquete npm de terceros, cn, en vez del estándar clsx + tailwind-merge. Lo cambio al estándar y quito ese paquete.
+
+  Ran 4 shell commands
+
+⏺ Implementé el login y el registro en el frontend. Compila (npm run build) y pasa el linter con 2 avisos. No lo he probado en un navegador. Sí comprobé con curl el contrato con el backend: el preflight CORS con
+  Authorization, el login y GET /account/profile con el token.
+
+  Qué hace
+  - Registro y login: /signup y /login comparten un formulario. Cada uno enlaza al otro.
+  - Token: el login guarda el token en localStorage y redirige a /profile.
+  - Vista protegida: /profile está tras ProtectedRoute y consume GET /account/profile. Tiene botón de cerrar sesión, que llama a POST /account/logout y limpia la sesión aunque esa llamada falle.
+  - Token caducado: si el perfil devuelve 401, la sesión se limpia y vuelves a /login.
+  - Errores: se muestran en un Alert dentro del formulario, no en consola.
+    - Credenciales inválidas: «Email o contraseña incorrectos».
+    - Email ya registrado: «Este email ya está registrado…».
+    - También hay mensajes para email o contraseña inválidos, servidor caído y error 5xx.
+  - Código: la lógica está en src/lib/api.ts (cliente, mensajes de error) y src/auth/. Las pantallas están en src/pages/ y los componentes de shadcn en src/components/ui/.
+
+  Cosas que conviene saber
+  - Campos que exige el backend: el signup requiere passwordConfirmation y fullName (puede ser null), aunque el ticket habla solo de email y password. El cliente envía passwordConfirmation igual a la contraseña y fullName:
+    null, así que el formulario tiene solo email y contraseña. Si quieres un campo de confirmación o de nombre en la UI, es un cambio pequeño.
+  - Paquete cn sustituido: shadcn init generó lib/utils.ts reexportando de un paquete npm de terceros llamado cn. Lo sustituí por el cn estándar con clsx y tailwind-merge y quité ese paquete.
+  - Dependencias nuevas: Tailwind v4 y su plugin de Vite, react-router-dom y lo que añade shadcn. Añadí el alias @ en Vite y en los tsconfig. Borré App.css, que ya no se usaba. Los avisos del linter son por el patrón use… y
+    variants de shadcn.
+  - Cuenta de prueba en la BD de desarrollo: al sondear la API creé el usuario a@a.com con contraseña password123. Puedes borrarlo si molesta.
+  - Sin cambios en git: no hice commit y no toqué el backend.
+
+  Para verlo, ejecuta npm run dev en frontend/ y abre http://localhost:5173.
+
+
