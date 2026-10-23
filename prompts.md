@@ -134,7 +134,7 @@ Vamos a revisarlo antes de escribirlo al archivo final.
 **Herramienta:** Cursor
 
 ```
-En modo ask (sin tocar archivos): Bien, escribe en el documento siguiendo el formato que se ha indicado.
+Bien, escribe en el documento siguiendo el formato que se ha indicado.
 ```
 
 **Qué salió:** Llevó a cabo la tarea con diligencia. A mi parecer hizo bien el ejercicio, e incluso abajo justificó dos recortes por ir contra lo que se había indicado. Estos se pasaron a la lista de Should en lugar de Must.
