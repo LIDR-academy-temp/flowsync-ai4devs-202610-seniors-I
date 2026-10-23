@@ -53,8 +53,8 @@ Una ronda de cinco preguntas (dolor, quién cobra el valor, qué desaparece, "ti
 1. **Los dos números.** La IA propuso **11** cosas dentro del alcance. Tras mi recorte quedaron **8**.
 
 2. **Tres cosas que dejé fuera y por qué.**
-   - _Borrar tarea:_ no lo veo necesario para una primera versión en la que queremos ver en que está trabajando el compañero. Una tarea se puede cambiar de estado o cambiar el título para reutilizarla si se ve necesario.
-   - _Marca de tarea vencida:_ no lo veo necesario de momento si simplemente se quiere verificar en que esta cada compañero.
+   - _Borrar tarea:_ No lo incluyo porque no ayuda a validar que ver en qué trabaja cada compañero sustituye a la ronda de "¿en qué estás?"; una tarea equivocada se puede reutilizar cambiando su estado o su título. Entraría si, tras una semana de uso, la lista se llena de tareas obsoletas que molestan al equipo.
+   - _Marca de tarea vencida:_ No la incluyo porque es una capa visual que no hace falta para validar en qué está cada compañero; la fecha sí se queda y se puede leer sin marca. Entraría si, tras una semana, el equipo usa la fecha y sigue sin ver de un vistazo qué se ha pasado de plazo.
    - _Marca de "cambió desde tu última visita"_: ver línea 3.
 
 3. **La exclusión de la que menos seguro estoy: "cambió desde tu última visita".** quizás seria interesante saber que ha cambiado desde la ultima vez que se ve el estado de las tareas pero para eso deberia de haber un historico y puede que sea demasiado para un mvp. Solo se ve el estado actual, no qué cambió. Entraría si, tras una semana de uso, el equipo sigue preguntando "¿qué ha cambiado?" porque la lista actual no se lo responde.
