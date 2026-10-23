@@ -105,7 +105,45 @@ Sé agresivo recortando. Para cada exclusión del NO-alcance, justifica por qué
 Es un documento de producto: nada de tablas de base de datos, endpoints ni arquitectura. Si algo suena a implementación, súbelo de nivel o quítalo. Que quepa en una pantalla larga.
 ```
 
-**Qué salió:** los cinco bloques, sin tablas ni endpoints. Propuso **11** cosas dentro del alcance y 13 exclusiones justificadas.
+**Qué salió:** los cinco bloques, sin tablas ni endpoints. Propuso **11** cosas dentro del alcance y 13 exclusiones justificadas. Salida completa:
+
+```
+Problema: en equipos remotos pequeños nadie ve en qué está cada uno sin interrumpir a alguien. La daily gasta la mitad del tiempo en la ronda de "¿en qué estás?", y dos personas pueden acabar tocando lo mismo sin saberlo.
+
+Usuarios: equipos remotos de 3 a 10 personas, con roles planos. El caso de estudio es un equipo SaaS de 6 en 3 husos horarios.
+
+Propuesta de valor: una lista de tareas compartida donde el estado se actualiza en dos clics y todo el equipo lo ve sin refrescar. Sustituye a la ronda de "¿en qué estás?" y evita empezar lo que otro ya toca.
+
+Alcance (11 cosas):
+1. Cuenta con registro y login (ya existe).
+2. Un único espacio compartido para todos.
+3. Crear tarea con título, responsable, estado y fecha.
+4. Cambiar el estado en dos clics.
+5. Reasignar el responsable.
+6. Editar título y fecha.
+7. Borrar tarea.
+8. Filtrar la lista por estado.
+9. La lista se actualiza sola, sin refrescar.
+10. Marca de "cambió desde tu última visita".
+11. Marca visual de tarea vencida.
+
+NO-alcance (13 exclusiones):
+1. Notificaciones push: no valida que ver la lista baste. Contradice "resumen que espera".
+2. Integración con Slack: no valida el valor central. Añade una segunda vía de actualización.
+3. Roles y permisos: no valida nada con equipos de 3 a 10 personas.
+4. Analítica e informes: no tiene lector. No hay reporte hacia arriba.
+5. Comentarios en tareas: convierte la herramienta en chat, y la hipótesis es estado, no conversación.
+6. Estado derivado de Git, CI o calendario: valida otro producto, con OAuth de terceros.
+7. Varios equipos o pertenencia múltiple: el caso de estudio es un solo equipo.
+8. Presencia ("quién está conectado"): es vigilancia y se rechazó a propósito.
+9. Historial de actividad: duplica el "qué se movió" y obliga a diseñar un registro.
+10. Sprints, estimaciones, épicas y prioridad: sus usuarios no son los nuestros.
+11. Etiquetas, adjuntos y descripciones largas: campos extra que rompen "sin campos obligatorios".
+12. Búsqueda: con 3 a 10 personas y un filtro por estado, la lista cabe en pantalla.
+13. Edición del perfil y recuperar contraseña: no tocan la hipótesis de frescura del estado.
+```
+
+(Los números de este listado son los que usa el Prompt 5.)
 
 ## Prompt 5
 
@@ -116,4 +154,4 @@ Es un documento de producto: nada de tablas de base de datos, endpoints ni arqui
 quita la 7, la 10 y la 11
 ```
 
-**Qué salió:** recorte a **8** dentro del alcance (salieron borrar tarea, marca de "cambió desde tu última visita" y marca de vencida). Al escribir el documento la IA detectó una incoherencia: la propuesta de valor promete ver "qué se ha movido" y el alcance recortado ya no lo permite.
+**Qué salió:** recorte a **8** dentro del alcance (salieron borrar tarea, marca de "cambió desde tu última visita" y marca de vencida). Al escribir el documento la IA detectó una incoherencia: el caso de uso "veo qué se ha movido" de la ficha ya no queda cubierto por el alcance recortado.
