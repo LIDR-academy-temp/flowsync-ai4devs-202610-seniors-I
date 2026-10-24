@@ -93,6 +93,8 @@ Recortes añadidos en este documento:
 
 
 
+## PARTE B 
+
 
 Originalmente se havia propuesto incluir en el alcance:
 
