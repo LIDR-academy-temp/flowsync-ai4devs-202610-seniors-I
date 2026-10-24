@@ -16,20 +16,39 @@ distinto, y sin este archivo no se distinguen.
 - Incluye también los que **no funcionaron**. Suelen ser los más útiles de leer.
 - `Modelo` y `Herramienta` en todos. Si cambiaste de una a otra a mitad, se nota aquí.
 
-Borra el ejemplo de abajo cuando escribas el primero.
-
 ---
 
 ## Prompt 1
 
-**Modelo:** Opus 1M xHigh
-**Herramienta:** Claude Code
+**Modelo:** Opus 5.5 (1M context) - medium
+**Herramienta:** Claude Code en un proyecto de claude.ai (hilo lanzado desde la tarjeta de propuesta del proyecto)
 
 ```
-Este es el ejemplo. Bórralo.
+Draft Module 2 MVP scope
 
-El prompt va aquí dentro, entero y con sus saltos de línea,
-para que se sepa dónde empieza y dónde acaba.
+Read the Module 2 instructions on s2/start. Create branch alcance-IAZ and draft docs/prd/alcance-mvp-IAZ.md plus prompts.md. Confirm initials and scope choices with the user before committing or opening a PR.
 ```
 
-**Qué salió:** (opcional, una línea) funcionó a la primera / tuve que insistir / me inventó una ruta que no existe.
+**Qué salió:** este texto no lo escribí yo: lo propuso el propio proyecto y lo lancé pulsando «Start». El agente leyó el `README.md` de `s2/start`, revisó el código para el tramo 1, pegó la ficha de hechos como respuestas a sus cinco preguntas y dejó un borrador con alcance (10 propuestas, 7 dentro) y las tres líneas pendientes de mi confirmación.
+
+## Prompt 2
+
+**Modelo:** Opus 5.5 (1M context) - medium
+**Herramienta:** Claude Code en un proyecto de claude.ai (mismo hilo)
+
+```
+me da la sensación que el alcance es muy escueto. Si nos centramo en rapidez es mas util el resumen que el filtro
+```
+
+**Qué salió:** metió el resumen de "qué se ha movido" en el alcance (quedan 8 de 10) y mantuvo el filtro por estado, porque lo fija la ficha de hechos.
+
+## Prompt 3
+
+**Modelo:** Opus 5.5 (1M context) - medium
+**Herramienta:** Claude Code en un proyecto de claude.ai (mismo hilo)
+
+```
+te confirmo los puntos propuestos
+```
+
+**Qué salió:** confirmé el recorte (8 de 10) y las tres líneas tal como quedaron; el agente quitó las marcas de «a confirmar» y abrió el PR.
