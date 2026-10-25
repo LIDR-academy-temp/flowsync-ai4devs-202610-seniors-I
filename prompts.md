@@ -16,20 +16,95 @@ distinto, y sin este archivo no se distinguen.
 - Incluye también los que **no funcionaron**. Suelen ser los más útiles de leer.
 - `Modelo` y `Herramienta` en todos. Si cambiaste de una a otra a mitad, se nota aquí.
 
-Borra el ejemplo de abajo cuando escribas el primero.
-
 ---
 
 ## Prompt 1
 
-**Modelo:** Opus 1M xHigh
+**Modelo:** Opus 5.5 (claude-opus-5-5)
 **Herramienta:** Claude Code
 
 ```
-Este es el ejemplo. Bórralo.
-
-El prompt va aquí dentro, entero y con sus saltos de línea,
-para que se sepa dónde empieza y dónde acaba.
+Quiero que FlowSync sea una herramienta para que los equipos remotos sepan en qué está trabajando cada uno sin tener que hacer reuniones de sincronización. Algo tipo tareas compartidas pero más en tiempo real y menos rollo que Jira. Para ello vamos a definir un PRD que va ir en docs/prd/alcance-mvp-prv.md
 ```
 
-**Qué salió:** (opcional, una línea) funcionó a la primera / tuve que insistir / me inventó una ruta que no existe.
+**Qué salió:** sin pedírselo, resumió lo que ya existe en el proyecto, hizo una ronda de cinco preguntas antes de proponer y esperó a recibir la ficha de hechos.
+
+## Prompt 2
+
+**Modelo:** Opus 5.5 (claude-opus-5-5)
+**Herramienta:** Claude Code
+
+```
+Contesta a las preguntas que me has formulado en base a los siguientes supuestos que te voy a pegar: 
+
+- Qué duele hoy: la daily de sincronización y el "¿en qué estás?" constante por Slack/chat. Nadie ve el estado del equipo sin interrumpir a alguien.
+- Quién cobra el valor: los pares, no un lead. No hay reporte hacia arriba y a un manager le daría igual. Duele a los dos devs que descubren tarde que iban a lo mismo, y al que interrumpe a otro para preguntar.
+- Episodio concreto: dos personas del equipo tocaron el mismo módulo la misma semana porque una empezó sin que la otra lo supiera. Dos días perdidos.
+- Qué reunión desaparece (respuesta honesta, no la vendas de más): la daily NO desaparece entera. Desaparece la ronda de "¿en qué estás?", que hoy se come la mitad de los 15 minutos. La parte de bloqueos sigue, y este MVP no la resuelve.
+- Usuarios / equipo: equipos remotos pequeños, 3–10 personas. Roles planos: en el MVP todos ven y editan lo mismo, sin jerarquía de permisos.
+- Primer usuario concreto: equipo de 6 personas de producto SaaS, en 3 husos horarios, que hoy usa un gestor de tareas pesado y una daily de 15 minutos por videollamada. Es un CASO DE ESTUDIO, no un cliente real.
+- Fronteras: un espacio único compartido, sin entidad "equipo". Varios equipos separados, o gente en más de uno, queda FUERA del MVP: se anota como supuesto en el PRD, no se construye.
+- "Tiempo real" = ver los cambios de estado de las tareas sin refrescar ni preguntar. NO es chat, NO es videollamada, NO es colaboración simultánea sobre el mismo documento.
+- Es frescura, no presencia: el estado es de la TAREA, no de la persona. Nada de "quién está conectado ahora" ni indicadores de actividad; eso es vigilancia y lo rechazamos a propósito.
+- Forma de la señal: resumen que espera, no aviso que interrumpe. El caso es "llego por la mañana o vuelvo de una reunión y veo qué se ha movido". Sin notificaciones push.
+- Qué decisión cambia: no empezar algo que otra persona ya está tocando, y elegir lo siguiente sabiendo qué está libre. Si la única respuesta fuera "sentirse informado", el tiempo real no valdría lo que cuesta.
+- De dónde sale el estado: lo teclea la persona que hace la tarea, en segundos. Derivarlo de señales externas (Git/PRs, CI, calendario) está FUERA del MVP: es otro producto, con integraciones y OAuth de terceros.
+- Por qué se sostiene: no porque sea más agradable, sino porque son dos clics sobre una lista ya abierta, sin campos obligatorios, sin decidir sprint ni estimación. Y quien lo escribe cobra en el momento: esa misma lista es su cola de trabajo, la mira para decidir qué coge, y de paso deja de recibir interrupciones preguntándole cómo va. Si el beneficio fuera solo para los demás, no lo escribiría.
+- Si la información se queda vieja: el producto pierde el sentido, y lo asumo. Es el riesgo #1 a validar, no un detalle. La mitigación es que actualizar cueste dos clics, no obligar a nadie.
+- Es donde se hace el trabajo, no donde se cuenta: sustituye al gestor de tareas, no convive con él. FlowSync crea las tareas, no lee las de otro sitio. Convivir exigiría doble actualización, que es como muere esta categoría.
+- Renuncia explícita a sprints, estimaciones, épicas, backlog priorizado e informes. Un equipo que necesite eso no es nuestro usuario.
+- "Menos rollo que Jira" = crear una tarea y cambiarle el estado en segundos, sin flujos de configuración ni campos obligatorios. Lo mínimo para saber quién está en qué.
+- Qué necesita una tarea en el MVP: título, responsable, estado y fecha de vencimiento. La fecha, para ver de un vistazo qué se ha pasado de plazo.
+- Cómo se consume la lista: filtrando por estado, para centrarse en lo pendiente.
+- Éxito para el usuario: dejar de hacer la ronda de "¿en qué estás?" de la daily porque el estado del equipo se ve de un vistazo.
+- Criterio a una semana de uso real: que el equipo cancele esa ronda y nadie pida que vuelva. Si la siguen haciendo igual, no funcionó.
+- Cuánto construir: una vertical fina y usable de punta a punta, no el andamiaje amplio de un producto. Prefiero una capability terminada a tres a medias.
+
+ Ademas ya te indico que fuera del MVP esta lo siguiente: - Fuera del MVP: notificaciones push, integración con Slack, roles/permisos avanzados, analítica/reporting, comentarios en tareas.
+```
+
+**Qué salió:** respondió las cinco preguntas con la ficha, añadió cinco supuestos sobre lo que la ficha no cubre y dejó anotadas las exclusiones ya decididas para el bloque de NO-alcance.
+
+## Prompt 3
+
+**Modelo:** Opus 5.5 (claude-opus-5-5)
+**Herramienta:** Claude Code
+
+```
+Propón el alcance en los cinco bloques, recortando agresivamente. Justifica cada exclusion que realizas.
+```
+
+**Qué salió:** propuso 8 cosas dentro del alcance, cada una ligada a una hipótesis (H1-H3), y 18 exclusiones justificadas (5 ya decididas y 13 nuevas). Señaló por su cuenta una tensión entre «tiempo real» y «resumen que espera».
+
+## Prompt 4
+
+**Modelo:** Opus 5.5 (claude-opus-5-5)
+**Herramienta:** Claude Code
+
+```
+Creo que si vas viendo el refresco en tiempo real, no es necesario para el mvp el resumen de lo ocurrido mientras no estabas. Si tu lo crees oportuno, se cae del mvp
+```
+
+**Qué salió:** aceptó el recorte con un argumento de producto (las decisiones dependen del estado actual, no del cambio), lo movió al NO-alcance con una condición de entrada y ajustó el supuesto S3. El alcance pasa de 8 a 7.
+
+## Prompt 5
+
+**Modelo:** Opus 5.5 (claude-opus-5-5)
+**Herramienta:** Claude Code
+
+```
+Ver de un vistazo las tareas vencidas, puede ser redundante con tener un filtro por estado. ¿No crees? Es posible que esta funcionalidad pueda caer del mvp y se hiciera mas adelante
+```
+
+**Qué salió:** rebatió el argumento («vencida» no es un estado, así que no es redundante), pero aceptó el recorte por otro motivo: no valida ninguna hipótesis. Señaló la incoherencia con la ficha, que justifica la fecha precisamente por ver lo vencido. El alcance pasa de 7 a 6.
+
+## Prompt 6
+
+**Modelo:** Opus 5.5 (claude-opus-5-5)
+**Herramienta:** Claude Code
+
+```
+En el siguiente apartado del fichero del alcance, como subpunto 1. escribe en "dos numeros" cuantas cosas has propuesto para meter en el alcance y cuantas he recortado yo. Sin redondear ni explicar. Como subapartado 2. añade las cosas que he dejado fuera y el porque de cada una. Por ultimo, en el subapartado 3. indica que la subexclusion de la que menos seguro estoy es la de la lista de vencidas, añade las contradicciones de mi argumento y la ficha inicial.
+```
+
+**Qué salió:** escribió las tres líneas. Puso los números como propuestas y restantes (8 y 6), como pide la lección. En la línea 2 solo hay dos exclusiones mías, no tres.
