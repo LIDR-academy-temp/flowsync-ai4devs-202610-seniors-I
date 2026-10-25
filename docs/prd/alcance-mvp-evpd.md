@@ -1,49 +1,20 @@
-# FlowSync — Alcance del MVP
-
-> Visión de partida: que un equipo remoto sepa en qué está cada uno sin reuniones de sincronización. Tareas compartidas, más en tiempo real y con menos rollo que Jira.
-
----
+# Parte A: el alcance
 
 ## 1. El terreno que ya existe
 
 ### Capabilities construidas
 
 Hoy FlowSync solo resuelve **quién eres**, no **en qué está nadie**. Una persona puede:
-
 - **Crear su cuenta** con email y contraseña. El nombre es opcional y no puede haber dos cuentas con el mismo email.
 - **Entrar y salir.** Al volver al navegador, la sesión se recuerda y no hace falta volver a entrar. Si sale, esa sesión deja de valer.
 - **Ver su propio perfil**: nombre, email, iniciales y desde cuándo tiene cuenta.
 - **Recibir errores comprensibles.** Si un dato del formulario está mal, ve un mensaje en castellano junto al campo.
 
-Lo que deja preparado para el MVP: las pantallas privadas solo se ven con sesión iniciada, y existe una base visual sobre la que construir.
-
-Lo que **no** existe todavía, y es justo el producto:
-
-- No hay tareas.
-- No se puede ver a las demás personas.
-- No hay nada que se actualice solo.
-- No hay noción de equipo o espacio compartido.
-
 ### Modelo de datos actual
 
-Dos tablas, ambas de autenticación:
+Dos tablas, ambas de autenticación: users y auth_access_tokens
 
-```
-users
-  id            PK
-  full_name     nullable
-  email         único, not null
-  password      hash, not null
-  created_at / updated_at
-
-auth_access_tokens
-  id            PK
-  tokenable_id  FK → users.id (ON DELETE CASCADE)
-  type, name, hash, abilities
-  created_at / updated_at / last_used_at / expires_at
-```
-
-El modelo `User` añade un getter `initials` (útil para pintar al responsable de una tarea en una lista densa). No hay entidad "equipo" ni "espacio": todo usuario registrado es igual a cualquier otro, lo que encaja con el espacio único y los roles planos del MVP.
+No hay entidad "equipo" ni "espacio": todo usuario registrado es igual a cualquier otro, lo que encaja con el espacio único y los roles planos del MVP.
 
 ---
 
@@ -91,19 +62,18 @@ Lo que este MVP **no** resuelve, dicho claro: la parte de bloqueos de la daily s
 
 Lo que la diferencia de un gestor pesado no es tener más, sino tener lo justo: crear una tarea o cambiarle el estado lleva segundos, sin más campo obligatorio que el título y sin configuración, y los cambios de los demás aparecen solos.
 
-### Alcance (una única vertical, terminada de punta a punta)
+### Alcance
 
 **Capability: el tablero compartido de tareas, vivo.**
 
 1. **Un espacio único compartido.** Cualquier usuario autenticado ve todas las tareas. Se reutiliza el registro/login que ya existe.
 2. **Crear una tarea en segundos.** Solo el título es obligatorio. Responsable, estado y fecha de vencimiento son opcionales, con valores por defecto sensatos.
-3. **Una tarea tiene título, responsable, estado y fecha de vencimiento.** Nada más editable por el usuario; el sistema solo guarda quién y cuándo la cambió por última vez.
-4. **Cambiar estado y responsable en dos clics desde la propia lista**, sin abrir un formulario. "Cogerla yo" es un clic.
-5. **Editar y borrar** una tarea (cualquier miembro, roles planos), para corregir errores.
-6. **Ver de un vistazo quién está en qué y qué está libre**: cada fila muestra responsable (o "libre"), estado, vencimiento resaltado si se ha pasado, y cuándo y quién la cambió por última vez.
-7. **Filtrar por estado** para centrarse en lo pendiente.
-8. **Cambios sin refrescar**: lo que otro cambia aparece en tu lista abierta sin recargar ni preguntar.
-9. **"Qué se ha movido"**: al volver, las tareas cambiadas desde tu última visita se ven marcadas. Un resumen que espera, no un aviso.
+3. **Cambiar estado y responsable en dos clics desde la propia lista**, sin abrir un formulario. "Cogerla yo" es un clic.
+4. **Editar y borrar** una tarea (cualquier miembro, roles planos), para corregir errores.
+5. **Ver de un vistazo quién está en qué y qué está libre**: cada fila muestra responsable (o "libre"), estado, vencimiento resaltado si se ha pasado.
+6. **Filtrar por estado** para centrarse en lo pendiente.
+7. **Cambios sin refrescar**: lo que otro cambia aparece en tu lista abierta sin recargar ni preguntar.
+8. **"Qué se ha movido"**: al volver, las tareas cambiadas desde tu última visita se ven marcadas. Un resumen que espera, no un aviso.
 
 Criterio de terminado: el caso de estudio puede sustituir la ronda de "¿en qué estás?" con esta pantalla durante una semana.
 
@@ -132,10 +102,12 @@ Recorte agresivo. Cada exclusión con su porqué:
 | Invitaciones y gestión de miembros | Con espacio único, registrarse ya es entrar. |
 | Recuperación de contraseña, edición de perfil | No tocan el dolor. Se gestiona a mano en el caso de estudio. |
 | App móvil nativa, modo offline | El uso es "llego y miro" desde el puesto de trabajo. Web responsive es suficiente. |
+| (Exclusión) **Una tarea tiene título, responsable, estado y fecha de vencimiento.** Nada más editable por el usuario; el sistema solo guarda quién y cuándo la cambió por última vez. | No se pide que se guarde quién hizo el cambio, sino el estado final. |
+| (Exclusión parcial) 5. **Ver de un vistazo quién está en qué y qué está libre**: cada fila muestra responsable (o "libre"), estado, vencimiento resaltado si se ha pasado, y cuándo y quién la cambió por última vez. | la última parte: "...~~cuándo y quién la cambió por última vez~~...", no se pide que se guarde quién hizo el cambio ni cuándo, sino el estado final. |
 
 ---
 
-## Supuestos (decididos por mí, no cubiertos por la ficha)
+## Supuestos (decididos por la IA, no cubiertos por la ficha)
 
 1. **Estados fijos y únicos: `Por hacer` · `En curso` · `Hecho`.** Tres bastan para "quién está en qué"; no son configurables.
 2. **Solo el título es obligatorio.** Es una desviación consciente del "sin campos obligatorios" literal: una tarea sin título no se puede reconocer en la lista. Por defecto, la tarea nace en `Por hacer`, sin responsable y sin fecha.
@@ -155,3 +127,20 @@ Recorte agresivo. Cada exclusión con su porqué:
 10. **Dos personas cambian la misma tarea a la vez: gana el último cambio.** Esto es concurrencia sobre un registro, no co-edición. Con equipos pequeños y cambios de dos clics, la colisión es rara y el coste de resolverla bien no compensa en el MVP.
 11. **Idioma de la interfaz: castellano**, en línea con lo ya construido.
 12. **Riesgo #1 (información vieja) se mide, no se fuerza**: en la semana de prueba se observa si la lista refleja lo que la gente dice en la daily. No hay recordatorios ni obligación de actualizar.
+
+---
+
+# Parte B: las tres líneas
+
+1. **Los dos números**: Cuántas cosas propuso la IA meter dentro del alcance, y cuántas quedaron dentro después de tu recorte. Tal cual salieron, sin redondear ni explicar.
+    - cosas que propuso la IA: 9
+    - cosas que quedaron: 8
+
+2. Tres cosas que dejaste fuera, y por qué cada una. El porqué tiene una forma concreta: qué hipótesis del producto no ayuda a validar. "No da tiempo" no vale, porque no es una decisión de producto: es una excusa de calendario, y mañana deja de ser cierta.
+    - **Exclusión**: "Una tarea tiene título, responsable, estado y fecha de vencimiento. Nada más editable por el usuario; el sistema solo guarda quién y cuándo la cambió por última vez". **Por qué**: No se pide que se guarde quién hizo el cambio, sino el estado final.
+    - **Exclusión parcial**: "Ver de un vistazo quién está en qué y qué está libre: cada fila muestra responsable (o `libre`), estado, vencimiento resaltado si se ha pasado, y cuándo y quién la cambió por última vez".  **Por qué**: la última parte: "...~~cuándo y quién la cambió por última vez~~...", porque no se pide que se guarde quién hizo el cambio ni cuándo, sino el estado final.
+    - el punto 3 de los Supuestos los cambiaría para no añadir una fecha de vencimiento por defecto.
+    - el punto 10 de los Supuestos los cambiaría para no permitir que el 2do usuario pueda cambiar el estado al mismo estado que ya tiene. 
+
+3. La exclusión de la que menos seguro estás, y qué tendría que pasar para que entrara. Lo que interesa es qué dos cosas se contradecían: lo que te pedían contra lo que veías, lo barato contra lo que valida, lo que enamora contra lo que se puede sostener.
+    - en ambas exclusiones, la IA propone algo que no se pide, y lo excluyo porque no se pide, tampoco veo a priori que sea necesaria la trazabilidad.
