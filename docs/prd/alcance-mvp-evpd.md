@@ -8,23 +8,21 @@
 
 ### Capabilities construidas
 
-Hoy FlowSync es **solo una cuenta de usuario con sesión**. No hay nada del dominio (tareas, estados, equipo).
+Hoy FlowSync solo resuelve **quién eres**, no **en qué está nadie**. Una persona puede:
 
-| Capability | Backend | Frontend |
-|---|---|---|
-| Registro | `POST /api/v1/auth/signup` (nombre admite `null` pero la clave debe ir en el payload, email único, contraseña 8–32 + confirmación) | `/register` |
-| Login | `POST /api/v1/auth/login` → access token opaco | `/login`; token en `localStorage` (`flowsync.token`) |
-| Ver perfil propio | `GET /api/v1/account/profile` (protegida) | `/profile`, y rehidratación de sesión al arrancar |
-| Logout | `POST /api/v1/account/logout` (revoca el token) | botón en perfil |
+- **Crear su cuenta** con email y contraseña. El nombre es opcional y no puede haber dos cuentas con el mismo email.
+- **Entrar y salir.** Al volver al navegador, la sesión se recuerda y no hace falta volver a entrar. Si sale, esa sesión deja de valer.
+- **Ver su propio perfil**: nombre, email, iniciales y desde cuándo tiene cuenta.
+- **Recibir errores comprensibles.** Si un dato del formulario está mal, ve un mensaje en castellano junto al campo.
 
-Piezas transversales ya resueltas y reutilizables:
+Lo que deja preparado para el MVP: las pantallas privadas solo se ven con sesión iniciada, y existe una base visual sobre la que construir.
 
-- **Auth por access token** (guard `api` por defecto) y guards de ruta en el frontend (`ProtectedRoute`, `PublicOnlyRoute`).
-- **Envoltorio de respuesta** `{ data }` vía `serialize()` + transformers, y traducción de errores de validación/auth a mensajes en castellano por campo (`lib/api.ts`).
-- **Validación** con VineJS, con builders de campo compartidos.
-- **UI base**: Tailwind v4 + shadcn/ui (`alert`, `button`, `card`, `input`, `label`).
+Lo que **no** existe todavía, y es justo el producto:
 
-Lo que **no** existe: ninguna entidad de trabajo, ningún mecanismo de actualización sin refrescar, ningún listado de usuarios, y ningún test (no hay `tests/unit` ni `tests/functional`; el frontend no tiene runner).
+- No hay tareas.
+- No se puede ver a las demás personas.
+- No hay nada que se actualice solo.
+- No hay noción de equipo o espacio compartido.
 
 ### Modelo de datos actual
 
