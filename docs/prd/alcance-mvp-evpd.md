@@ -16,8 +16,6 @@ Dos tablas, ambas de autenticación: users y auth_access_tokens
 
 No hay entidad "equipo" ni "espacio": todo usuario registrado es igual a cualquier otro, lo que encaja con el espacio único y los roles planos del MVP.
 
----
-
 ## 2. El interrogatorio
 
 Las cinco preguntas que más incertidumbre quitan, en una sola ronda. Debajo de cada una, la respuesta que da la ficha de hechos.
@@ -36,8 +34,6 @@ Lo sustituye. Crea sus propias tareas y no lee de otro sitio; convivir obliga a 
 
 **5. ¿Cómo sabremos en una semana si ha funcionado?**
 El equipo cancela la ronda de "¿en qué estás?" de la daily y nadie pide que vuelva. Riesgo #1 a validar: que la información se quede vieja.
-
----
 
 ## 3. El alcance en cinco bloques
 
@@ -104,8 +100,6 @@ Recorte agresivo. Cada exclusión con su porqué:
 | App móvil nativa, modo offline | El uso es "llego y miro" desde el puesto de trabajo. Web responsive es suficiente. |
 | (Exclusión) **Una tarea tiene título, responsable, estado y fecha de vencimiento.** Nada más editable por el usuario; el sistema solo guarda quién y cuándo la cambió por última vez. | No se pide que se guarde quién hizo el cambio, sino el estado final. |
 | (Exclusión parcial) 5. **Ver de un vistazo quién está en qué y qué está libre**: cada fila muestra responsable (o "libre"), estado, vencimiento resaltado si se ha pasado, y cuándo y quién la cambió por última vez. | la última parte: "...~~cuándo y quién la cambió por última vez~~...", no se pide que se guarde quién hizo el cambio ni cuándo, sino el estado final. |
-
----
 
 ## Supuestos (decididos por la IA, no cubiertos por la ficha)
 
