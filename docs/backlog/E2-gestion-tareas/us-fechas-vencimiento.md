@@ -20,7 +20,7 @@ Convenciones:
 - Salvo que se diga otra cosa, las tareas de los ejemplos están en *pendiente* o *en curso*.
 - La lista no muestra la fecha, solo la marca de vencida. Por eso, los criterios que dicen que una tarea «tiene» una fecha se comprueban abriendo su edición (CA-13).
 
-Trazabilidad, dependencias y preguntas abiertas: [fs-118-fecha-vencimiento.md](../../prd/fs-118-fecha-vencimiento.md).
+Trazabilidad, dependencias y preguntas abiertas: [fs-118-fecha-vencimiento.md](../../prd/fs-118-fecha-vencimiento.md). Tickets: [tickets-fechas-vencimiento.md](tickets-fechas-vencimiento.md).
 
 ## Criterios de aceptación
 
