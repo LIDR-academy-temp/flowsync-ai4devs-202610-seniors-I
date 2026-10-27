@@ -2,7 +2,7 @@
 
 Fecha: 2026-10-27. Fuente: [alcance-mvp.md](alcance-mvp.md), el alcance consensuado. Si este PRD y el alcance discrepan, manda el alcance.
 
-Este documento describe producto: qué debe hacer el sistema y cómo se sabe que lo hace. Modelo de datos, endpoints, arquitectura y mecanismos concretos se deciden en la spec de implementación.
+Este documento describe producto: qué necesita la persona usuaria, qué debe hacer FlowSync y cómo se sabe que lo hace. Cómo se construye se decide en la spec de implementación.
 
 > **Caso de estudio, no cliente real.** El equipo de referencia es inventado y no hay datos de mercado. Lo que no viene del alcance y se ha tenido que decidir aquí va marcado como **[SUPUESTO]**.
 
@@ -59,7 +59,7 @@ Decisiones que habilita:
 6. Filtro por estado.
 7. Tareas vencidas marcadas. La fecha es un día, sin hora.
 8. Los cambios de otras personas aparecen en la lista en 10 segundos como máximo, sin recargar.
-9. Tests automáticos de todo lo anterior.
+9. Pruebas automáticas de todo lo anterior.
 
 ### Fuera
 
@@ -96,8 +96,8 @@ Cada requisito indica su épica. "Persona" es siempre una persona registrada con
 ### E1 · Cuentas y acceso
 
 - **RF-1.** Cualquiera puede registrarse con email, contraseña y confirmación de contraseña; el nombre es opcional. El registro está abierto: no hace falta invitación.
-- **RF-2.** El registro se rechaza, con un mensaje en castellano junto al campo afectado, si el email no es válido, si ya está registrado, si la contraseña tiene menos de 8 o más de 32 caracteres, o si la confirmación no coincide.
-- **RF-3.** Una persona registrada puede iniciar sesión con email y contraseña. Con credenciales incorrectas se muestra un error que no revela si el email existe (comportamiento de la auth actual).
+- **RF-2.** El registro se rechaza, con un mensaje en castellano junto al dato que falla, si el email no es válido, si ya está registrado, si la contraseña tiene menos de 8 o más de 32 caracteres, o si las dos contraseñas no coinciden.
+- **RF-3.** Una persona registrada puede iniciar sesión con email y contraseña. Si el email o la contraseña no son correctos, el mensaje no revela cuál de los dos ha fallado ni si ese email tiene cuenta.
 - **RF-4.** **[SUPUESTO]** Tras registrarse o iniciar sesión, la persona llega directamente a la lista del equipo.
 - **RF-5.** La sesión se mantiene al recargar la página o cerrar y reabrir el navegador, hasta que la persona cierra sesión.
 - **RF-6.** Una persona puede cerrar sesión. Después, no puede ver ni modificar tareas sin volver a iniciar sesión.
@@ -107,55 +107,55 @@ Cada requisito indica su épica. "Persona" es siempre una persona registrada con
 ### E2 · Gestión de tareas
 
 - **RF-9.** Una persona puede crear una tarea indicando título, responsable y, opcionalmente, fecha de vencimiento.
-- **RF-10.** El título es obligatorio: un título vacío o formado solo por espacios se rechaza con un mensaje junto al campo. **[SUPUESTO]** El título admite hasta 200 caracteres; uno de 201 o más se rechaza con un mensaje junto al campo.
+- **RF-10.** El título es obligatorio: un título vacío o formado solo por espacios no se acepta y se avisa junto al título. **[SUPUESTO]** El título tiene como máximo 200 caracteres; si se pasa, se avisa y no se guarda.
 - **RF-11.** Al crear una tarea, el responsable viene preseleccionado con quien la crea y puede cambiarse por cualquier otra persona registrada; para elegirlo se ofrecen todas las personas registradas. No se puede crear una tarea sin responsable.
-- **RF-12.** La fecha de vencimiento es un día del calendario, sin hora. Se puede dejar vacía. Una fecha que no existe (p. ej. 30 de febrero) se rechaza con un mensaje junto al campo. **[SUPUESTO]** Se admiten fechas pasadas; la tarea aparece vencida desde que se guarda (RF-23).
+- **RF-12.** La fecha de vencimiento es un día, sin hora. Se puede dejar vacía. Una fecha que no existe (p. ej. 30 de febrero) no se acepta y se avisa. **[SUPUESTO]** Se admiten fechas pasadas; la tarea aparece vencida desde que se guarda (RF-23).
 - **RF-13.** **[SUPUESTO]** Toda tarea nueva se crea en estado *pendiente*.
 - **RF-14.** Cualquier persona puede editar el título, el responsable y la fecha de cualquier tarea, incluida una que no creó ni tiene asignada. Al editar se aplican las reglas de RF-10 y RF-12, el responsable sigue siendo obligatorio y la fecha se puede quitar.
 - **RF-15.** Cualquier persona puede cambiar el estado de cualquier tarea a cualquiera de los otros dos estados. **[SUPUESTO]** No hay transiciones prohibidas: de *hecho* se puede volver a *pendiente* o *en curso*.
-- **RF-16.** Desde la lista, una persona puede marcar una tarea como *en curso* con dos clics como máximo, sin salir de la lista. Cuenta como clic cada pulsación de puntero, incluida la que abre un desplegable.
+- **RF-16.** Desde la lista, una persona puede marcar una tarea como *en curso* con dos clics como máximo, sin salir de la lista. Se cuenta cada clic, también el que despliega opciones.
 - **RF-17.** No existe forma de borrar una tarea.
-- **RF-18.** Toda creación o modificación confirmada es visible para quien la hizo en el tiempo de RNF-3 y persiste: sigue ahí al recargar la página.
+- **RF-18.** Quien crea o modifica una tarea ve el resultado en el tiempo de RNF-3, y el cambio no se pierde: sigue ahí al volver a abrir FlowSync.
 
 ### E3 · Actividad del equipo
 
-- **RF-19.** Hay una única lista con todas las tareas del espacio. Cada fila muestra título, responsable, estado y, si aplica, la marca de vencida.
+- **RF-19.** Hay una única lista con todas las tareas del espacio. De cada tarea se ve el título, el responsable, el estado y, si aplica, la marca de vencida.
 - **RF-20.** **[SUPUESTO]** El responsable se muestra por su nombre o, si no tiene nombre, por su email. Por tanto, el email de quien no tiene nombre es visible para todo el equipo; con roles planos se acepta.
 - **RF-21.** **[SUPUESTO]** La lista se ordena por fecha de creación, la más reciente arriba. El orden no cambia cuando alguien modifica una tarea.
 - **RF-22.** La lista se puede filtrar por un estado (*pendiente*, *en curso* o *hecho*) o mostrar todos. **[SUPUESTO]** Por defecto se muestran todos.
 - **RF-23.** Una tarea está vencida si tiene fecha y esa fecha es anterior a hoy. **[SUPUESTO]** Una tarea en estado *hecho* nunca se marca como vencida, y una tarea que vence hoy no está vencida.
 - **RF-24.** Una tarea sin fecha nunca está vencida.
-- **RF-25.** **[SUPUESTO]** "Hoy" es la fecha del calendario en el dispositivo de quien mira la lista. Por eso, con husos horarios distintos, la marca de vencida de una misma tarea puede diferir como mucho en un día entre dos personas, como acepta el alcance.
-- **RF-26.** Lo que cambie otra persona (tarea nueva, edición o cambio de estado) aparece en la lista de los demás en 10 segundos como máximo, sin recargar la página ni hacer nada.
+- **RF-25.** **[SUPUESTO]** "Hoy" es el día que es para quien mira la lista, en su propio huso horario. Por eso, con husos horarios distintos, la marca de vencida de una misma tarea puede diferir como mucho en un día entre dos personas, como acepta el alcance.
+- **RF-26.** Lo que cambie otra persona (tarea nueva, edición o cambio de estado) aparece en la lista de los demás en 10 segundos como máximo, sin que tengan que hacer nada.
 - **RF-27.** Al aparecer cambios de otras personas, la lista mantiene el filtro activo. Además:
   - Una tarea que, por un cambio ajeno, deja de cumplir el filtro activo desaparece de la lista filtrada, y una que pasa a cumplirlo aparece.
-  - Si quien mira está editando una tarea, el formulario no se sustituye ni se vacía por un cambio ajeno sobre esa misma tarea. Al guardar se aplica RNF-2, y la fila muestra el resultado guardado.
+  - Si quien mira está editando una tarea y otra persona la cambia, no pierde lo que estaba escribiendo. Al guardar se aplica RNF-2 y la lista muestra el resultado.
 - **RF-28.** La lista no muestra quién está conectado, cuándo se conectó alguien por última vez ni quién hizo cada cambio o cuándo.
-- **RF-29.** Si la sesión deja de ser válida con la lista abierta (por ejemplo, porque se cerró sesión en otra pestaña), la persona vuelve a la pantalla de inicio de sesión con un mensaje que lo explica, en el mismo plazo que RF-26. La lista no sigue mostrándose como si estuviera al día.
-- **RF-30.** **[SUPUESTO]** Si la lista no puede ponerse al día (sin conexión o el servidor no responde), lo indica de forma visible en 20 s como máximo, sin ocultar las tareas que ya muestra. El aviso desaparece cuando vuelve a ponerse al día.
+- **RF-29.** Si la sesión se cierra con la lista abierta (por ejemplo, porque la persona cerró sesión en otra pestaña), vuelve a la pantalla de inicio de sesión con un mensaje que lo explica, en el mismo plazo que RF-26. No sigue viendo una lista que parece al día y no lo está.
+- **RF-30.** **[SUPUESTO]** Si la lista no puede ponerse al día (la persona se queda sin conexión o FlowSync no está disponible), lo indica de forma visible en 20 s como máximo, sin ocultar las tareas que ya muestra. El aviso desaparece cuando vuelve a ponerse al día.
 
 ## 7. Requisitos no funcionales
 
-- **RNF-1. Frescura.** Con la lista visible en primer plano y conexión, todo cambio ajeno aparece en ≤10 s (RF-26). **[SUPUESTO]** Con la pestaña oculta no hay plazo, pero al volver a verla la lista se pone al día en ≤10 s; lo mismo al recuperar la conexión. *Se comprueba* con dos sesiones de cuentas distintas, cronometrando cada tipo de cambio (alta, edición, cambio de estado).
-- **RNF-2. Concurrencia.** **[SUPUESTO]** Si dos personas modifican la misma tarea casi a la vez, prevalece el último cambio guardado, y ambas ven ese resultado en 10 s como máximo. No se pierde ninguna tarea creada. *Se comprueba* guardando dos ediciones de la misma tarea desde dos sesiones.
-- **RNF-3. Rendimiento percibido.** **[SUPUESTO]** Crear, editar o cambiar de estado una tarea se refleja para quien lo hace en menos de 1 s, y la lista carga en menos de 2 s con hasta 500 tareas, con una latencia de red al servidor inferior a 100 ms. *Se comprueba* midiendo con 500 tareas cargadas.
+- **RNF-1. Frescura.** Con la lista visible en primer plano y conexión, todo cambio ajeno aparece en ≤10 s (RF-26). **[SUPUESTO]** Con la pestaña oculta no hay plazo, pero al volver a verla la lista se pone al día en ≤10 s; lo mismo al recuperar la conexión. *Se comprueba* con dos personas conectadas a la vez, cronometrando cada tipo de cambio (tarea nueva, edición, cambio de estado).
+- **RNF-2. Concurrencia.** **[SUPUESTO]** Si dos personas modifican la misma tarea casi a la vez, prevalece el último cambio guardado, y ambas ven ese resultado en 10 s como máximo. No se pierde ninguna tarea creada. *Se comprueba* con dos personas que guardan a la vez cambios sobre la misma tarea.
+- **RNF-3. Rendimiento percibido.** **[SUPUESTO]** Crear, editar o cambiar de estado una tarea se refleja para quien lo hace en menos de 1 s, y la lista se abre en menos de 2 s con hasta 500 tareas, en una conexión de oficina o doméstica habitual. *Se comprueba* con 500 tareas creadas.
 - **RNF-4. Sin paginación.** **[SUPUESTO]** Con el volumen de un equipo de 3 a 10 personas, la lista muestra todas las tareas en una sola vista, sin paginar.
 - **RNF-5. Sin interrupciones.** Los cambios de otras personas no generan notificaciones, sonidos, emails, avisos emergentes ni contadores de "novedades": aparecen en la lista y nada más. Los mensajes de error y de estado de RF-2, RF-29 y RF-30 no cuentan como interrupciones.
-- **RNF-6. Privacidad.** El producto no muestra ni expone a otras personas actividad de nadie (presencia, conexiones, quién cambió qué), ni en la interfaz ni en las respuestas del servidor. El estado es de la tarea, no de la persona. Excepción conocida: la auth actual guarda internamente el último uso de cada sesión; no se expone ni se usa para nada del producto. *Se comprueba* revisando la interfaz y las respuestas del servidor.
-- **RNF-7. Seguridad.** Ninguna tarea ni el listado de personas es accesible sin sesión iniciada. Las contraseñas no se guardan ni se muestran en claro. Excepción aceptada: el registro revela si un email ya está registrado (RF-2), como hace la auth actual. *Se comprueba* pidiendo tareas y personas sin sesión.
-- **RNF-8. Idioma.** **[SUPUESTO]** (el frontend actual ya está en castellano) Toda la interfaz y los mensajes de error están en castellano.
+- **RNF-6. Privacidad.** Nadie puede ver la actividad de otra persona: si está conectada, cuándo entró por última vez ni quién cambió qué. El estado es de la tarea, no de la persona. Lo único que se guarda de cada persona es lo necesario para mantener su sesión abierta, y no se usa para nada más. *Se comprueba* revisando todo lo que FlowSync permite ver a una persona del equipo.
+- **RNF-7. Seguridad.** Sin sesión iniciada no se puede ver ninguna tarea ni la lista de personas del equipo. Nadie, tampoco quien administra FlowSync, puede leer la contraseña de otra persona. Excepción aceptada: al registrarse se avisa si el email ya tiene cuenta (RF-2). *Se comprueba* intentando ver tareas y personas sin sesión.
+- **RNF-8. Idioma.** **[SUPUESTO]** Toda la interfaz y los mensajes de error están en castellano.
 - **RNF-9. Plataforma.** **[SUPUESTO]** Navegador de escritorio, en las dos últimas versiones de Chrome, Firefox y Safari. No se garantiza el uso en móvil.
 - **RNF-10. Accesibilidad.** **[SUPUESTO]** Todas las acciones (crear, editar, cambiar estado, filtrar) se pueden hacer solo con teclado. Los estados y la marca de vencida no se distinguen únicamente por color. *Se comprueba* recorriendo esos flujos solo con teclado.
-- **RNF-11. Tests.** Cada requisito funcional (RF-1 a RF-30) tiene al menos un test automático que lo cubre, incluidos los de interfaz (p. ej. RF-16, RF-27, RF-29), y la suite pasa sin depender del orden de ejecución ni del estado dejado por runs anteriores. RF-25 se prueba fijando la fecha del reloj.
+- **RNF-11. Pruebas.** Cada requisito funcional (RF-1 a RF-30) tiene al menos una prueba automática que lo verifica, incluidos los que se ven en pantalla (p. ej. RF-16, RF-27, RF-29).
 
 ## 8. Restricciones
 
-- **Stack fijado:** backend AdonisJS 7 y frontend React 19. No se cambia de stack para el MVP.
-- **Sin runner de tests en el frontend.** RNF-11 obliga a añadir uno para cubrir los RF de interfaz; cuál se elige se decide en la spec de implementación.
-- **La autenticación ya existe** (registro, inicio y cierre de sesión, perfil) y se reutiliza tal cual. E1 no rehace auth: como mucho la conecta con la lista del equipo.
-- **Una instalación es un equipo.** No hay multi-tenant ni invitaciones; el registro abierto es la forma de entrar. Vale para el caso de estudio, no para producción.
-- **Sin infraestructura de tiempo real exigida.** El requisito es ver cambios en ≤10 s (RF-26), no al instante. El mecanismo se decide en la spec de implementación.
-- **Sin integraciones de terceros** (Git, CI, calendario, OAuth, envío de emails).
+- **Tecnología fijada:** AdonisJS 7 en el servidor y React 19 en la interfaz. No se cambia de stack para el MVP.
+- **Hoy no hay pruebas automáticas de lo que se ve en pantalla.** RNF-11 obliga a incorporarlas; cómo, se decide en la spec de implementación.
+- **El registro y el inicio de sesión ya existen** (registro, inicio y cierre de sesión) y se reutilizan tal cual. E1 no los rehace: como mucho los conecta con la lista del equipo.
+- **Una instalación es un equipo.** No hay varios equipos ni invitaciones; el registro abierto es la forma de entrar. Vale para el caso de estudio, no para producción.
+- **No se exige tiempo real.** El requisito es ver los cambios en ≤10 s (RF-26), no al instante.
+- **Sin conexión con otras herramientas** (repositorios de código, calendario, inicio de sesión con cuentas de terceros, envío de emails).
 - **Fechas sin hora ni zona horaria.**
 - **Caso de estudio.** No hay usuarios reales con los que medir; ver §9.
 
@@ -177,6 +177,6 @@ Como es un caso de estudio, todas las métricas son hipótesis; no se pueden med
 
 **Criterio de terminado del MVP** (sí verificable en el caso de estudio):
 
-1. RF-1 a RF-30 cubiertos por tests automáticos que pasan (RNF-11).
-2. Demostración con dos sesiones abiertas a la vez, con cuentas distintas: la segunda crea una tarea, la reasigna y la marca *en curso*, y la primera ve cada cambio en ≤10 s sin recargar (RF-26).
+1. RF-1 a RF-30 cubiertos por pruebas automáticas que pasan (RNF-11).
+2. Demostración con dos personas conectadas a la vez: la segunda crea una tarea, la reasigna y la marca *en curso*, y la primera ve cada cambio en ≤10 s sin recargar (RF-26).
 3. Marcar una tarea como *en curso* desde la lista con dos clics como máximo (RF-16).
