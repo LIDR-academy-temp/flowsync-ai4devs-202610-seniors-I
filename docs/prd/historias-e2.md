@@ -1,6 +1,6 @@
 # FlowSync — Historias de usuario de E2 «Gestión de tareas»
 
-Fecha: 2026-10-27. Fuente: [flowsync-mvp.md](flowsync-mvp.md) §5 y RF-9 a RF-18, validado contra [alcance-mvp.md](alcance-mvp.md). Si discrepan, manda el alcance.
+Fecha: 2026-10-27. Fuente: [flowsync-mvp.md](flowsync-mvp.md) §5 y RF-9 a RF-18 (FS-118 incluye además la parte de E3 que toca a la fecha), validado contra [alcance-mvp.md](alcance-mvp.md). Si discrepan, manda el alcance.
 
 Solo el listado: los criterios de aceptación se escriben después, y los umbrales y reglas de los RF (dos clics, longitud del título, fecha sin hora…) irán ahí, no en el texto de la historia. El rol es siempre **persona del equipo**, porque el MVP tiene un único rol (PRD §2). La columna *Cubre* indica de qué requisitos y jobs sale cada historia.
 
@@ -10,20 +10,21 @@ Solo el listado: los criterios de aceptación se escriben después, y los umbral
 |---|---|---|
 | HU-E2-01 | Como persona del equipo, quiero crear una tarea con su título para dejar registrado trabajo nuevo en la lista del equipo. | RF-9, RF-10, RF-11 (responsable por defecto), RF-13 |
 | HU-E2-02 | Como persona del equipo, quiero elegir a otra persona registrada como responsable al crear una tarea para que quede claro desde el principio a quién le toca. | RF-9, RF-11 |
-| FS-118 | Como persona del equipo, quiero poner, cambiar o quitar la fecha de vencimiento de una tarea y ver en la lista cuáles se han pasado de plazo, para saber de un vistazo qué está vencido sin preguntar a nadie. Criterios en [fs-118-fecha-vencimiento.md](fs-118-fecha-vencimiento.md). | RF-9, RF-12, RF-14, RF-19, RF-23 a RF-25 · J4 |
 | HU-E2-04 | Como persona del equipo, quiero marcar una tarea como *en curso* directamente desde la lista para que el resto sepa que la he empezado sin que tengan que preguntarme. | RF-15, RF-16 · J3 |
 | HU-E2-05 | Como persona del equipo, quiero marcar una tarea como *hecho* para que figure como terminada y no se cuente como trabajo abierto. | RF-15 · J3 |
 | HU-E2-06 | Como persona del equipo, quiero devolver a *pendiente* una tarea *en curso* para que la lista refleje que nadie la está haciendo. | RF-15 |
 | HU-E2-07 | Como persona del equipo, quiero devolver a *pendiente* una tarea *hecho* para retomarla cuando no estaba terminada de verdad. | RF-15 **[SUPUESTO]** |
 | HU-E2-08 | Como persona del equipo, quiero cambiar el responsable de cualquier tarea por cualquier persona registrada, incluida yo, para quedarme trabajo o repartirlo sin preguntar a nadie. | RF-14 · J2 |
 | HU-E2-09 | Como persona del equipo, quiero corregir el título de cualquier tarea para que describa bien el trabajo aunque no la haya creado yo. | RF-14, RF-10 |
+| FS-118 | Como persona del equipo, quiero poner, cambiar o quitar la fecha de vencimiento de una tarea y ver en la lista cuáles se han pasado de plazo, para saber de un vistazo qué está vencido sin preguntar a nadie. Criterios en [us-fechas-vencimiento.md](../backlog/E2-gestion-tareas/us-fechas-vencimiento.md); traza y preguntas abiertas en [fs-118-fecha-vencimiento.md](fs-118-fecha-vencimiento.md). | RF-9, RF-12, RF-14, RF-18, RF-21, RF-23 a RF-27 · J4 (traza completa en su fichero) |
 
 ### Notas
 
 - **Dependencias.**
   - HU-E2-02 y FS-118 dependen de HU-E2-01. HU-E2-02 es una opción de la creación; se separa para poder entregar y probar antes la creación mínima.
+  - FS-118 depende además de la lista del equipo (RF-19, E3) y, para sus criterios sobre tareas *hecho*, de HU-E2-04 a HU-E2-07.
   - HU-E2-04 actúa «desde la lista», que es de E3 (RF-19). Lo mismo vale para que «el resto sepa» (RF-26).
-  - La lista, el filtro y ver los cambios ajenos en ≤10 s son E3, no E2.
+  - La lista, el filtro y ver los cambios ajenos en ≤10 s son E3, no E2. La excepción es FS-118, que incluye la marca de vencida y los cambios ajenos de fecha.
 - **FS-118** une en una sola historia, por decisión del equipo, tres que estaban separadas: poner la fecha al crear (antes HU-E2-03), cambiarla (HU-E2-10) y quitarla (HU-E2-11). Incluye también la marca de vencida, que el PRD §5 sitúa en E3. Los números HU-E2-03, HU-E2-10 y HU-E2-11 no se reutilizan.
 - **Transiciones de estado.** RF-15 permite pasar de cualquier estado a cualquiera de los otros dos. Volver desde *hecho* es un **[SUPUESTO]** de RF-15: lo cubren HU-E2-07 (a *pendiente*) y HU-E2-04 (a *en curso*, que incluye partir de *hecho*).
 - **Tarea creada por error.** Como no se puede borrar (alcance §5), se cierra marcándola *hecho* con HU-E2-05. Sigue en la lista: *hecho* cambia el estado, no la saca de ella (RF-19, RF-22; ver PA-4).
@@ -40,6 +41,7 @@ No cambian el listado; se resuelven al escribir los criterios o al decidirlos en
 - **PA-7:** al elegir responsable se ofrecen todas las personas registradas, con el email de quien no tiene nombre. Afecta a HU-E2-02 y HU-E2-08.
 - **PA-8:** máximo de pasos para reasignarse una tarea. Afecta a HU-E2-08.
 - **PA-9:** equivalente con teclado de los dos clics de RF-16. Afecta a HU-E2-04.
+- **PA-13:** «hoy» depende del huso horario de quien mira, y está por decidir con qué husos se prueba. Afecta a FS-118.
 
 ## Pendientes de decisión (PA-3)
 
