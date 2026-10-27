@@ -10,34 +10,33 @@ Solo el listado: los criterios de aceptación se escriben después, y los umbral
 |---|---|---|
 | HU-E2-01 | Como persona del equipo, quiero crear una tarea con su título para dejar registrado trabajo nuevo en la lista del equipo. | RF-9, RF-10, RF-11 (responsable por defecto), RF-13 |
 | HU-E2-02 | Como persona del equipo, quiero elegir a otra persona registrada como responsable al crear una tarea para que quede claro desde el principio a quién le toca. | RF-9, RF-11 |
-| HU-E2-03 | Como persona del equipo, quiero poner una fecha de vencimiento al crear una tarea para que el equipo sepa para cuándo tiene que estar hecha. | RF-9, RF-12 |
+| FS-118 | Como persona del equipo, quiero poner, cambiar o quitar la fecha de vencimiento de una tarea y ver en la lista cuáles se han pasado de plazo, para saber de un vistazo qué está vencido sin preguntar a nadie. Criterios en [fs-118-fecha-vencimiento.md](fs-118-fecha-vencimiento.md). | RF-9, RF-12, RF-14, RF-19, RF-23 a RF-25 · J4 |
 | HU-E2-04 | Como persona del equipo, quiero marcar una tarea como *en curso* directamente desde la lista para que el resto sepa que la he empezado sin que tengan que preguntarme. | RF-15, RF-16 · J3 |
 | HU-E2-05 | Como persona del equipo, quiero marcar una tarea como *hecho* para que figure como terminada y no se cuente como trabajo abierto. | RF-15 · J3 |
 | HU-E2-06 | Como persona del equipo, quiero devolver a *pendiente* una tarea *en curso* para que la lista refleje que nadie la está haciendo. | RF-15 |
 | HU-E2-07 | Como persona del equipo, quiero devolver a *pendiente* una tarea *hecho* para retomarla cuando no estaba terminada de verdad. | RF-15 **[SUPUESTO]** |
 | HU-E2-08 | Como persona del equipo, quiero cambiar el responsable de cualquier tarea por cualquier persona registrada, incluida yo, para quedarme trabajo o repartirlo sin preguntar a nadie. | RF-14 · J2 |
 | HU-E2-09 | Como persona del equipo, quiero corregir el título de cualquier tarea para que describa bien el trabajo aunque no la haya creado yo. | RF-14, RF-10 |
-| HU-E2-10 | Como persona del equipo, quiero cambiar la fecha de vencimiento de cualquier tarea para que refleje el plazo real. | RF-14, RF-12 |
-| HU-E2-11 | Como persona del equipo, quiero quitar la fecha de vencimiento de una tarea para que deje de tener un plazo que ya no aplica. | RF-14 |
 
 ### Notas
 
 - **Dependencias.**
-  - HU-E2-02 y HU-E2-03 son opciones de la creación y dependen de HU-E2-01; se separan para poder entregar y probar la creación mínima antes.
+  - HU-E2-02 y FS-118 dependen de HU-E2-01. HU-E2-02 es una opción de la creación; se separa para poder entregar y probar antes la creación mínima.
   - HU-E2-04 actúa «desde la lista», que es de E3 (RF-19). Lo mismo vale para que «el resto sepa» (RF-26).
-  - La lista, el filtro, la marca de vencida y ver los cambios ajenos en ≤10 s son E3, no E2.
+  - La lista, el filtro y ver los cambios ajenos en ≤10 s son E3, no E2.
+- **FS-118** une en una sola historia, por decisión del equipo, tres que estaban separadas: poner la fecha al crear (antes HU-E2-03), cambiarla (HU-E2-10) y quitarla (HU-E2-11). Incluye también la marca de vencida, que el PRD §5 sitúa en E3. Los números HU-E2-03, HU-E2-10 y HU-E2-11 no se reutilizan.
 - **Transiciones de estado.** RF-15 permite pasar de cualquier estado a cualquiera de los otros dos. Volver desde *hecho* es un **[SUPUESTO]** de RF-15: lo cubren HU-E2-07 (a *pendiente*) y HU-E2-04 (a *en curso*, que incluye partir de *hecho*).
 - **Tarea creada por error.** Como no se puede borrar (alcance §5), se cierra marcándola *hecho* con HU-E2-05. Sigue en la lista: *hecho* cambia el estado, no la saca de ella (RF-19, RF-22; ver PA-4).
 - **Requisitos sin historia propia.**
   - **RF-17** (no existe forma de borrar) no lo cubre ninguna historia: es una ausencia. Se verifica con una prueba negativa propia, no como criterio de una historia.
-  - **RF-18** (quien cambia ve el resultado en el tiempo de RNF-3 y el cambio persiste) es transversal. Entra como criterio común de HU-E2-01 a HU-E2-11.
+  - **RF-18** (quien cambia ve el resultado en el tiempo de RNF-3 y el cambio persiste) es transversal. Entra como criterio común de todas las historias de esta lista.
 - **Transversales a todas las historias:** RNF-10 (todo con teclado) y RNF-8 (castellano).
 
 ### Puntos abiertos del PRD que afectan a estas historias
 
 No cambian el listado; se resuelven al escribir los criterios o al decidirlos en el PRD.
 
-- **PA-3.3 (RNF-2):** si en un conflicto gana el último cambio de cada dato o la tarea entera. Afecta a HU-E2-04 a HU-E2-11.
+- **PA-3.3 (RNF-2):** si en un conflicto gana el último cambio de cada dato o la tarea entera. Afecta a HU-E2-04 a HU-E2-09 y a FS-118.
 - **PA-7:** al elegir responsable se ofrecen todas las personas registradas, con el email de quien no tiene nombre. Afecta a HU-E2-02 y HU-E2-08.
 - **PA-8:** máximo de pasos para reasignarse una tarea. Afecta a HU-E2-08.
 - **PA-9:** equivalente con teclado de los dos clics de RF-16. Afecta a HU-E2-04.
