@@ -1,23 +1,8 @@
 # Prompts
 
-Aquí van **todos los prompts que lanzaste** para hacer el ejercicio, en el orden
-en que los lanzaste, con el modelo y la herramienta de cada uno.
+Registro de los nueve prompts originales del ejercicio, ordenados por lanzamiento. Herramienta y modelo según el registro del intento. Los bloques literales se conservan sin corregir su redacción. Las notas «Qué salió» describen el resultado de aquel momento, no necesariamente el estado actual.
 
-Esto no es papeleo. Lo que se revisa es **cómo pediste las cosas**, no solo lo
-que salió: un resultado flojo con un prompt bueno y un resultado flojo con un
-prompt vago necesitan feedback distinto, y sin este archivo no se distinguen.
-
-## Cómo rellenarlo
-
-- Un apartado `## Prompt N` por cada prompt.
-- **Pega el prompt tal cual lo lanzaste**, dentro del bloque de código, aunque
-  ocupe diez líneas y aunque tenga faltas. No lo reescribas para que quede bien:
-  el que arreglaste mentalmente después no es el que lanzaste.
-- Incluye también los que **no funcionaron**. Suelen ser los más útiles de leer.
-- `Modelo` y `Herramienta` en todos. Si cambiaste de una a otra a mitad, se nota
-  aquí.
-
-Borra el ejemplo de abajo cuando escribas el primero.
+**Revisión posterior — 27 de octubre de 2026:** se retiró la plantilla, se ordenaron los bloques y se recuperaron las preguntas y respuestas del registro local de Claude. El recuento histórico 10 → 9 del borrador se corrige en el alcance a **8 → 9**, contrastado con las listas originales; no se inventaron recortes para mejorar el resultado.
 
 ---
 
@@ -68,6 +53,18 @@ Ahora hazme un interrogatorio, hazme cinco preguntas. con las que no podemos sab
 **Qué salió:** Cinco preguntas en una sola ronda, sobre problema, usuarios,
 alcance, tiempo real y fronteras. Sin bajar a modelo de datos ni endpoints.
 
+**Preguntas originales recuperadas del registro de la sesión (27 de octubre):**
+
+1. (Beneficiario y decisión) ¿Quién paga de verdad el coste de mantener esto al día, y qué decisión concreta cambia el día que FlowSync exista?
+
+2. (Usuarios y forma del equipo) ¿Qué tamaño y forma tiene el equipo, y quién se encarga de poner el estado?
+
+3. (Qué desaparece y qué no) Si mañana FlowSync funciona, ¿qué parte concreta de tu día se acorta, y qué parte sobrevive intacta?
+
+4. (Qué significa "tiempo real") ¿Qué señal quieres ver aparecer, y cómo la consumes: te avisa o la ves al llegar?
+
+5. (Fronteras) ¿Qué queda fuera, sin discusión?
+
 ---
 
 ## Prompt 3
@@ -104,6 +101,51 @@ propuesta de valor, alcance, NO-alcance) con 8 elementos dentro y 13
 exclusiones justificadas, 4 supuestos y 2 incoherencias detectadas.
 Documento en `docs/prd/alcance-mvp-af.md`. Pendiente: el recorte del autor y
 las tres líneas de la parte B.
+
+---
+
+## Prompt 4
+
+**Modelo:** MiniMax-M3.1-Flash-Preview[1m] **Herramienta:** Claude Code
+
+```
+OK, ahora vamos a hacer un recorte del MVP, por favor propone cinco Bloques de problema, usuarios, propuesta de valor, alcance y no alcance para yo revisarlos y modificarlos para establecer el recorte.
+```
+
+**Qué salió:** Los cinco bloques otra vez, en el chat y con los elementos
+numerados (I1-I8 dentro, E1-E13 fuera) para poder marcarlos y recortarlos.
+
+---
+
+## Prompt 5
+
+**Modelo:** MiniMax-M3.1-Flash-Preview[1m] **Herramienta:** Claude Code
+
+```
+1 El responsable se saca del usuario que está creando, la tarea. No contamos con una asignación en este sistema, cada usuario elige la tarea que en la que va a trabajar.
+```
+
+**Qué salió:** La IA detectó que el cambio rompía dos cosas del alcance (el
+campo obligatorio frente a "crear en segundos", y "mi cola de trabajo" frente
+a "todos ven lo mismo") y preguntó dos preguntas de cierre antes de tocar el
+documento:
+
+> 1. Si el responsable no es un campo que se rellena, ¿qué pasa cuando otra
+>    persona coge la tarea de alguien?
+> 2. Con el responsable derivado, ¿el filtro por responsable entra en el
+>    alcance?
+
+Respuesta del autor: reclamar cambia el responsable; sí, el filtro por
+responsable entra. Aplicado al documento: 9 elementos dentro (I1-I9), 14
+exclusiones (E1-E14), 6 supuestos y 3 decisiones de recorte. Las dos
+incoherencias detectadas quedan resueltas.
+
+**Respuestas recuperadas del selector de preguntas de Claude:**
+
+- «Si el responsable no es un campo que se rellena, ¿qué pasa cuando otra persona coge la tarea de alguien?» → «Reclamar cambia el responsable».
+- «Con el responsable derivado, ¿el filtro por responsable entra en el alcance?» → «Sí: filtrar por estado y por responsable».
+
+Estas respuestas se dieron mediante el selector de Claude, no como un prompt de texto adicional.
 
 ---
 
@@ -153,44 +195,6 @@ haya reclamado). Actualizado también I6. La IA fijó la precisión: si se defin
 
 ---
 
-## Prompt 4
-
-**Modelo:** MiniMax-M3.1-Flash-Preview[1m] **Herramienta:** Claude Code
-
-```
-OK, ahora vamos a hacer un recorte del MVP, por favor propone cinco Bloques de problema, usuarios, propuesta de valor, alcance y no alcance para yo revisarlos y modificarlos para establecer el recorte.
-```
-
-**Qué salió:** Los cinco bloques otra vez, en el chat y con los elementos
-numerados (I1-I8 dentro, E1-E13 fuera) para poder marcarlos y recortarlos.
-
----
-
-## Prompt 5
-
-**Modelo:** MiniMax-M3.1-Flash-Preview[1m] **Herramienta:** Claude Code
-
-```
-1 El responsable se saca del usuario que está creando, la tarea. No contamos con una asignación en este sistema, cada usuario elige la tarea que en la que va a trabajar.
-```
-
-**Qué salió:** La IA detectó que el cambio rompía dos cosas del alcance (el
-campo obligatorio frente a "crear en segundos", y "mi cola de trabajo" frente
-a "todos ven lo mismo") y preguntó dos preguntas de cierre antes de tocar el
-documento:
-
-> 1. Si el responsable no es un campo que se rellena, ¿qué pasa cuando otra
->    persona coge la tarea de alguien?
-> 2. Con el responsable derivado, ¿el filtro por responsable entra en el
->    alcance?
-
-Respuesta del autor: reclamar cambia el responsable; sí, el filtro por
-responsable entra. Aplicado al documento: 9 elementos dentro (I1-I9), 14
-exclusiones (E1-E14), 6 supuestos y 3 decisiones de recorte. Las dos
-incoherencias detectadas quedan resueltas.
-
----
-
 ## Prompt 9
 
 **Modelo:** MiniMax-M3.1-Flash-Preview[1m] **Herramienta:** Claude Code
@@ -203,3 +207,18 @@ si cambialo a solo las reclamadas.
 reclamadas. Consecuencia asumida y anotada en el supuesto: una tarea creada
 por ti que nadie ha reclamado no sale en tu lista, aunque figuraras como
 responsable hasta que alguien la reclame.
+
+
+## Revisión posterior con Codex — 27 de octubre de 2026
+
+**Modelo:** no registrado en este documento. **Herramienta:** Codex desktop.
+
+Solicitud literal de la revisión:
+
+```
+Guarda también esta página con los materiales del módulo 2 y revisa nuestra entrega con ese checklist para corregir lo que falta y actualizar el Pull Request.
+```
+
+Fuente del checklist: https://clase.serbanmarius.work/r/s2
+
+Se recuperaron las preguntas originales y las respuestas del selector, se incluyó la ficha completa en el alcance, se corrigió el recuento a 8 → 9 y se declararon hipótesis y condiciones de reversión de las desviaciones. No se modificaron los nueve prompts originales ni se simularon resultados de usuarios.
