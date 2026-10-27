@@ -168,15 +168,78 @@ Como es un caso de estudio, todas las métricas son hipótesis; no se pueden med
 | # | Métrica | Umbral | Cómo se comprueba |
 |---|---|---|---|
 | M1 | Ronda de "¿en qué estás?" cancelada | Cancelada al acabar la semana 1; **[SUPUESTO]** sin peticiones de recuperarla en la semana 2 | Decisión del equipo en la retro |
-| M2 | Estado fiable | **[SUPUESTO]** En ≥9 de cada 10 dailies observadas, lo que cada persona tiene *en curso* en FlowSync coincide con lo que dice estar haciendo | Contraste en la daily, mientras exista la ronda |
+| M2 | Estado fiable | **No se puede medir.** La única forma prevista de contrastarlo es la ronda de la daily, y M1 pide eliminarla en la primera semana. En esa semana hay 5 dailies, no las 10 que exige el umbral, y en cuanto M1 se cumple ya no hay ronda con la que contrastar. | — |
 | M3 | Sin trabajo duplicado | **[SUPUESTO]** 0 episodios en la semana de dos personas empezando lo mismo sin saberlo | Pregunta en la retro |
 | M4 | Uso diario | **[SUPUESTO]** Cada persona cambia el estado de al menos una tarea cada día laborable | Pregunta en la retro (sin telemetría por persona) |
 | M5 | Sustitución del gestor anterior | **[SUPUESTO]** Ninguna tarea se crea ni actualiza en el gestor anterior a partir del día 3 | Revisión del gestor anterior |
 
-**Señal de alarma:** si M2 falla, se confirma el riesgo de información desactualizada y lo primero que se recupera es "Cambió hace…" (ver alcance §5). Si la lista deja de leerse de un vistazo, lo primero que se añade es el filtro por responsable.
+**Señal de alarma:** el riesgo de información desactualizada no tiene detector, porque M2 era la señal y no se puede medir. El alcance prevé recuperar "Cambió hace…" si ese riesgo se confirma (alcance §5), pero el MVP no tiene forma de confirmarlo. Si la lista deja de leerse de un vistazo, lo primero que se añade es el filtro por responsable.
 
 **Criterio de terminado del MVP** (sí verificable en el caso de estudio):
 
 1. RF-1 a RF-30 cubiertos por pruebas automáticas que pasan (RNF-11).
 2. Demostración con dos personas conectadas a la vez: la segunda crea una tarea, la reasigna y la marca *en curso*, y la primera ve cada cambio en ≤10 s sin recargar (RF-26).
 3. Marcar una tarea como *en curso* desde la lista con dos clics como máximo (RF-16).
+
+## 10. Puntos abiertos
+
+Hallazgos de la revisión adversarial del 2026-10-27 que este documento no decide. Mientras no se decidan, mandan las secciones 1 a 9. La fecha de vencimiento y el filtro por estado siguen dentro del alcance: un punto que los cuestiona puede cambiar cómo se comportan, no sacarlos.
+
+### Decisiones de producto
+
+- **PA-1. El incentivo para mantener el estado al día.**
+  - Argumento: §3 se sostiene en que la lista es la cola de trabajo de cada persona. Pero "mis tareas" y el filtro por responsable están fuera, así que esa cola sale mezclada con la del resto. Además, un *en curso* de hoy no se distingue de uno abandonado hace días, porque "cambió hace…" también está fuera. Si nadie actualiza, la lista miente y la ronda sigue, sin que falle ningún requisito.
+  - Para decidir: si se reabre una de esas exclusiones del alcance, o si se acepta el riesgo y §3 se marca como [SUPUESTO] crítico.
+- **PA-2. Sustituir al gestor sin importar nada.**
+  - Argumento: el equipo pasa de un gestor pesado a tareas que solo tienen título, sin importación. Nada dice cómo entra el trabajo existente el primer día. Si se queda en el gestor anterior, se actualiza en dos sitios, que es lo que el alcance señala como la muerte de esta categoría.
+  - Para decidir: qué trabajo tiene que estar en FlowSync el primer día y quién lo carga, y si la sustitución se marca como [SUPUESTO].
+- **PA-3. Qué significa "en curso".**
+  - Argumento: hay tres huecos por los que la señal puede mentir:
+    1. Cualquiera puede marcar *en curso* una tarea de otra persona sin reasignarla (RF-15), y entonces la lista atribuye el trabajo a quien no lo hace.
+    2. No hay límite de tareas *en curso* por persona.
+    3. RNF-2 no dice si en un conflicto gana el último cambio de cada dato o la tarea entera. En el segundo caso, corregir un título puede deshacer un cambio de estado de otra persona.
+  - Para decidir: una regla para cada uno de los tres casos.
+- **PA-4. Qué se ve primero al abrir la lista.**
+  - Argumento: el filtro arranca en "todos" (RF-22), el orden es por creación (RF-21) y las tareas *hecho* no se borran. Con el uso, la lista crece y una tarea antigua que alguien acaba de empezar queda al final, así que J4 ("de un vistazo") se degrada. El filtro por estado sigue dentro del alcance; lo abierto es su valor por defecto y el orden.
+  - Para decidir: con qué filtro arranca la lista y si las *hecho* van al final.
+- **PA-5. Requisitos que el alcance no pide.**
+  - Argumento: el PRD añade cosas que, juntas, pueden costar más que el núcleo:
+    - Pruebas automáticas de lo que se ve en pantalla (RNF-11).
+    - Conservar lo que se está escribiendo mientras llegan cambios (RF-27).
+    - Qué pasa con la sesión cerrada o sin conexión (RF-29, RF-30).
+    - Pestaña oculta y reconexión (RNF-1).
+    - Tres navegadores en dos versiones (RNF-9).
+    - Uso solo con teclado (RNF-10).
+    - Rendimiento con 500 tareas (RNF-3).
+  - Para decidir: estimar en la spec de implementación cuánto cuestan frente al núcleo, y elegir cuáles se quedan y cuáles se declaran ampliación del alcance.
+- **PA-6. Métricas que no distinguen el éxito del fracaso.**
+  - Argumento:
+    - M1 es una decisión que el equipo cuenta en la retro, y el equipo es inventado. Aunque fuera real, la ronda podría cancelarse por otras razones.
+    - M3 (0 episodios en una semana) es lo esperable también sin FlowSync, porque no se sabe cada cuánto pasaba el episodio de referencia.
+    - M4 depende de la memoria de cada persona, porque RNF-6 deja fuera la telemetría.
+    - Falta la métrica objetiva más barata: cronometrar la daily antes y después. El alcance ya da la línea base: la ronda ocupa la mitad de 15 minutos.
+  - Para decidir: qué métricas se mantienen y si se añade la duración de la daily.
+- **PA-7. Cualquiera que se registre ve al equipo.**
+  - Argumento: RF-11 ofrece todas las personas registradas para elegir responsable, y RF-20 muestra el email de quien no tiene nombre. Con el registro abierto, cualquiera que se registre ve a todo el equipo y algunos emails.
+  - Para decidir: si se acepta como consecuencia del registro abierto y se declara.
+- **PA-8. Reasignarse una tarea no tiene límite de pasos.**
+  - Argumento: J2 exige reasignar (RF-14) y además cambiar el estado. RF-16 solo acota lo segundo.
+  - Para decidir: si reasignarse tiene un máximo de clics y cuál.
+- **PA-9. "Dos clics" no tiene equivalente con teclado.**
+  - Argumento: RF-16 acota los clics, pero RNF-10 pide poder hacerlo todo solo con teclado y no pone límite de pulsaciones.
+  - Para decidir: el máximo de pulsaciones equivalente.
+
+### Subsanables durante la construcción
+
+- **PA-10. RNF-3 no se puede probar tal como está.**
+  - Argumento: "conexión de oficina o doméstica habitual" no fija condiciones medibles.
+  - Para decidir: fijar en la spec las condiciones de red de la medición.
+- **PA-11. RNF-6 dice algo que el propio PRD contradice.**
+  - Argumento: "lo único que se guarda de cada persona es lo necesario para mantener su sesión" choca con RF-1 y RF-20, que guardan y muestran el nombre y el email. Además, "no se usa para nada más" no se puede comprobar mirando la interfaz, que es lo que dice su *Se comprueba*.
+  - Para decidir: reformular qué se guarda de cada persona y cómo se verifica.
+- **PA-12. §8 dice "tal cual", pero RF-4 y RF-29 piden cambios.**
+  - Argumento: §8 reutiliza el registro y el inicio de sesión sin cambios. Sin embargo, RF-4 (llegar a la lista al entrar) y RF-29 (volver al inicio de sesión cuando la sesión se cierra) pueden exigir comportamiento nuevo.
+  - Para decidir: comprobar qué hace ya el inicio de sesión actual y ajustar §8 o los RF.
+- **PA-13. "Hoy" depende del huso horario.**
+  - Argumento: RF-25 toma el huso de quien mira, mientras §4 deja fuera la zona horaria del vencimiento. La fecha de vencimiento sigue dentro del alcance; lo abierto es cómo se prueba.
+  - Para decidir: si se acepta tal cual y con qué husos se prueba.
