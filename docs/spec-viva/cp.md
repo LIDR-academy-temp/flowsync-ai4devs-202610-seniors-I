@@ -233,12 +233,17 @@ Permitir que una persona cree una cuenta, inicie y cierre sesión, y consulte su
 #### Scenario: token rechazado al restaurar la sesión
 
 - **WHEN** la aplicación arranca con un token guardado que el servidor rechaza con 401
-- **THEN** la persona queda anónima en `/login` y ve el aviso «Tu sesión ha caducado. Vuelve a iniciar sesión.»
+- **THEN** la persona queda anónima en `/login`, ve el aviso «Tu sesión ha caducado. Vuelve a iniciar sesión.» y el token guardado se elimina
 
 #### Scenario: no se puede contactar con el servidor al restaurar
 
 - **WHEN** la aplicación arranca con un token guardado y no puede conectar con el servidor
-- **THEN** la persona queda anónima en `/login` y ve el aviso «No se pudo conectar con el servidor. Comprueba que el backend está arrancado.»
+- **THEN** la persona queda anónima en `/login`, ve el aviso «No se pudo conectar con el servidor. Comprueba que el backend está arrancado.» y el token guardado se conserva (una recarga posterior volverá a intentar restaurar la sesión)
+
+#### Scenario: el servidor falla al restaurar la sesión
+
+- **WHEN** la aplicación arranca con un token guardado y el servidor responde con un error distinto de 401 (por ejemplo un fallo interno)
+- **THEN** la persona queda anónima en `/login`, ve el aviso «Algo ha ido mal en el servidor. Inténtalo de nuevo en un momento.» y el token guardado se conserva
 
 ### Requirement: El sistema SHALL mostrar errores de la API en castellano en pantalla
 
@@ -249,5 +254,5 @@ Permitir que una persona cree una cuenta, inicie y cierre sesión, y consulte su
 
 #### Scenario: errores de validación bajo el campo
 
-- **WHEN** el registro o el login reciben un 422 con errores por campo (email inválido, longitud de contraseña, confirmación distinta, etc.)
-- **THEN** la persona ve el mensaje traducido bajo el campo correspondiente (por ejemplo «Introduce una dirección de email válida.», «la contraseña debe tener al menos 8 caracteres.», «Las contraseñas no coinciden.»)
+- **WHEN** el registro o el login reciben un 422 con errores por campo (email inválido, longitud de contraseña, email ya registrado, etc.)
+- **THEN** la persona ve el mensaje traducido bajo el campo correspondiente (por ejemplo «Introduce una dirección de email válida.», «la contraseña debe tener al menos 8 caracteres.», «Ese email ya está registrado. Inicia sesión en su lugar.»)
