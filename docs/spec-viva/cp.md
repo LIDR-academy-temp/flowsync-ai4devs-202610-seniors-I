@@ -256,3 +256,23 @@ Permitir que una persona cree una cuenta, inicie y cierre sesión, y consulte su
 
 - **WHEN** el registro o el login reciben un 422 con errores por campo (email inválido, longitud de contraseña, email ya registrado, etc.)
 - **THEN** la persona ve el mensaje traducido bajo el campo correspondiente (por ejemplo «Introduce una dirección de email válida.», «la contraseña debe tener al menos 8 caracteres.», «Ese email ya está registrado. Inicia sesión en su lugar.»)
+
+## Parte B: las tres listas
+
+1. Requisitos generados y comprobados.
+   Requisitos generados: 14
+   Requisitos comprobados: 6
+
+2. Incoherencias detectadas.
+   - El requisito de rechazar registros inválidos o email ya usado, hay un escenario que describe un éxito: el email distingue mayúsculas y minúsculas. El código lo hace, pero hay tensión entre el título del requisito y el escenario.
+   - En el requisito de permitir iniciar sesión con credenciales correctas, hay un escenario de rechazo, y este iría mejor en el requisito cuatro, de rechazar inicios de sesión inválidos
+   - En el requisito de permitir iniciar sesión con credenciales correctas, hay una omisión entre lo observado en código y la descripción del escenario: Si se envía password y confirmación de menos de 8 o más de 32 caracteres, Vine devuelve errores en los dos campos, pero la spec solo menciona password.
+   - En el requisito de rechazar inicios de sesión inválidos, debería tener el escenario de email con distinto casing, pero este se encuentra en el requisito de permitir login con credenciales correctas. Pienso que no está en el lugar correcto.
+   - En el requisito de rechazar inicios de sesión inválidos, no se documentan otros posibles escenarios como el password ausente.
+   - En el requisito de exponer el perfil, hay dos escenarios de los tres donde se muestran rechazos. Los requisitos de rechazo deberían agrupar los escenarios de rechazo, y el de éxito las condiciones para que se de.
+   - En el requisito de cerrar sesión y revocar el token, no hay un escenario explícito de logout con token inválido. Está cubierto por el middleware pero omitido en la spec.
+   - Hice una revisión general del lenguaje o patrón léxito entre parejas de requisitos entre backend y frontend, y se evidenció que sólo se mantiene un patrón léxito coherente en lo que se refiere a exponer el perfil y mostrar el perfil, pero en registro de cuenta, rechazo de registros inválidos, inicio de sesión, etc. no se usa el mismo patrón. Esto es inconveniente para efectos de hacer una lectura y revisión más rápida y confirmar la existencia de los pares.
+
+3. Lo que no supiste decidir si era un bug o el contrato.
+   - Lo que me no estoy seguro si es un bug o explícito es que el correo electrónico sea sensitivo (case-sensitive). En mi experiencia se normalizaría el correo durante la creación de la cuenta, posiblemente hacia minúsculas, antes de registrarlo. Esto porque dependiendo del usuario, podría no ser intencional, y la creación de cuentas sin esa normalización puede acarrear problemas futuros para los usuarios, tickets de soporte, inconsistencias en reportes, serios problemas en los módulos de notificación, etc. Hice una revisión adicional, y dentro del alcance signup/login el tratamiento en código es homogéneamente case-sensitive, pero a nivel semántico/producto no se advierte al usuario sobre esta particularidad.
+   - Lo otro que me llamó la atención es la creación de cuentas donde el nombre sea nulo. Entiendo que se valida que el correo electrónico sea único, pero dos correos que sólo difieran en mayúsculas/minúsculas da pie a dos cuentas cuyas iniciales serán idénticas, ya que ahí sí se homogenizan las letras extraídas en mayúsculas. Creo que hace falta fortalecer a nivel de contrato la creación de cuentas y homogenizar el case de la cuenta de correo.
