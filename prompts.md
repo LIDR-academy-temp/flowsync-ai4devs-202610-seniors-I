@@ -64,3 +64,7 @@ Mismas reglas que antes, más estas:
 3. No toques código.
 
 Al terminar, igual que antes: en el chat, una tabla con cada requisito nuevo y el archivo y línea donde lo viste.
+____
+
+Que salio: inventó textos de botones y enlaces que no existen en la pantalla” - **THEN** se muestra un formulario con los campos "Email" y "Contraseña", un botón "Iniciar sesión" y un enlace "¿No tienes cuenta? Regístrate"
+En lugar de: Entrar ¿Aún no tienes cuenta? 
