@@ -199,3 +199,42 @@ si, abre el PR y cierra el #1
 ```
 
 **Qué salió:** abrió el PR de entrega contra el repo del curso y cerró el PR #1 de mi fork.
+
+---
+
+## Prompt 13
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+puedes hacer una revision de la tarea por si me falta algo
+```
+
+**Qué salió:** revisó la entrega contra el README: cumple lo obligatorio y propuso cinco mejoras (afirmación del email sin probar, choque entre spec y lista 3, una incoherencia mal clasificada, dudas sobre `prompts.md` y la redacción del Purpose).
+
+---
+
+## Prompt 14
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+puedes revisar las cosas a mejorar
+```
+
+**Qué salió:** probó en ejecución lo del email con distinta capitalización (se confirma, y además el login con otra capitalización da 400), lo añadió a la lista 3 y movió la nota sobre la tabla de evidencias del agente de la lista 2 a la lista 1.
+
+---
+
+## Prompt 15
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+si, haz el commit y el push
+```
+
+**Qué salió:** commit de las mejoras de la parte B y de estos prompts, y push al PR de entrega.
