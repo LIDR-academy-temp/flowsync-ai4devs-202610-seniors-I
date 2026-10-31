@@ -186,3 +186,16 @@ si, haz el commit y el push
 ```
 
 **Qué salió:** commit de la spec con la parte B y de este archivo, y push a mi fork.
+
+---
+
+## Prompt 12
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+si, abre el PR y cierra el #1
+```
+
+**Qué salió:** abrió el PR de entrega contra el repo del curso y cerró el PR #1 de mi fork.
