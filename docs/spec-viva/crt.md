@@ -8,7 +8,7 @@ Describe cómo FlowSync permite hoy a una persona crear una cuenta, iniciar sesi
 
 ### Requirement: Envoltorio de respuestas de cuenta
 
-Las respuestas correctas de registro, inicio de sesión y perfil SHALL devolver su contenido dentro de una clave `data`, y los errores SHALL devolverse como una lista bajo la clave `errors`, siempre en JSON.
+Las respuestas correctas de registro, inicio de sesión y perfil SHALL devolver su contenido dentro de una clave `data`, y los errores de validación (422), de credenciales (400) y de autenticación (401) SHALL devolverse en JSON como una lista bajo la clave `errors`.
 
 #### Scenario: Respuesta correcta envuelta
 
@@ -17,8 +17,13 @@ Las respuestas correctas de registro, inicio de sesión y perfil SHALL devolver 
 
 #### Scenario: Errores en JSON aunque el cliente no lo pida
 
-- **WHEN** una petición a la API falla y el cliente no ha enviado cabecera `Accept: application/json`
+- **WHEN** una petición de cuenta falla por validación, credenciales o autenticación y el cliente no ha enviado cabecera `Accept: application/json`
 - **THEN** la respuesta de error se devuelve igualmente en JSON, con un objeto que contiene la lista `errors`
+
+#### Scenario: Otros errores sin lista `errors`
+
+- **WHEN** una petición falla por otro motivo (ruta inexistente o error interno)
+- **THEN** la respuesta es JSON con el código correspondiente (404, 500…) pero sin lista `errors`: en producción solo trae `message` y en desarrollo un volcado detallado del error
 
 ### Requirement: Representación pública del usuario
 
@@ -31,7 +36,7 @@ Toda respuesta que incluya un usuario SHALL exponer exactamente los campos `id`,
 
 ### Requirement: Cálculo de iniciales
 
-El sistema SHALL calcular `initials` en mayúsculas a partir del nombre completo o, si no lo hay, del email.
+El sistema SHALL calcular `initials` en mayúsculas partiendo el nombre completo por cada espacio (o, si no hay nombre, el email por la arroba) y usando solo los dos primeros fragmentos: la primera letra de cada uno si ambos tienen contenido, o las dos primeras letras del primero en otro caso.
 
 #### Scenario: Nombre con dos o más palabras
 
@@ -42,6 +47,11 @@ El sistema SHALL calcular `initials` en mayúsculas a partir del nombre completo
 
 - **WHEN** el usuario tiene `fullName` "Ada"
 - **THEN** `initials` es "AD" (las dos primeras letras de esa palabra)
+
+#### Scenario: Nombre con espacios irregulares
+
+- **WHEN** el usuario tiene `fullName` "Ada  Lovelace" (dos espacios seguidos) o " Ada" (espacio inicial)
+- **THEN** `initials` es "AD" en el primer caso y una cadena vacía en el segundo
 
 #### Scenario: Sin nombre
 
@@ -56,6 +66,11 @@ El sistema SHALL permitir crear una cuenta con `POST /api/v1/auth/signup` sin au
 
 - **WHEN** se envía `fullName` (texto o `null`), un `email` válido y no registrado, una `password` de 8 a 32 caracteres y una `passwordConfirmation` idéntica
 - **THEN** la respuesta es 200 con `data.user` (el usuario creado) y `data.token` (texto), y ese token sirve para las rutas protegidas desde ese momento
+
+#### Scenario: Nombre vacío en la petición
+
+- **WHEN** se envía `fullName` como cadena vacía `""`
+- **THEN** el registro se acepta y la cuenta queda con `fullName` `null`
 
 #### Scenario: Nombre ausente en la petición
 
@@ -93,8 +108,13 @@ El registro SHALL rechazar con 422 cualquier petición que no cumpla las reglas 
 
 #### Scenario: Confirmación distinta
 
-- **WHEN** se envía una `passwordConfirmation` que no coincide con `password`
+- **WHEN** se envía una `passwordConfirmation` de 8 a 32 caracteres que no coincide con `password`
 - **THEN** la respuesta es 422 con un error de regla `sameAs` sobre `passwordConfirmation`
+
+#### Scenario: Confirmación fuera de rango
+
+- **WHEN** se envía una `passwordConfirmation` de menos de 8 o de más de 32 caracteres
+- **THEN** la respuesta es 422 con un error `minLength` o `maxLength` sobre `passwordConfirmation`, y no se informa de `sameAs` aunque tampoco coincida
 
 ### Requirement: Inicio de sesión en la API
 
@@ -203,7 +223,12 @@ La aplicación web SHALL ofrecer en `/login` un formulario con email y contrase�
 #### Scenario: Error de validación en el login
 
 - **WHEN** la persona envía el formulario con el email vacío o con formato inválido
-- **THEN** el mensaje en castellano aparece bajo el campo afectado
+- **THEN** el mensaje en castellano aparece bajo el campo afectado ("Falta rellenar el email." o "Introduce una dirección de email válida.")
+
+#### Scenario: Aviso de sesión perdida persistente
+
+- **WHEN** la persona llegó a `/login` tras perder una sesión previa al recargar y envía el formulario con un error de campo
+- **THEN** el error aparece bajo el campo y el aviso de la sesión perdida sigue visible arriba hasta que inicie sesión correctamente
 
 ### Requirement: Mensajes de error de red y servidor
 
@@ -268,8 +293,13 @@ La aplicación web SHALL mostrar en `/profile` las iniciales en un círculo, el 
 
 #### Scenario: Perfil con nombre
 
-- **WHEN** una persona con nombre "Ada Lovelace", registrada el 3 de marzo de 2026, abre su perfil
+- **WHEN** una persona con nombre "Ada Lovelace", registrada el 3 de marzo de 2026 a mediodía, abre su perfil
 - **THEN** ve "AL", "Ada Lovelace", su email y "Miembro desde 3 de marzo de 2026"
+
+#### Scenario: Fecha según la zona horaria del navegador
+
+- **WHEN** la cuenta se creó cerca de la medianoche y la persona abre el perfil desde un navegador en otra zona horaria
+- **THEN** la fecha de "Miembro desde" se muestra según la zona horaria del navegador, por lo que puede aparecer el día anterior o el siguiente
 
 ### Requirement: Cierre de sesión desde la aplicación web
 
@@ -278,7 +308,7 @@ Al pulsar "Cerrar sesión", la aplicación web SHALL cerrar la sesión local de 
 #### Scenario: Cierre de sesión normal
 
 - **WHEN** una persona con sesión pulsa "Cerrar sesión"
-- **THEN** el token se borra del navegador, la persona llega a `/login` sin ningún aviso y el servidor revoca ese token
+- **THEN** el botón pasa a "Cerrando sesión…" y se deshabilita, el token se borra del navegador, la persona llega a `/login` sin ningún aviso y el servidor revoca ese token
 
 #### Scenario: Servidor caído al cerrar sesión
 
