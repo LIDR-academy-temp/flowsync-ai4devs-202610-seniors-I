@@ -22,14 +22,167 @@ Borra el ejemplo de abajo cuando escribas el primero.
 
 ## Prompt 1
 
-**Modelo:** Opus 1M xHigh
+**Modelo:** Opus 5.5
 **Herramienta:** Claude Code
 
 ```
-Este es el ejemplo. Bórralo.
-
-El prompt va aquí dentro, entero y con sus saltos de línea,
-para que se sepa dónde empieza y dónde acaba.
+puedes darme un ejemplo de como lo puedo hacer ando un poco perdido
 ```
 
-**Qué salió:** (opcional, una línea) funcionó a la primera / tuve que insistir / me inventó una ruta que no existe.
+**Qué salió:** el agente me dio un prompt de ejemplo para generar la spec; el Prompt 2 está basado en él.
+
+---
+
+## Prompt 2
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code (otra sesión)
+
+```
+Quiero escribir la spec viva del vertical de cuentas y acceso de FlowSync
+(registro, inicio de sesión, sesión y perfil), describiendo lo que el
+sistema hace HOY. No propongas cambios ni toques código.
+
+Alcance: las dos capas.
+- Backend: rutas de auth, controladores, modelo de usuario, validadores y middlewares.
+- Frontend: pantallas de acceso, estado de sesión y protección de rutas.
+  Nada de tareas ni de otras partes del sistema.
+
+Escríbela en docs/spec-viva/crt.md con este formato exacto:
+- "## Purpose" con 1-2 frases.
+- "## Requirements" y debajo "### Requirement: <nombre>" donde el sistema SHALL hacer algo.
+- Bajo cada requisito, al menos un "#### Scenario:" con dos viñetas:
+  "- WHEN ..." y "- THEN ...". La precondición va dentro del WHEN.
+- En castellano, salvo SHALL/MUST.
+
+Reglas:
+1. Nada de secciones ADDED/MODIFIED/REMOVED.
+2. Solo comportamiento observable: en la API, petición y respuesta (códigos
+   HTTP, campos); en pantalla, lo que la persona ve y puede hacer. Ni nombres
+   de clases, ni de archivos, ni rutas de código dentro de la spec.
+3. No modifiques ningún archivo salvo el de la spec.
+
+Cuando termines, dame en el chat (no en el archivo) una tabla con cada
+requisito y el archivo:línea donde lo viste, para poder comprobarlo yo.
+Y señala aparte cualquier cosa que te haya parecido incoherente o dudosa
+entre backend y frontend.
+```
+
+**Qué salió:** escribió la spec (16 requisitos), pero además hizo commit, abrió un PR contra `s3/start` de mi fork y lanzó una revisión adversarial sin que se lo pidiera. Tras la revisión corrigió la spec y volvió a subirla.
+
+---
+
+## Prompt 3
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code (otra sesión)
+
+```
+dame ya la tabla mientras termina la revisión
+```
+
+**Qué salió:** me dio la tabla requisito → archivo:línea y 9 incoherencias o dudas entre backend y frontend.
+
+---
+
+## Prompt 4
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code (otra sesión)
+
+```
+avísame cuando termine la revisión
+```
+
+**Qué salió:** al terminar la revisión adversarial, contrastó sus hallazgos con el código, corrigió la spec con los ciertos y descartó uno falso (nombre vacío → 422).
+
+---
+
+## Prompt 5
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code (otra sesión)
+
+```
+mergea el PR
+```
+
+**Qué salió:** no llegó a ejecutarse. No lo mergeé: el PR iba contra mi fork y no contra el repo del curso.
+
+---
+
+## Prompt 6
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+si, empieza por el punto 1
+```
+
+**Qué salió:** rellenó este `prompts.md` con los prompts anteriores, copiados literales.
+
+---
+
+## Prompt 7
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+ayúdame a comprobar el de autenticación por token
+```
+
+**Qué salió:** lo comprobamos leyendo el código y probando la API con curl (sin token, token inventado, token válido, logout y token revocado). Cuadra, pero la tabla de evidencias de la otra sesión situaba la falta de caducidad en el archivo equivocado, y "los tokens no caducan" resultó ser un valor por defecto, no una decisión.
+
+---
+
+## Prompt 8
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+comprueba ahora el de protección de rutas
+```
+
+**Qué salió:** comprobado leyendo el código, no en el navegador. Los cuatro escenarios cuadran; salieron la vuelta siempre a `/profile` y el token que sigue guardado con el backend caído.
+
+---
+
+## Prompt 9
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+pasemos a escribir la parte B
+```
+
+**Qué salió:** escribió las tres listas con lo comprobado en los prompts 7 y 8; dejó fuera las incoherencias de la otra sesión que no comprobé.
+
+---
+
+## Prompt 10
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+el 1
+```
+
+**Qué salió:** añadió los prompts 6 a 10 a este archivo.
+
+---
+
+## Prompt 11
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+si, haz el commit y el push
+```
+
+**Qué salió:** commit de la spec con la parte B y de este archivo, y push a mi fork.

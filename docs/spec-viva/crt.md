@@ -314,3 +314,25 @@ Al pulsar "Cerrar sesión", la aplicación web SHALL cerrar la sesión local de 
 
 - **WHEN** una persona pulsa "Cerrar sesión" y el servidor no responde
 - **THEN** la persona igualmente queda sin sesión en el navegador y llega a `/login` sin ver ningún error
+
+---
+
+## Parte B
+
+### 1. Requisitos escritos y comprobados
+
+- Escritos por el agente: **16**
+- Comprobados por mí abriendo el código: **2** (Autenticación por token; Protección de rutas en la aplicación web)
+
+### 2. Incoherencias que aparecieron al escribirla
+
+- El frontend muestra "Tu sesión ha caducado" ante cualquier 401, pero los tokens se emiten sin caducidad: un 401 solo puede venir de un token revocado o inventado. Se ve en `frontend/src/lib/api.ts:76-80` frente a `backend/app/models/user.ts:8` (sin `expiresIn`) y `expires_at` a NULL en todos los tokens de la base de datos.
+- Con el backend caído al recargar, la pantalla dice que no hay sesión (te manda a `/login`) pero el token sigue guardado en el navegador; si vuelves a entrar se emite otro y el anterior queda vivo en el servidor. Se ve en `frontend/src/auth/auth-provider.tsx:63-69`.
+- Cada inicio de sesión crea un token nuevo y solo se revoca el que cierra sesión, así que los tokens se acumulan sin límite. Se ve en `backend/app/controllers/access_tokens_controller.ts:11` (login) y `backend/app/controllers/new_account_controller.ts:11` (registro), que crean token, frente a una sola revocación en `backend/app/controllers/access_tokens_controller.ts:22`.
+- El logout responde `{"message": "Logged out successfully"}`, fuera del envoltorio `data` que usan el resto de respuestas correctas de cuenta. Visto en ejecución contra `POST /api/v1/account/logout`.
+- La propia tabla de evidencias del agente situaba la falta de caducidad en `backend/config/auth.ts:16-21`, pero está en `backend/app/models/user.ts:8`: la conclusión era correcta y la referencia no.
+
+### 3. Lo que no supe decidir si era bug o contrato
+
+- **Los tokens no caducan.** La spec lo escribe como contrato ("MUST NOT caducar por tiempo"), pero en el código nadie lo decidió: es el valor por defecto al no pasar `expiresIn`. Lectura A: sesiones indefinidas a propósito en un MVP, y el texto "ha caducado" del frontend solo está mal redactado. Lectura B: se esperaba caducidad (existe la columna `expires_at` y el frontend habla de caducar) y falta configurarla. Además el escenario "Token antiguo" no se puede comprobar sin esperar.
+- **Tras iniciar sesión siempre se acaba en `/profile`.** No hay mecanismo para volver a la ruta que se intentaba abrir; hoy no se nota porque `/profile` es la única página protegida, y la raíz `/` acaba ahí porque la atrapa el comodín de rutas desconocidas, no porque haya una ruta raíz. Lectura A: el perfil es la página de inicio por diseño. Lectura B: es casualidad de que solo exista una página, y el día que haya otra la spec estaría fijando un comportamiento que nadie quiso.
