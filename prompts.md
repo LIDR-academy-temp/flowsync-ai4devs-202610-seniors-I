@@ -226,3 +226,25 @@ actualiza prompts.md y haz el push a mi rama local
 ```
 
 **Qué salió:** Añadió este prompt y subió la rama.
+
+## Prompt 20
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+porque dice 1 comprobado abriendo código?
+```
+
+**Qué salió:** Explicó que solo había contado lo comprobado en el código.
+
+## Prompt 21
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+"Comprobar significa haber ido a mirar si el código hace eso;" ejecutar y probar es justamente lo que se hizo, ver si el codigo hace no es interpretar el código. Todas las pruebas son validas.
+```
+
+**Qué salió:** Cambió la lista 1 a 9 comprobados, contando también las pruebas ejecutadas.

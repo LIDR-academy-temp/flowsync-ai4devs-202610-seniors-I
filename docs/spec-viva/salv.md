@@ -263,7 +263,7 @@ El sistema SHALL mostrar en castellano los errores de las pantallas de acceso, y
 ### 1. Requisitos escritos y comprobados
 
 - **Escritos por el agente:** 18
-- **Comprobados por mí abriendo el código:** 1
+- **Comprobados por mí, ejecutándolos o mirando el código:** 9
 
 ### 2. Incoherencias que aparecieron al escribirla
 
