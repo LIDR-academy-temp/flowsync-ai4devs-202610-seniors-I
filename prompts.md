@@ -22,14 +22,40 @@ Borra el ejemplo de abajo cuando escribas el primero.
 
 ## Prompt 1
 
-**Modelo:** Opus 1M xHigh
+**Modelo:** Opus 5.5
 **Herramienta:** Claude Code
 
 ```
-Este es el ejemplo. Bórralo.
-
-El prompt va aquí dentro, entero y con sus saltos de línea,
-para que se sepa dónde empieza y dónde acaba.
+Lee el contexto de este proyecto
 ```
 
-**Qué salió:** (opcional, una línea) funcionó a la primera / tuve que insistir / me inventó una ruta que no existe.
+**Qué salió:** leyó CLAUDE.md, README, AGENTS.md, prompts.md y el backlog, y resumió el proyecto y el ejercicio.
+
+## Prompt 2
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+Dentro del archivo docs/spec-viva/las.md vamos a crear una especificación explicando lo que tenemos implementado y funciona
+a día de hoy, tanto en frontend como en backend, de la vertical de cuentas y acceso, que incluye el registro de usuario,
+el inicio de sesión, la sesión y el perfil. Escríbelo en formato RFC-2119, con todo el contenido en español excepto los
+términos MUST, SHALL y SHOULD que tienen que estar siempre en mayúsculas y en inglés. El formato del archivo tiene que ser
+el siguiente: 1. Un "## Purpose" de una o dos frases indicando para qué existe esa capability. 2. Debajo, "##
+Requirements", y colgando de él "### Requirement" en los que el sistema SHALL hacer algo. 3. Bajo cada uno de los
+requisitos, al menos un "#### Scenario:" de cuatro almohadillas, con dos viñetas: "- **WHEN**" y "- **THEN**", sin incluir
+la casilla del "GIVEN", ya que la precondición estará metida dentro del "WHEN".
+```
+
+**Qué salió:** De primeras, me ha escrito en el archivo spec-viva/las.md 12 requisitos y 39 escenarios que cubren tanto API como web. Revisando los requisitos, veo que ha escrito un montón de términos referente al código (endpoints, nombres de entidad...), que se contradice con una de las reglas duras del proyecto.
+
+## Prompt 3
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+Hay tres reglas duras que tienes que respetar y no te he especificado, y una de ellas es bastante relevante porqué te la has saltado: 1. Nada de `ADDED`, `MODIFIED` ni `REMOVED`. Estamos definiendo lo que hace el sistema, y ese es vocabulario de un delta. 2. Solo comportamiento observable desde fuera. Ni un nombre de clase, ni un nombre de archivo, ni una ruta de código. En la API, observable es la petición y la respuesta. En la pantalla, observable es lo que una persona ve y puede hacer. (Creo que esta es la que te has saltado). 3. No toques el código. Ni siquiera para arreglar lo que encuentres, y sobre todo para eso: lo que encuentres es material de la parte B.
+```
+
+**Qué salió:** reconoció que había escenarios con comportamiento interno (sesión guardada, llamadas al servidor, regla de validación, caducidad del token) y los reescribió en términos de petición/respuesta y de lo que se ve en pantalla.
