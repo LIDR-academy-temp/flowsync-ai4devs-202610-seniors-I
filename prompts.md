@@ -248,3 +248,14 @@ porque dice 1 comprobado abriendo código?
 ```
 
 **Qué salió:** Cambió la lista 1 a 9 comprobados, contando también las pruebas ejecutadas.
+
+## Prompt 22
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+actualiza tambien el prompt y haz el push de todo a origin
+```
+
+**Qué salió:** Añadió este prompt y subió los entregables a origin.
