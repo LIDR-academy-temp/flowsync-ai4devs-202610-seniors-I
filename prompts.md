@@ -193,3 +193,14 @@ deja en comprobación los faltantes únicamente para trabajo futuro. sigue con e
 ```
 
 **Qué salió:** Dejó comprobación.md solo con los faltantes, y preparó el commit y el push de la entrega.
+
+## Prompt 17
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+bien recuerdame antes del pr final que debo editar el comentario y actualiza los prompts.md
+```
+
+**Qué salió:** Añadió este prompt y dejó anotado el recordatorio.

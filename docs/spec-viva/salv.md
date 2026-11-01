@@ -27,7 +27,7 @@ El sistema SHALL rechazar un registro con datos inválidos sin crear la cuenta, 
 #### Scenario: Campos sin rellenar
 
 - **WHEN** una persona envía el formulario de registro vacío
-- **THEN** la cuenta no se crea y aparecen los avisos «Falta rellenar el email.» y «Falta rellenar la contraseña.» junto a sus campos
+- **THEN** la cuenta no se crea y aparecen los avisos «Falta rellenar el email.», «Falta rellenar la contraseña.» y «Falta rellenar la confirmación de la contraseña.» junto a sus campos
 
 #### Scenario: Email con formato inválido
 
@@ -107,7 +107,7 @@ El sistema SHALL denegar el acceso con credenciales incorrectas sin revelar si f
 
 #### Scenario: Email con distintas mayúsculas
 
-- **WHEN** una persona intenta entrar con su email escrito en mayúsculas y la cuenta se registró en minúsculas
+- **WHEN** una persona intenta entrar con su email escrito en mayúsculas, la cuenta se registró en minúsculas y no existe otra cuenta con esa variante
 - **THEN** no entra y ve el mismo aviso que con unas credenciales incorrectas
 
 ### Requirement: Validación del formulario de inicio de sesión
@@ -158,7 +158,7 @@ El sistema SHALL conservar la sesión guardada cuando no pueda contactar con el 
 
 #### Scenario: Vuelve la conexión
 
-- **WHEN** tras ese corte el servidor vuelve a responder y la persona recarga su perfil
+- **WHEN** tras ese corte el servidor vuelve a responder y la persona recarga la página
 - **THEN** entra en su perfil sin introducir credenciales
 
 ### Requirement: Cierre de sesión
@@ -242,7 +242,7 @@ El sistema SHALL mostrar a cada persona con sesión los datos de su propia cuent
 #### Scenario: Perfil de una cuenta sin nombre
 
 - **WHEN** una persona registrada sin nombre abre su perfil
-- **THEN** ve «Sin nombre», sus iniciales, su email, la fecha en que se registró tras «Miembro desde» y el botón «Cerrar sesión»
+- **THEN** ve «Sin nombre», unas iniciales formadas por la primera letra de su email y la primera de su dominio, su email, la fecha en que se registró tras «Miembro desde» y el botón «Cerrar sesión»
 
 #### Scenario: Perfil por la API
 
@@ -264,7 +264,6 @@ El sistema SHALL mostrar en castellano los errores de las pantallas de acceso, y
 
 - **Escritos por el agente:** 18
 - **Comprobados por mí abriendo el código:** 1
-- **Probados por mí solo en pantalla, sin abrir el código:** 8
 
 ### 2. Incoherencias que aparecieron al escribirla
 
