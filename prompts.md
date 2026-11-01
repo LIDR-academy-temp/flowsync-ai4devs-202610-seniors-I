@@ -22,14 +22,40 @@ Borra el ejemplo de abajo cuando escribas el primero.
 
 ## Prompt 1
 
-**Modelo:** Opus 1M xHigh
+**Modelo:** Opus 5.5
 **Herramienta:** Claude Code
 
 ```
-Este es el ejemplo. Bórralo.
-
-El prompt va aquí dentro, entero y con sus saltos de línea,
-para que se sepa dónde empieza y dónde acaba.
+ Explore and get context about  the code implemented on this project, check backend and frontend. Focus on the
+    Accounts and access (Cuentas y accesso) code.
+  The server is runing on the localhost:5173 explore what you can do, you can perform actions if needed is all test data.
 ```
 
-**Qué salió:** (opcional, una línea) funcionó a la primera / tuve que insistir / me inventó una ruta que no existe.
+**Qué salió:**  Describio los diferentes endpoints en el backend, y describio que hacia el frontend. Saco una lista de problemas.
+
+## Prompt 2
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+  Create a doument on docs/spec-viva/RTC.md. This is a spec about Accounts and access to the app, is only about the already implemented part. Follow this format:
+  Puropose
+
+  1 or 2 sentences about why this exist
+  ## Requirements
+  ### Requirement:
+   Requirement with RFC-2119 (SHALL,MUST)
+   For each requirement at least can be more if its needed 1 scenary
+   #### Scenario:
+   **WHEN**
+   **THEN***
+  Rules:
+  - Has to be in spanish except for mays words
+  - don't add any Delta specs vocavulary this is the actual implementation descriptin
+  - Only the include what you can see from the usage of the app, don't include anything from the implementation
+  - Don't fix anything, even if you find something wrong.
+  - Don't create branches and don't commit or push anything
+```
+
+**Qué salió:**  Creo la spec con el formato buscado y con las normas establecidas.
