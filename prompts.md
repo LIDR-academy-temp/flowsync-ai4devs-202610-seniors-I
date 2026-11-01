@@ -1,35 +1,24 @@
-# Prompts
 
-Aquí van **todos los prompts que lanzaste** para hacer el ejercicio, en el orden en que los
-lanzaste, con el modelo y la herramienta de cada uno.
-
-Esto no es papeleo. Lo que se revisa es **cómo pediste las cosas**, no solo lo que salió: un
-resultado flojo con un prompt bueno y un resultado flojo con un prompt vago necesitan feedback
-distinto, y sin este archivo no se distinguen.
-
-## Cómo rellenarlo
-
-- Un apartado `## Prompt N` por cada prompt.
-- **Pega el prompt tal cual lo lanzaste**, dentro del bloque de código, aunque ocupe diez líneas
-  y aunque tenga faltas. No lo reescribas para que quede bien: el que arreglaste mentalmente
-  después no es el que lanzaste.
-- Incluye también los que **no funcionaron**. Suelen ser los más útiles de leer.
-- `Modelo` y `Herramienta` en todos. Si cambiaste de una a otra a mitad, se nota aquí.
-
-Borra el ejemplo de abajo cuando escribas el primero.
 
 ---
 
 ## Prompt 1
 
-**Modelo:** Opus 1M xHigh
-**Herramienta:** Claude Code
+**Modelo:** Claude Sonnet 5, 200K
+**Herramienta:** Github copilot
 
 ```
-Este es el ejemplo. Bórralo.
+Por favor crea una agente que escriba las especificaciones (spec-define.md) de el proyecto que reside en el repositorio actual. Luego corre el agente para que cree las especificaciones como tal (spec.md)
 
-El prompt va aquí dentro, entero y con sus saltos de línea,
-para que se sepa dónde empieza y dónde acaba.
+La especificacion debe contener la descripcion de las dos capas ( frontend y backend), es decir  lo que pasa por la API, asi como lo que se veria en pantalla
+
+El formato de la especificacion debe ser el siguiente
+
+- Arriba, un `## Purpose` de una o dos frases: para qué existe esta capability.
+- Debajo, `## Requirements`, y colgando de él `### Requirement:` en los que el sistema **SHALL** hacer algo.
+- Bajo cada requisito, al menos un `#### Scenario:` de cuatro almohadillas, con dos viñetas: `- **WHEN**` y `- **THEN**`. No hay casilla para el `GIVEN`: la precondición se mete dentro del `WHEN`.
+- En castellano, salvo las mayúsculas de la RFC.
 ```
 
-**Qué salió:** (opcional, una línea) funcionó a la primera / tuve que insistir / me inventó una ruta que no existe.
+**Qué salió:**  generó `docs/spec-viva/rm.md` con 6 requisitos y 17 escenarios, 6/6 verificados contra el código real (backend levantado + lectura del frontend), más la Parte B con 5 incoherencias y una duda bug-vs-contrato.
+
