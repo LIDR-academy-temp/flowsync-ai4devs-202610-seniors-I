@@ -16,20 +16,70 @@ distinto, y sin este archivo no se distinguen.
 - Incluye también los que **no funcionaron**. Suelen ser los más útiles de leer.
 - `Modelo` y `Herramienta` en todos. Si cambiaste de una a otra a mitad, se nota aquí.
 
-Borra el ejemplo de abajo cuando escribas el primero.
-
 ---
 
 ## Prompt 1
 
-**Modelo:** Opus 1M xHigh
+**Modelo:** Opus 5.5
 **Herramienta:** Claude Code
 
 ```
-Este es el ejemplo. Bórralo.
-
-El prompt va aquí dentro, entero y con sus saltos de línea,
-para que se sepa dónde empieza y dónde acaba.
+Planteja una resolució de tot l'exercici del Modul3. La idea es utilitzar el material i les referencies del mateix modul de LIDR disponibles a Zotero. Planteja la resolució en un .md que sigui educatiu i pedagogic i que serveixi a la vegada per relacionar la resolucio amb els continguts explicats a teoria. M'entens?
 ```
 
-**Qué salió:** (opcional, una línea) funcionó a la primera / tuve que insistir / me inventó una ruta que no existe.
+**Qué salió:** funcionó, pero tardó: el enunciado no estaba en Zotero y el agente lo encontró en el README de `s3/start`. Leyó el vertical entero, ejecutó la API en una copia aislada y entregó una guía con una spec de 18 requisitos validada con `openspec validate --strict`.
+
+## Prompt 2
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+fes una revisió adeversarial de la solució per tal i dona'm els tres punts mes controlvertits, incorrectes o millorables.
+```
+
+**Qué salió:** el más útil. Encontró un SHALL falso en la propia spec (el nombre «opcional» en la API, que en realidad exige el campo), el criterio de contrato aplicado a medias y una guía que daba la solución antes de intentarlo.
+
+## Prompt 3
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+sí, aplica les tres correccions
+```
+
+**Qué salió:** funcionó a la primera: quitó tres escenarios que no eran contrato, añadió el del campo del nombre, pasó las sesiones independientes a la lista 3 y separó la guía de la solución.
+
+## Prompt 4
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+quins dels dos fitxers es el bo?
+```
+
+**Qué salió:** aclaración: los dos ficheros son complementarios, no versiones.
+
+## Prompt 5
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+Pots resoldre directament tu l'exercici?
+```
+
+**Qué salió:** el agente avisó de que la lista 1 y este fichero dejarían de reflejar mi trabajo y propuso hacer solo de agente.
+
+## Prompt 6
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+Fes-ho tot tu, ja he fet l'exercici en el sandbox. Per tant fes la resolució i puja en nom meu.
+```
+
+**Qué salió:** preparó las ramas, escribió `docs/spec-viva/amd.md` a partir de la spec ya corregida, rellenó este fichero y abrió el PR.
