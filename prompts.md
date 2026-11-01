@@ -215,3 +215,14 @@ la navegación se abortó luego del boton atrás. me funcionó bien. puedes usar
 ```
 
 **Qué salió:** Actualizó la incoherencia del botón atrás y sugirió los nombres del PR.
+
+## Prompt 19
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+actualiza prompts.md y haz el push a mi rama local
+```
+
+**Qué salió:** Añadió este prompt y subió la rama.
