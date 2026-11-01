@@ -267,7 +267,7 @@ El sistema SHALL mostrar en castellano los errores de las pantallas de acceso, y
 
 ### 2. Incoherencias que aparecieron al escribirla
 
-- **Botón atrás:** RF-2 dice que tras cerrar sesión volver atrás no devuelve el contenido. Con la sesión abierta en dos cargas completas de página, cerrar sesión y volver atrás mostró el perfil con los datos de la cuenta; al recargar llevó a la pantalla de inicio de sesión. Se vio en una navegación automatizada y falta repetirlo a mano.
+- **Botón atrás:** RF-2 dice que tras cerrar sesión volver atrás no devuelve el contenido. Con la sesión abierta en dos cargas completas de página, cerrar sesión y volver atrás mostró el perfil con los datos de la cuenta; al recargar llevó a la pantalla de inicio de sesión. Se vio en una navegación automatizada, pero al repetirlo a mano funcionó bien, así que no está confirmado.
 - **Email duplicado con mayúsculas (bug):** la pantalla de registro aceptó un email que solo cambiaba en las mayúsculas y creó otra cuenta, aunque el sistema rechaza los emails repetidos y debe tratarlos como el mismo.
 - **Nombre:** RF-1 pide crear la cuenta «con nombre, email y contraseña», y la pantalla de registro lo marca como «(opcional)».
 - **Opcional, pero obligatorio:** el nombre es opcional en la pantalla, y la API rechaza el registro si falta ese campo.

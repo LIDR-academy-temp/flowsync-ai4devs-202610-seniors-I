@@ -204,3 +204,14 @@ bien recuerdame antes del pr final que debo editar el comentario y actualiza los
 ```
 
 **Qué salió:** Añadió este prompt y dejó anotado el recordatorio.
+
+## Prompt 18
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+la navegación se abortó luego del boton atrás. me funcionó bien. puedes usar git para el pr. tengo un skill y un hook de control que fuerza los nombres. sugiere en base a eso
+```
+
+**Qué salió:** Actualizó la incoherencia del botón atrás y sugirió los nombres del PR.
