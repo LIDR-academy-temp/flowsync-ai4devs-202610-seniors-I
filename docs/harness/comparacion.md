@@ -41,8 +41,6 @@ La diferencia de archivos viene de cómo reparte la sesión: el plan con harness
 
 ## 3. Cuántas veces tuviste que intervenir
 
-Esto no se puede sacar de los planes: no muestran la conversación. Lo dejo para que lo rellenes tú con la cuenta de cada sesión.
-
 |  | Con harness | Sin harness |
 | --- | --- | --- |
 | Corregir | *1 - Redefinir que la busqueda en Jira sea por el campo traducido al ingles* | *0* |
