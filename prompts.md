@@ -43,5 +43,55 @@ Describe solo comportamientos observables desde fuera. No incluyas nombres de cl
 No modifiques el código. Aunque encuentres errores o inconsistencias, déjalos tal como están. Esos hallazgos forman parte del análisis de la parte B.
 ```
 
-**Qué salió:** lanzó un subagente Explore sobre las dos capas y escribió `docs/spec-viva/pvr.md`: 18 requisitos con escenarios WHEN/THEN, primero los de la API y luego los de la web. Las rarezas que encontró (logout sin `data`, tokens que no caducan, email sensible a mayúsculas, iniciales «AE» sacadas del email, cualquier 400 traducido como credenciales) se describen como comportamiento actual y el código no se tocó.
+**Qué salió:** lanzó un subagente Explore sobre las dos capas y escribió `docs/spec-viva/pvr.md`: 16 requisitos y 44 escenarios WHEN/THEN, primero los de la API y luego los de la web. Las rarezas que encontró (logout sin `data`, tokens que no caducan, email sensible a mayúsculas, iniciales «AE» sacadas del email, cualquier 400 traducido como credenciales) se describen como comportamiento actual y el código no se tocó.
+
+## Prompt 2
+
+**Modelo:** Opus 5.5 (claude-opus-5-5)
+**Herramienta:** Claude Code
+
+```
+Deja el pr
+```
+
+**Qué salió:** paró la revisión adversarial que estaba en marcha sobre el PR y dejó el PR como estaba.
+
+## Prompt 3
+
+**Modelo:** Opus 5.5 (claude-opus-5-5)
+**Herramienta:** Claude Code
+
+```
+Cierra el PR y borra la rama remota
+```
+
+**Qué salió:** cerró el PR #1 del fork y borró `spec-viva-pvr` en `origin`. La rama local sigue con el commit de la spec.
+
+## Prompt 4
+
+**Modelo:** Opus 5.5 (claude-opus-5-5)
+**Herramienta:** Claude Code
+
+```
+Ahora vamos a revisar requisito a requisito buscando incoherencias entre los requisitos que hemos documentado y el codigo de dicha funcionalidad.
+```
+
+**Qué salió:** comparó los 16 requisitos con el código de las dos capas y comprobó en local cómo trata VineJS el email y el nombre. Encontró 3 afirmaciones de la spec que no son exactas («Cerrando sesión…» no llega a verse, el email con espacios se rechaza en vez de guardarse, y el escenario de longitud del login es confuso) y 5 comportamientos sin documentar. El resto coincide con el código.
+
+## Prompt 5
+
+**Modelo:** Opus 5.5 (claude-opus-5-5)
+**Herramienta:** Claude Code
+
+```
+Lo que quiero ahora es que al final de la spec me pongas 3 listas en las que vamos a detallar lo siguiente: 
+
+1. Requisitos generados y comprobados. Indica cuántos requisitos escribió el agente y cuántos verificaste tú consultando el código. Escribe ambos números, sin redondearlos ni justificarlos. Comprobar significa revisar el código para confirmar el comportamiento, no limitarse a leer un requisito que parece correcto.
+
+2. Incoherencias detectadas. Anota cada inconsistencia en una línea e indica dónde aparece. No necesitas buscarlas expresamente: pueden surgir al intentar describir como regla general un comportamiento que no se cumple en todas las partes del sistema.
+
+3. Comportamientos que no supiste clasificar como bug o contrato. Incluye al menos un caso en el que hayas encontrado un comportamiento y no tengas claro si es un error o si el sistema está diseñado para funcionar así. Explica brevemente las dos posibilidades y por qué el código no permite saber cuál es la correcta.
+```
+
+**Qué salió:** añadió al final de la spec una sección «Revisión» con tres listas: 16 requisitos escritos y 12 comprobados contra el código, 14 incoherencias en una línea cada una indicando dónde aparecen, y 3 casos dudosos entre bug y contrato (email que distingue mayúsculas, tokens sin caducidad y logout sin `data`). Al contar vio que antes había dicho 18 requisitos cuando son 16, y lo corrigió en este fichero.
 

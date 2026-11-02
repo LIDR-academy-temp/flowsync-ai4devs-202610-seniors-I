@@ -302,3 +302,42 @@ La pantalla de perfil SHALL ofrecer el botón «Cerrar sesión». Al pulsarlo, l
 
 - **WHEN** una persona pulsa «Cerrar sesión» con el servidor caído
 - **THEN** sale de la sesión en el navegador sin ver ningún error, aunque el token sigue siendo válido en el servidor
+
+## Revisión
+
+### 1. Requisitos generados y comprobados
+
+- Requisitos escritos por el agente: 16
+- Requisitos comprobados consultando el código: 12
+
+### 2. Incoherencias detectadas
+
+- Las respuestas correctas van dentro de `data`, salvo la del cierre de sesión, que devuelve `{ "message": ... }` sin envoltura (API, cierre de sesión).
+- El usuario llega dentro de `data.user` al registrarse o iniciar sesión, y directamente dentro de `data` al pedir el perfil (API, registro e inicio de sesión frente a perfil).
+- La web dice «Tu sesión ha caducado», pero los tokens no caducan nunca: un 401 solo aparece si el token se ha revocado o no existe (web, mensajes de error; API, tokens).
+- La web traduce cualquier 400 como «El email o la contraseña no son correctos.», no solo el error de credenciales (web, mensajes de error comunes).
+- El registro exige contraseñas de entre 8 y 32 caracteres; el inicio de sesión acepta cualquier longitud y responde 400 (API, registro frente a inicio de sesión).
+- Un email mal formado en el inicio de sesión devuelve 422, y unas credenciales incorrectas devuelven 400: son dos códigos distintos para «no puedes entrar» (API, inicio de sesión).
+- La pantalla de registro muestra «Entre 8 y 32 caracteres.» y marca los campos como obligatorios, pero el navegador no valida nada: solo comprueba que las contraseñas coincidan (web, registro).
+- Los mensajes de longitud empiezan en minúscula («la contraseña debe tener…») y el resto de mensajes empiezan en mayúscula (web, mensajes de validación).
+- Con nombre, las iniciales salen del nombre y del apellido; sin nombre, de la parte local del email y de su dominio (`ada@example.com` → «AE») (API, iniciales).
+- La web recorta los espacios del nombre y la API no: si otro cliente envía un nombre con solo espacios, se guarda tal cual y las iniciales salen vacías (registro, web frente a API).
+- La API no recorta los espacios del email ni lo pasa a minúsculas: un email con un espacio delante o detrás se rechaza como inválido, y uno con otras mayúsculas cuenta como una cuenta distinta (API, registro e inicio de sesión).
+- El aviso de sesión perdida se ve en la pantalla de inicio de sesión, pero no en la de registro (web, restauración de la sesión).
+- El botón de cierre de sesión tiene el texto «Cerrando sesión…», pero la redirección a `/login` es inmediata y ese texto nunca llega a verse (web, perfil).
+- Dos registros simultáneos con el mismo email pasan la validación, y el segundo responde 500 en vez de 422 (API, registro).
+
+### 3. Comportamientos que no supe clasificar como bug o contrato
+
+- **El email distingue mayúsculas.** `Ada@x.com` y `ada@x.com` son dos cuentas distintas, y con otra combinación de mayúsculas no se puede iniciar sesión.
+  - Si es un bug, se olvidó normalizar el email, y los usuarios acaban con cuentas duplicadas o con inicios de sesión fallidos.
+  - Si es contrato, la comparación exacta es una decisión deliberada.
+  - Por qué no se sabe: el código no normaliza ni activa la comparación sin mayúsculas, pero no hay ningún comentario ni test que diga si fue a propósito.
+- **Los tokens no caducan y cada inicio de sesión crea uno más, sin revocar los anteriores.**
+  - Si es contrato, se buscan sesiones indefinidas y en varios dispositivos.
+  - Si es un bug, se olvidó configurar la caducidad: el mensaje «Tu sesión ha caducado» de la web da a entender que se esperaba que caducara.
+  - Por qué no se sabe: el valor viene del comportamiento por defecto de la librería, sin configuración explícita ni test en ningún sentido.
+- **El cierre de sesión responde sin la envoltura `data`.**
+  - Si es contrato, no se devuelve ningún recurso, solo una confirmación, y no tendría sentido envolverla.
+  - Si es un bug, rompe la convención de que toda respuesta va dentro de `data`.
+  - Por qué no se sabe: la web ignora el cuerpo de esta respuesta, así que nada falla. No hay ningún consumidor ni test que fije cuál es la forma correcta.
