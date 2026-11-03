@@ -414,6 +414,24 @@ El sistema SHALL permitir pasar de una pantalla de acceso a la otra mediante un 
 Requisitos que comprobé yo abriendo el código y la consola del navegador usando la aplicacion: 8
 2. Incoherencias: una línea cada una, con DÓNDE se ve.
 No se recibe en el backend passwordConfirmation (en user.ts no se lee)
+Dudas e incoherencias escritas por el agente (no verificadas por mi ya que se me ocurrio verificarlas luego del tiempo permitido):
+```
+1. Iniciales sin nombre: ada@example.com da "AE" (local + dominio), no "AD" como con un nombre de una palabra.
+2. Iniciales con 3+ palabras o doble espacio: usa solo las dos primeras palabras, y con doble espacio cae a las dos primeras letras.
+3. Mensajes de longitud: empiezan en minúscula ("la contraseña debe tener…"), a diferencia del resto.
+4. Idioma mixto: la API responde en inglés ("Invalid user credentials", "Unauthorized access") y el frontend traduce.
+5. Traducción por código de estado: cualquier 400 se muestra como "email o contraseña incorrectos" y cualquier 401 como "sesión caducada".
+6. Aviso de sesión perdida: solo se ve en /login, no en /register, y lo tapa el error del intento en curso.
+7. Restaurar sesión con fallo no-401: el token se conserva pero la persona queda anónima en /login.
+8. Contraseña en login vs. registro: el login solo exige que exista (1 carácter da 400), el registro exige 8–32.
+9. fullName en el registro: puede ser null pero la clave es obligatoria. No verifiqué qué pasa con "".
+10. Validación del navegador desactivada: los campos vacíos se rechazan en el servidor y la longitud mínima del formulario de registro no tiene efecto.
+11. Tokens: cada login suma uno nuevo sin revocar los anteriores. No vi caducidad configurada, pero no pude confirmarlo sin ejecutar.
+12. Email: no verifiqué si distingue mayúsculas ni si recorta espacios, así que no lo afirmé en la spec.
+13. Rutas desconocidas sin sesión: doble redirección (/cualquiera → /profile → /login) y / no tiene pantalla propia.
+14. Contraseñas distintas en el registro: el frontend las comprueba antes de enviar, así que el error del backend solo se ve llamando a la API directamente.
+15. Doble guardia de autenticación: un middleware silencioso global y otro estricto por grupo. No es observable y la protección real es solo el segundo.
+```
 
 3. No supe decidir si era bug o contrato: al menos una, en una frase,
 No veo el mensaje de mail max length en el signup.
