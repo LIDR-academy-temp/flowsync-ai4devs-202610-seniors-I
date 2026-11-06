@@ -102,3 +102,27 @@ Antes de correr los test, profundicemos en la situación para completar la líne
 ```
 
 **Qué salió:** el agente confirma que el email y las dos fechas de la cuenta viajan dentro de assignee. Los endpoints de lista, creación y cambio de estado usan TraskTransformer que retorna fechas de la tarea, y assignee se construye con UserTransformer, el cual inyecta email, fechas de creación y update, fullName e initials. El endpoint que obtiene la tarea suelta y el cambio de fecha no retornan email ni fechas de la cuenta.
+
+## Prompt 7
+
+**Modelo:** Opus 5.5 300k Medium
+**Herramienta:** Cursor
+
+```
+(agente en modo agente, con autorización de creación de archivos y ejecución)
+Hagamos un commit antes de ejecutar los tests, siguiendo conventional commits.
+```
+
+**Qué salió:** el agente confirma que hizo el commit 102d472 en la rama trazabilidad-cp, con el mensaje test(tasks): trazabilidad del responsable de la tarea y tests sin ejecutar. No ha hecho push.
+
+## Prompt 8
+
+**Modelo:** Opus 5.5 300k Medium
+**Herramienta:** Cursor
+
+```
+(agente en modo agente, con autorización de creación de archivos y ejecución)
+ejecuta los tests que hemos creado exclusivamente para el Requirement: Lo que cada tarea muestra de su responsable
+```
+
+**Qué salió:** el agente confirma lo que se advirtió en código: falla el test "el responsable de una tarea no expone su email ni datos de acceso". El test falló en la primera comprobación, assert.notProperty(assignee, 'email') (línea 90), con este error: expected { id: 8, …(5) } to not have nested property 'email'. Ese objeto tiene 6 claves: id, fullName, email, createdAt, updatedAt e initials. Es exactamente la forma de UserTransformer.
