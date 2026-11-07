@@ -16,20 +16,98 @@ distinto, y sin este archivo no se distinguen.
 - Incluye también los que **no funcionaron**. Suelen ser los más útiles de leer.
 - `Modelo` y `Herramienta` en todos. Si cambiaste de una a otra a mitad, se nota aquí.
 
-Borra el ejemplo de abajo cuando escribas el primero.
-
 ---
 
 ## Prompt 1
 
-**Modelo:** Opus 1M xHigh
+**Modelo:** Opus 5.5
 **Herramienta:** Claude Code
 
 ```
-Este es el ejemplo. Bórralo.
+lee el requsito "Lo que cada tarea muestra de su responsable" en @openspec/specs/tasks/spec.md y 
 
-El prompt va aquí dentro, entero y con sus saltos de línea,
-para que se sepa dónde empieza y dónde acaba.
+Lista sus scenarios, cada uno en una línea: qué se espera y en qué situación.
+Dime cuántos son.
+No busques tests, no modifiques archivos y no cubras otros requisitos
 ```
 
-**Qué salió:** (opcional, una línea) funcionó a la primera / tuve que insistir / me inventó una ruta que no existe.
+## Prompt 2
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+busca los test de cada escenario
+```
+
+## Prompt 3
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+agrega los promps que te pedi en @prompts.md con el formato que menciona. En @docs/verificacion/IAZ.md agrega los resultados que pide la tarea A.1 en el @README.md
+```
+
+## Prompt 4
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+agrega un test por escenaerio no cubierto , siguiendo el estilo de los que ya existen en el proyecto
+```
+
+## Prompt 5
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+si
+```
+
+## Prompt 6
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+dale
+```
+
+## Prompt 7
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+la parte  Parte B: la completaste?
+```
+
+## Prompt 8
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+1. pense que estaban los 3 cubiertos
+```
+
+## Prompt 9
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+2.  Responsable sin nombre. las iniciales se sacan del nombre pero si no lo registro estaran vacias
+```
+
+## Prompt 10
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+dale. agrega tu propuesta
+```
