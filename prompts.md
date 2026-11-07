@@ -73,3 +73,22 @@ fijaba (valores concretos, límites, qué pasa con datos vacíos, etc.).
 **Qué salió:** 
 Me generó los text en la carpeta backend/tests/functional/tasks/.
 El agente corrió node ace migration:run porque faltaba la tabla ( solo tocó la base local). Lo hizo sin que se lo pidiera.
+
+
+
+## Prompt 3
+
+**Modelo:** Opus 5.5 Medium
+**Herramienta:** Claude Code
+
+```
+Actualiza la matriz en docs/verificacion/cmelon.md con el resultado de los tests
+de backend/tests/functional/tasks/assignee.spec.ts:
+- No cambies la columna Estado: describe la cobertura que había antes (No cubierto).
+- En "Test que lo cubre" pon el nombre exacto del test nuevo y su resultado (✔ / ✖ y por qué falla, en media línea).
+- Arriba, completa "Cubiertos: 0" (antes de esta tarea ningún test lo comprobaba).
+No toques nada más del archivo.
+```
+
+**Qué salió:** 
+Actualizó la Matriz luego de la ejecución de los test.
