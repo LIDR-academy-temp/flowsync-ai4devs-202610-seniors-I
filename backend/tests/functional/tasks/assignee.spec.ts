@@ -66,24 +66,21 @@ test.group('Tasks | responsable', (group) => {
     individual.assertStatus(200)
     lista.assertStatus(200)
 
-    const assignees = [individual.body().data.assignee, lista.body().data[0].assignee]
+    const taskEnLista = lista.body().data.find((candidate: { id: number }) => candidate.id === task.id)
+    assert.isDefined(taskEnLista)
+
+    const assignees = [individual.body().data.assignee, taskEnLista.assignee]
     for (const assignee of assignees) {
-      assert.notProperty(assignee, 'email')
-      assert.notProperty(assignee, 'password')
-      assert.notProperty(assignee, 'accessToken')
+      assert.deepEqual(Object.keys(assignee).sort(), ['fullName', 'id', 'initials'])
     }
   })
 
-  test('un responsable sin nombre conserva sus iniciales sin exponer su email', async ({
-    client,
-    assert,
-  }) => {
+  test('un responsable sin nombre conserva sus iniciales', async ({ client, assert }) => {
     const token = await tokenDe(client, { fullName: null, email: 'sin-nombre@example.com' })
 
     const task = await crearTarea(client, token, 'Preparar la reunión')
 
     assert.isNull(task.assignee.fullName)
     assert.equal(task.assignee.initials, 'SE')
-    assert.notProperty(task.assignee, 'email')
   })
 })
