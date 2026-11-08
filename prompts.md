@@ -1,35 +1,44 @@
-# Prompts
 
-Aquí van **todos los prompts que lanzaste** para hacer el ejercicio, en el orden en que los
-lanzaste, con el modelo y la herramienta de cada uno.
-
-Esto no es papeleo. Lo que se revisa es **cómo pediste las cosas**, no solo lo que salió: un
-resultado flojo con un prompt bueno y un resultado flojo con un prompt vago necesitan feedback
-distinto, y sin este archivo no se distinguen.
-
-## Cómo rellenarlo
-
-- Un apartado `## Prompt N` por cada prompt.
-- **Pega el prompt tal cual lo lanzaste**, dentro del bloque de código, aunque ocupe diez líneas
-  y aunque tenga faltas. No lo reescribas para que quede bien: el que arreglaste mentalmente
-  después no es el que lanzaste.
-- Incluye también los que **no funcionaron**. Suelen ser los más útiles de leer.
-- `Modelo` y `Herramienta` en todos. Si cambiaste de una a otra a mitad, se nota aquí.
-
-Borra el ejemplo de abajo cuando escribas el primero.
 
 ---
 
 ## Prompt 1
 
-**Modelo:** Opus 1M xHigh
-**Herramienta:** Claude Code
+**Modelo:**  Claude Sonnet 5
+**Herramienta:** Github copilot
 
 ```
-Este es el ejemplo. Bórralo.
+Tienes el requerimiento "Lo que cada tarea muestra de su responsable"
 
-El prompt va aquí dentro, entero y con sus saltos de línea,
-para que se sepa dónde empieza y dónde acaba.
+Tambien todos los test del backend.
+
+Comprueba cuales test cubren los scenarios descritos en la spec.
+
+Muestrame una tabla con el resultado de la siguiente manera:
+
+'Scenario' 'Test que lo cubre' 'Estado'  'Que falta'
 ```
 
-**Qué salió:** (opcional, una línea) funcionó a la primera / tuve que insistir / me inventó una ruta que no existe.
+**Qué salió:** Revisé los 3 scenarios del requisito y los 4 specs de backend existentes (todos de `auth`, ninguno de `tasks`), confirmé 0/3 scenarios cubiertos y detecté de paso un bug real (`TaskTransformer` filtra el email del responsable en `index`/`store`), sin tocar código.
+
+---
+
+## Prompt 2
+
+
+**Modelo:**  Claude Sonnet 5
+**Herramienta:** Github copilot
+
+```
+Dame la tabla de salida anterior en markdown para que se vea como tabla ahí.
+
+Según lo que hallaste, crea con el mismo formato test adecuados para cubrir los 3 scenarios. 
+
+Explicame los test que has creado, que hacen, y por que razón.
+
+Después muestrame que sigue faltando y vuelve a generar la tabla en markdown
+
+```
+
+**Qué salió:** El agente escribió `assignee.spec.ts` con los 3 tests, y corrió los test según lo esperado, uno falló por el `TaskTransformer`, intentó crear un PR; pero lo detuve ahí.
+
