@@ -22,14 +22,45 @@ Borra el ejemplo de abajo cuando escribas el primero.
 
 ## Prompt 1
 
-**Modelo:** Opus 1M xHigh
+**Modelo:** Opus 5.5
 **Herramienta:** Claude Code
 
 ```
-Este es el ejemplo. Bórralo.
-
-El prompt va aquí dentro, entero y con sus saltos de línea,
-para que se sepa dónde empieza y dónde acaba.
+Analiza el requisito "Lo que cada tarea muestra de su responsable" en @openspec/specs/tasks/spec.md y 
+Despliega los scenarios, en forma ordenada.
+No toques nada fuera de `backend/tests/`. se sepa dónde empieza y dónde acaba.
 ```
 
 **Qué salió:** (opcional, una línea) funcionó a la primera / tuve que insistir / me inventó una ruta que no existe.
+
+Funcionó a la primera completo la matriz de trazabilidad con los 3 escenarios.
+
+
+## Prompt 2
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+Examina los tests del scenario
+```
+
+**Qué salió:** (opcional, una línea) funcionó a la primera / tuve que insistir / me inventó una ruta que no existe.
+
+Seguimos con el ejercicio de trazabilidad del requisito del responsable: los tests están escritos y dos fallan en la lista, como debe ser.
+
+
+
+## Prompt 3
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+Crea un test por cada scenario que no cubriste, con el mismo formato.
+```
+
+**Qué salió:** (opcional, una línea) funcionó a la primera / tuve que insistir / me inventó una ruta que no existe.
+
+Dice que los 3 scenarios de «Lo que cada tarea muestra de su responsable» ya tienen test en assignee.spec.ts: dos cada uno, uno para la tarea suelta y otro para la lista. Lo he corrido y sale 4 verdes y 2 rojos
+
