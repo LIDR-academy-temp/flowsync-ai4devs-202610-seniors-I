@@ -15,7 +15,7 @@
 
 # Parte B
 
-Tests  21 passed, 2 failed (23)
+Tests  22 passed, 1 failed (23)
 
 **Cuántos scenarios creías cubiertos antes de mirar, y cuántos lo estaban?**
 A// Ninguno estaba cubierto 
