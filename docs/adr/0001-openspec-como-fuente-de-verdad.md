@@ -25,7 +25,7 @@ Cualquier cambio de producto se propone como change con deltas `ADDED`/`MODIFIED
 
 ## Estado
 
-Aceptada.
+Reemplazada por [ADR 0002](0002-tests-como-fuente-de-verdad-ejecutable.md).
 
 ## Consecuencias
 
