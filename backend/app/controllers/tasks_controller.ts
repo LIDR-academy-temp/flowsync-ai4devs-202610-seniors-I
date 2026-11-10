@@ -1,4 +1,4 @@
-import Task, { DEFAULT_LIST_STATUSES } from '#models/task'
+import Task, { DEFAULT_LIST_STATUSES, TASK_STATUSES } from '#models/task'
 import {
   createTaskValidator,
   listTasksValidator,
@@ -8,7 +8,38 @@ import {
 import type { HttpContext } from '@adonisjs/core/http'
 import TaskTransformer from '#transformers/task_transformer'
 import TaskDetailTransformer from '#transformers/task_detail_transformer'
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiExtraModels,
+  ApiOperation,
+  ApiParam,
+  ApiQuery,
+  ApiResponse,
+  ApiTags,
+} from '@foadonis/openapi/decorators'
+import {
+  CreateTaskBodySchema,
+  TaskAssigneeSchema,
+  TaskDataSchema,
+  TaskDetailDataSchema,
+  TaskDetailSchema,
+  TaskListDataSchema,
+  TaskSchema,
+  UnauthorizedErrorBodySchema,
+  ValidationErrorBodySchema,
+} from '../openapi/schemas.js'
 
+@ApiTags('Tasks')
+@ApiBearerAuth()
+@ApiExtraModels(
+  TaskAssigneeSchema,
+  TaskSchema,
+  TaskDetailSchema,
+  TaskListDataSchema,
+  TaskDataSchema,
+  TaskDetailDataSchema
+)
 export default class TasksController {
   /**
    * La lista del espacio: una sola, la misma para todo el mundo, sin filtrar
@@ -25,6 +56,17 @@ export default class TasksController {
    *
    * Acotar es solo lectura: ninguna tarea cambia por consultarla.
    */
+  @ApiOperation({ summary: 'Listar tareas del espacio' })
+  @ApiQuery({
+    name: 'status',
+    required: false,
+    enum: [...TASK_STATUSES],
+    description:
+      'Acota la lista a un solo estado. Sin este parámetro se devuelven pendientes y en curso, nunca las hechas mezcladas con el resto.',
+  })
+  @ApiResponse({ status: 200, type: () => TaskListDataSchema })
+  @ApiResponse({ status: 401, type: () => UnauthorizedErrorBodySchema })
+  @ApiResponse({ status: 422, type: () => ValidationErrorBodySchema })
   async index({ request, serialize }: HttpContext) {
     const { status } = await request.validateUsing(listTasksValidator)
 
@@ -51,6 +93,18 @@ export default class TasksController {
    * Una tarea suelta, con todo lo que tiene: es la única lectura que informa
    * del vencimiento, y por eso es la única que exige el día de quien mira.
    */
+  @ApiOperation({ summary: 'Consultar una tarea suelta' })
+  @ApiParam({ name: 'id', type: 'number' })
+  @ApiQuery({
+    name: 'today',
+    required: true,
+    type: 'string',
+    description: 'Día de referencia AAAA-MM-DD contra el que se resuelve isOverdue.',
+  })
+  @ApiResponse({ status: 200, type: () => TaskDetailDataSchema })
+  @ApiResponse({ status: 401, type: () => UnauthorizedErrorBodySchema })
+  @ApiResponse({ status: 404 })
+  @ApiResponse({ status: 422, type: () => ValidationErrorBodySchema })
   async show({ params, request, serialize }: HttpContext) {
     const { today } = await request.validateUsing(taskReferenceDayValidator)
     const task = await Task.findOrFail(params.id)
@@ -63,6 +117,11 @@ export default class TasksController {
    * Crear cuesta un título. El responsable y el estado no se leen de la
    * petición ni aunque vengan: los pone el sistema.
    */
+  @ApiOperation({ summary: 'Crear una tarea' })
+  @ApiBody({ type: () => CreateTaskBodySchema })
+  @ApiResponse({ status: 201, type: () => TaskDataSchema })
+  @ApiResponse({ status: 401, type: () => UnauthorizedErrorBodySchema })
+  @ApiResponse({ status: 422, type: () => ValidationErrorBodySchema })
   async store({ request, response, auth, serialize }: HttpContext) {
     const { title } = await request.validateUsing(createTaskValidator)
     const user = auth.getUserOrFail()

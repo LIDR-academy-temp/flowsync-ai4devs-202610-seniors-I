@@ -7,5 +7,14 @@ export default defineConfig({
       title: 'FlowSync',
       version: '1.0.0',
     },
+    components: {
+      securitySchemes: {
+        bearer: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'opaque',
+        },
+      },
+    },
   },
 })
