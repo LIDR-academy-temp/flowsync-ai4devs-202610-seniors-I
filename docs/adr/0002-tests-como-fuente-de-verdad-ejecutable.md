@@ -8,7 +8,7 @@ Mientras tanto, el backend ya concentra el comportamiento comprobable en tests d
 
 ## Decisión
 
-Dejamos de mantener las specs de OpenSpec como fuente de verdad viva. La **fuente de verdad ejecutable** del comportamiento de FlowSync pasan a ser los **tests de integración**.
+Dejamos de mantener las specs de OpenSpec como fuente de verdad viva. La **fuente de verdad ejecutable** del comportamiento de FlowSync pasa a ser los **tests de integración**.
 
 Un comportamiento «es» del producto si hay un test que lo fija y pasa. Los cambios de contrato se introducen o corrigen en esos tests; el código se ajusta hasta ponerlos en verde. `openspec/` queda como archivo histórico (incluido el de changes ya archivados), no como documento a actualizar en cada feature. Este ADR reemplaza al [ADR 0001](0001-openspec-como-fuente-de-verdad.md).
 
