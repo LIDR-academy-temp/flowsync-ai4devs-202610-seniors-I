@@ -27,6 +27,8 @@ Viaja en la rama **`s8/start-setup`** del repo del alumno, ya montada en `eval-h
 | `evals/sonda-git/` | **Demo 3.** Comprueba qué hace `git` dentro del entorno aislado |
 | `evals/juez-aviso-doc/` | **Demo 4.** Un grader `llm` sobre la respuesta final: ¿avisa de cómo quedó el README? Para calibrar el juez contra una persona |
 | `evals/guardarrail-readme/` | **Demo 5.** El mismo encargo con `EVAL_GUARDARRAIL=1` en su `prompt.md`, que activa el hook. Se lanza **con** la comparación automática (sin `--ablation none`) |
+| `evals/salida-endpoint/` | **Después de clase.** Un eval de la salida, sin quitar ninguna pieza: el mismo encargo con cuatro graders sobre lo que el agente entrega (la ruta, el 204, que no queden restos y un juez sobre lo que dice haber comprobado) |
+| `evals/salida-endpoint-rota/` | **Después de clase.** El gemelo de `salida-endpoint` que pide el fallo a propósito, para ver sus graders en rojo |
 | `hooks/hooks.json` + `hooks/readme-al-dia.sh` | **El guardarraíl de la Demo 5**: un hook `Stop` que no deja terminar si un verbo HTTP de `backend/start/routes.ts` no aparece en ningún README de `docs/capabilities/`. **Sin `EVAL_GUARDARRAIL=1` no hace nada**, para no alterar las demás demos, que cargan este mismo plugin. Necesita el bit de ejecución |
 | `fixture-repo.sh` | Monta el repo sobre el que corre cada ensayo de los casos de la Demo 2 |
 
@@ -39,6 +41,7 @@ Viaja en la rama **`s8/start-setup`** del repo del alumno, ya montada en `eval-h
 | `sonda-git` | **Demo 3**, trampa 3 |
 | `juez-aviso-doc` | **Demo 4**, con Sonnet y con Opus |
 | `guardarrail-readme` | **Demo 5**, con el plugin y sin él |
+| `salida-endpoint` y `salida-endpoint-rota` | no se lanzaron en la sesión: responden a una pregunta de después (10/11/2026) y están explicados en la página de recursos, «Después de clase» |
 | `tarea-alumno-sin-claude-md` | la **línea base** de la Demo 2: **se lanza siempre**, junto al caso generado, con los dos modelos |
 | `regla-doc` | 🛟 **no se lanza: es la red.** Es el mismo caso que la Demo 2 **genera** en vivo (`tarea-alumno`) con el PROMPT 1, ya escrito. Si la generación se atasca delante de la clase, lanza `--case regla-doc` y después `--case tarea-alumno-sin-claude-md`, con las mismas banderas: pierdes solo que salgan en la misma tabla |
 

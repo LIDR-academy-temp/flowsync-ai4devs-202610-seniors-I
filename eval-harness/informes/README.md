@@ -18,7 +18,12 @@ Los informes se guardan aquí, y no en `evals/results/`, porque esa carpeta est�
 | `comando-12-juez-opus.html` | 12 | El mismo juez sobre tres ensayos de Opus |
 | `comando-13-regla-reescrita.html` | 13 | Volver a medir con la regla reescrita |
 | `comando-15-guardarrail.html` | 15 | El guardarraíl, con el plugin y sin él |
+| `despues-salida-endpoint.html` | después de clase | Un eval de la salida: cuatro graders sobre lo que el agente entrega, con Sonnet |
+| `despues-salida-rota-sonnet.html` | después de clase | El caso gemelo que pide el fallo a propósito, con Sonnet |
+| `despues-salida-rota-haiku.html` | después de clase | El mismo caso gemelo, con Haiku |
+| `despues-regla-sonnet-5-5.html` | después de clase | La regla del `CLAUDE.md` (caso `regla-doc`), vuelta a medir con el Sonnet de ese día |
+| `despues-linea-base-sonnet-5-5.html` | después de clase | Su línea base sin regla, en la misma fecha |
 
 No hay informe del comando 9: se corta con `Ctrl+C` en cuanto sale el aviso de la herramienta, y no llega a haber resultado.
 
-Los informes de los comandos 3, 5, 5-ter, 6 y 7 son del ensayo del director con Claude Code 2.1.278. Los de los comandos 10, 11, 12, 13 y 15 se lanzaron después, con la 2.1.282, sobre esta misma suite.
+Los informes de los comandos 3, 5, 5-ter, 6 y 7 son del ensayo del director con Claude Code 2.1.278. Los de los comandos 10, 11, 12, 13 y 15 se lanzaron después, con la 2.1.282, sobre esta misma suite. Los cinco `despues-*` son del 10/11/2026, con la 2.1.321; ese día el alias `sonnet` resolvía a `claude-sonnet-5-5`.
