@@ -2,7 +2,23 @@ import Task from '#models/task'
 import { updateTaskStatusValidator } from '#validators/task'
 import type { HttpContext } from '@adonisjs/core/http'
 import TaskTransformer from '#transformers/task_transformer'
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiOperation,
+  ApiParam,
+  ApiResponse,
+  ApiTags,
+} from '@foadonis/openapi/decorators'
+import {
+  TaskDataSchema,
+  UnauthorizedErrorBodySchema,
+  UpdateTaskStatusBodySchema,
+  ValidationErrorBodySchema,
+} from '../openapi/schemas.js'
 
+@ApiTags('TaskStatuses')
+@ApiBearerAuth()
 export default class TaskStatusesController {
   /**
    * El estado es lo único mutable de una tarea en este momento, y por eso
@@ -15,6 +31,13 @@ export default class TaskStatusesController {
    * prohibidas: volver de «hecho» a «pendiente» es justamente lo que arregla
    * un clic dado por error.
    */
+  @ApiOperation({ summary: 'Cambiar el estado de una tarea' })
+  @ApiParam({ name: 'id', type: 'number' })
+  @ApiBody({ type: () => UpdateTaskStatusBodySchema })
+  @ApiResponse({ status: 200, type: () => TaskDataSchema })
+  @ApiResponse({ status: 401, type: () => UnauthorizedErrorBodySchema })
+  @ApiResponse({ status: 404 })
+  @ApiResponse({ status: 422, type: () => ValidationErrorBodySchema })
   async update({ params, request, serialize }: HttpContext) {
     const task = await Task.findOrFail(params.id)
     const { status } = await request.validateUsing(updateTaskStatusValidator)
