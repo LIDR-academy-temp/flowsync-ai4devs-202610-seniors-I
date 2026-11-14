@@ -22,14 +22,40 @@ Borra el ejemplo de abajo cuando escribas el primero.
 
 ## Prompt 1
 
-**Modelo:** Opus 1M xHigh
+**Modelo:** Sonet 3.5 xMedium
 **Herramienta:** Claude Code
 
 ```
-Este es el ejemplo. Bórralo.
+Vas a hacer una AUDITORÍA, no un arreglo. No modifiques, crees ni borres ningún archivo, salvo crear docs/auditoria/db.md con el resultado. No hagas commits ni cambies de rama.
 
-El prompt va aquí dentro, entero y con sus saltos de línea,
-para que se sepa dónde empieza y dónde acaba.
+Material: la sección "Reglas de proceso" de CLAUDE.md, contrastada contra los últimos 15 commits del repositorio y el estado actual del árbol. Usá git (log, show --stat, branch, etc.) para mirar el historial.
+
+En docs/auditoria/db.md escribí una tabla con una fila por regla y estas 5 columnas:
+1. Qué pide la regla (una frase).
+2. Qué se miró para comprobarlo (el comando exacto o el archivo).
+3. Veredicto, solo uno de estos tres: "se cumple", "no se cumple", "no se puede comprobar con lo que hay".
+4. Evidencia en una línea: si no se cumple, el commit o el sitio donde se rompió; si no se puede comprobar, qué falta para poder comprobarla.
+5. Qué harías con ella, una palabra: dejarla, borrarla o bajarla (a algo que se ejecute solo).
+
+Reglas para vos: un "se cumple" sin evidencia concreta es en realidad "no se puede comprobar". Si una regla tiene dos pedidos distintos adentro, avisame. La tabla tiene que entrar en una pantalla.
+
+Al final, en el chat, dame un comando de git que yo pueda correr en mi terminal para comprobar con mis propios ojos la fila que te parezca más llamativa.
 ```
 
-**Qué salió:** (opcional, una línea) funcionó a la primera / tuve que insistir / me inventó una ruta que no existe.
+**Qué salió:** Ninguna de las 5 reglas de proceso se pudo marcar "se cumple" ni "no se cumple". Las 5 quedaron en "no se puede comprobar", porque git no guarda la rama donde se hizo cada commit, si se usó /commit, si pasó el revisor adversarial ni lo que se respondió en el chat. Propongo bajar las reglas 1 a 4 a algo que se ejecute solo y dejar la 5. Tres reglas esconden dos pedidos cada una: la 1, la 3 y la 4. Eso está avisado en el documento.
+
+La fila más llamativa es la 1. Los commits de trabajo (4e03d1f y los demás) están contenidos en s5/start y upstream/s4/end, que son ramas sN/*. Eso sugiere commits directos en una rama de partida, pero un fast-forward lo explicaría igual. Para verlo vos mismo:
+
+git branch -a --contains 4e03d1f
+
+---
+
+## Prompt 2
+
+**Modelo:** Sonet 3.5 xMedium
+**Herramienta:** Claude Code
+
+Revisá de nuevo la regla 3 (cambio en rutas/controladores/validadores/transformers → mismo commit con el diff de .adonisjs/ y docs/capabilities/<nombre>/README.md). Esa regla sí deja rastro: los archivos que cambia cada commit.
+Para cada uno de los últimos 15 commits que toque esos archivos, mirá con git show --stat si en el mismo commit cambian también .adonisjs/ y el README de la capability.
+Tené en cuenta desde cuándo existe la regla (git log -- CLAUDE.md): un commit anterior a la regla no la puede incumplir.
+Actualizá solo la fila de esa regla en docs/auditoria/db.md, con el comando y los commits concretos como evidencia. No toques nada más.
