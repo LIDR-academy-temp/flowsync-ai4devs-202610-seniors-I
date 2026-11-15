@@ -1,35 +1,23 @@
-# Prompts
-
-Aquí van **todos los prompts que lanzaste** para hacer el ejercicio, en el orden en que los
-lanzaste, con el modelo y la herramienta de cada uno.
-
-Esto no es papeleo. Lo que se revisa es **cómo pediste las cosas**, no solo lo que salió: un
-resultado flojo con un prompt bueno y un resultado flojo con un prompt vago necesitan feedback
-distinto, y sin este archivo no se distinguen.
-
-## Cómo rellenarlo
-
-- Un apartado `## Prompt N` por cada prompt.
-- **Pega el prompt tal cual lo lanzaste**, dentro del bloque de código, aunque ocupe diez líneas
-  y aunque tenga faltas. No lo reescribas para que quede bien: el que arreglaste mentalmente
-  después no es el que lanzaste.
-- Incluye también los que **no funcionaron**. Suelen ser los más útiles de leer.
-- `Modelo` y `Herramienta` en todos. Si cambiaste de una a otra a mitad, se nota aquí.
-
-Borra el ejemplo de abajo cuando escribas el primero.
-
----
-
 ## Prompt 1
 
-**Modelo:** Opus 1M xHigh
-**Herramienta:** Claude Code
+**Modelo:** Claude Sonnet 5.5 200k
+**Herramienta:** Github copilot
 
 ```
-Este es el ejemplo. Bórralo.
+Mira los ultimos 15 commits del repositorio y el estado actual del árbol.
 
-El prompt va aquí dentro, entero y con sus saltos de línea,
-para que se sepa dónde empieza y dónde acaba.
+Mira las reglas del proceso, y compara si se cumplieron en esto commits.
+
+Muestrame en una tabla por cada commit; por cada una de las 5 reglas un se cumple/no se cumple/ no se puede comproabr y en que archivo se puede ver tu conclusion.
+
+En la envidante, si no se cumple, donde se rompio, y si es no se puede comprobar que falta para poderlo hacer.
+
+Ponme la tabla como markdown al final de docs/auditoria/rm.md
+
+No cambies ningún archivo a excepción del que te acabo de decir para poner la table que analizaste.
+
+
 ```
 
-**Qué salió:** (opcional, una línea) funcionó a la primera / tuve que insistir / me inventó una ruta que no existe.
+**Qué salió:** Se añadió la Parte C a docs/auditoria/rm.md con la tabla de 15 commits x 5 reglas: esa parte la borré, solo utilice el archivo para comprobar la tarea.
+
