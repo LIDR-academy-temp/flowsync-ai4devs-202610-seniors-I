@@ -22,14 +22,30 @@ Borra el ejemplo de abajo cuando escribas el primero.
 
 ## Prompt 1
 
-**Modelo:** Opus 1M xHigh
+**Modelo:** Opus 5.5
 **Herramienta:** Claude Code
 
 ```
-Este es el ejemplo. Bórralo.
+Lee CLAUDE.md, sección "Reglas de proceso". 
+Encontrarás 5 reglas de proceso.
 
-El prompt va aquí dentro, entero y con sus saltos de línea,
-para que se sepa dónde empieza y dónde acaba.
+Ahora examina los últimos 15 commits de este repositorio 
+(usa `git log --oneline -15`) y, para CADA REGLA, 
+comprueba si se está cumpliendo.
+
+Documenta el resultado en docs/auditoria/emf.md con esta tabla:
+
+| Regla | Qué se miró | Veredicto | Evidencia | Acción |
+|-------|-----------|-----------|-----------|--------|
+
+Donde:
+- Regla: qué pide la regla (una frase)
+- Qué se miró: comando o archivo exacto
+- Veredicto: "se cumple" / "no se cumple" / "no se puede comprobar"
+- Evidencia: dónde ves el cumplimiento o incumplimiento
+- Acción: "dejarla" / "borrarla" / "bajarla a algo que se ejecute"
+
+NO MODIFIQUES NINGÚN ARCHIVO. Solo crea la tabla en docs/auditoria/emf.md
 ```
 
-**Qué salió:** (opcional, una línea) funcionó a la primera / tuve que insistir / me inventó una ruta que no existe.
+**Qué salió:** Funciona, ha creado todo como se lo había pedido y el resultado en el formato que esperaba.
