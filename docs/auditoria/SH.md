@@ -5,6 +5,7 @@
 - **Base auditada:** `s5/start` en `aee9a24`. Rango de commits `b955a72..aee9a24`, 15 commits: `git log -15`.
 - **Reglas auditadas:** las de `CLAUDE.md` (`AGENTS.md` es un symlink a él, `ls -la AGENTS.md`), las de la skill `.claude/skills/commit/SKILL.md` y las del subagente `.claude/agents/adversarial-reviewer.md`.
 - **Alcance:** solo lectura. No se ha modificado ningún archivo del repo salvo este. Para comprobar si `.adonisjs/` estaba al día se regeneró una copia de `backend/` en un directorio temporal, fuera del repo.
+- **Mi apuesta**: Se cumplen 3 y 2 no se cumplen de las reglas de CLAUDE.md.
 
 ## Tabla
 
@@ -41,3 +42,12 @@ Esto no son reglas, son descripciones. Las anoto porque quien lea `CLAUDE.md` va
 - **La tabla «Rutas actuales»** lista 4 rutas. `backend/start/routes.ts` registra además las 5 de `/api/v1/tasks` y las 3 de OpenAPI (`/api`, `/api.json`, `/api.yaml`, de `ea5db1f`).
 - **Estado del árbol:** `.vs/` aparece sin versionar (`git status`) y no está en ningún `.gitignore`. Un `git add -A` la metería en el repo.
 - **Controles ejecutados para comprobar el árbol, todos en verde:** `npm run lint` y `npx tsc --noEmit` en `backend/`, y `npx oxlint` en `frontend/`, todos con exit 0. No se ejecutaron `npm test` ni `npm run build` en el repo porque escriben en `tmp/db.sqlite3` y `dist/`.
+
+
+## Parte B
+
+1. **La regla sobre la que te equivocaste.** Sobre lo que más me equivoqué fue en la cantidad de reglas porque yo sólo leí las 5 reglas del CLAUDE.md y no las 22 que leyó el agente en total. Por eso me equivoqué en la cantidad de reglas que se cumplen, no se cumplen o no se pueden comprobar. 
+
+2. **La regla que no se puede comprobar con lo que hay**: Específicamente, me equivoqué en las de los commits porque pensé que se cumplían pero en esta rama no se pueden comprobar, todos los commits están en `sN/*`, sin merge commits. Falta protección de rama o exigir merge commits.
+
+3. **La regla que borrarías, y por qué.** La número 10, "El subagente revisor es de solo lectura y no puede arreglar lo que encuentra". El frontmatter tools: Read, Grep, Glob ya le quita la capacidad de editar. Escribirlo también en el CLAUDE.md es repetir la configuración. Esta es de las que se cumplen solas porque la herramienta ya lo impide.
