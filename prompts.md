@@ -109,3 +109,19 @@ Prepara el PR con los entregables finales parte A y B, y muéstrame antes de abr
 ```
 
 **Qué salió:** volvió a hacer opcional el responsable en el alcance (vuelve la tarea «libre») y escribió la parte B en `docs/prd/parte-b-bpp.md`. Me enseñó el diff antes de subir nada.
+
+## Prompt 8
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code (extensión de VS Code)
+
+```
+Lee @docs/prd/alcance-mvp-bpp.md .
+Descompón la épica de Gestión de tareas en historias de usuario.
+Cada historia en formato "Como <rol>, quiero <acción> para <beneficio>".
+Aplica INVEST: pequeñas, testables. NO escribas criterios todavía, solo el listado.
+Valida cada historia contra el alcance del PRD: si alguna se sale del MVP, márcala explícitamente como "fuera del alcance MVP" en vez de colarla.
+Actualiza también la rama local.
+```
+
+**Qué salió:** 14 historias dentro del alcance, cada una con el punto del PRD que cubre, y 8 marcadas como fuera del alcance MVP. Están en `docs/prd/historias-gestion-tareas-bpp.md`.
