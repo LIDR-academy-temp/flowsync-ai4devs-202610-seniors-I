@@ -140,3 +140,49 @@ Reglas MUY importantes:
 ```
 
 **Qué salió:** fusionó HU-03 y HU-09 en FS-118 y escribió 22 criterios: 8 derivados del PRD y 14 marcados como [Propuesto] para revisar.
+
+## Prompt 10
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code (extensión de VS Code)
+
+```
+Sí
+```
+
+**Qué salió:** hizo el commit en local de FS-118 con sus criterios, sin push.
+
+## Prompt 11
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code (extensión de VS Code)
+
+```
+Sincroniza el fork y el PR del upstream.
+```
+
+**Qué salió:** subió los commits al fork; el PR #161 los recogió y actualizó su descripción con el archivo de historias.
+
+## Prompt 12
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code (extensión de VS Code)
+
+```
+Una tarea vencida sube en la lista, la idea es poder ver rápidamente qué venció (también cuenta como un cambio en una tarea)
+Prohibe las fechas pasadas para que no se pueda apuntar una tarea que ya va con retraso.
+Adicional: Guarda en docs/backlog/E2-gestion-tareas/  SOLO las dos historias que acabamos de enriquecer con criterior de aceptación, un archivo markdown por historia. Las demás historias del listado no se guardan todavía. La de fechas de vencimiento va en us-fechas-vencimiento.md. Cada archivo: el título de la historia. su identificador, su formulación "Como <rol>, quiero <acción> para <beneficio>" y sus criterior de aceptación en Given/When/Then, en español (DADO / CUANDO/ ENTONCES), tal como los hemos aprobado y con mis ediciones incluidas. Sin endpoints, status codes ni nombres de campo internos. Los identificadores los fijo yo, no los inventes: la historia de fechas de vencimiento es FS-118 y la de filtrar por estado es FS-142.
+```
+
+**Qué salió:** cambió CA-14 (vencer cuenta como un cambio y la tarea sube) y CA-17 (se prohíben las fechas pasadas), y guardó FS-118 en `us-fechas-vencimiento.md`. Avisó de que FS-142 no tenía criterios enriquecidos y propuso un borrador antes de guardarla.
+
+## Prompt 13
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code (extensión de VS Code)
+
+```
+Procede. Y realiza el commit, push al fork y actualiza el PR en upstream.
+```
+
+**Qué salió:** guardó FS-142 en `us-filtrar-por-estado.md` con los 11 criterios del borrador, añadió CA-23 a FS-118, hizo commit, lo subió al fork y actualizó el PR #161.
