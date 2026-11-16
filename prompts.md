@@ -91,4 +91,21 @@ Actualiza el PRD en el repo con estas definiciones.
 Haz el cambio de rama para crear el PR  en el upstream solo con el alcance de este módulo como se pide. Incluye en el archivo de prompts.md los prompts de esta sesión para este módulo y este PR. Realiza primero los commits anteriores al repo propio (el fork no el upstream).
 ```
 
-**Qué salió:** primero commiteó en el fork el cambio pendiente del harness. Después rehízo la rama `alcance-bpp` desde `upstream/s2/start`, solo con el alcance y este archivo, y corrigió el tramo 1, porque en `s2/start` el frontend ya tiene login, registro y perfil.
+**Qué salió:** primero commiteó en el fork el cambio pendiente del harness. Después rehízo la rama `alcance-bpp` desde `upstream/s2/start`, solo con el alcance y este archivo, y corrigió el tramo 1, porque en `s2/start` el frontend ya tiene login, registro y perfil. Abrió el PR y lanzó el `adversarial-reviewer`, que encontró la parte B vacía y la incoherencia del responsable obligatorio.
+
+## Prompt 7
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code (extensión de VS Code)
+
+```
+Cambia nuevamente el criterio de tener siempre un responsable, y permite que una tarea quede sin responsable y actualiza el PRD.
+Escribe las tres lineas que pide en la parte B en un archivo y agrégalo a los entregables. 
+1. No recorté ninguna propuesta, todas me parecieron justas y necesarias.
+2. Ninguna.
+3. Apunta que excluí que no hubiera responsable, pero lo cambié nuevamente gracias a la recomendación del adversarial-reviewer.
+
+Prepara el PR con los entregables finales parte A y B, y muéstrame antes de abrirlo en el Upstream para confirmarlo.
+```
+
+**Qué salió:** volvió a hacer opcional el responsable en el alcance (vuelve la tarea «libre») y escribió la parte B en `docs/prd/parte-b-bpp.md`. Me enseñó el diff antes de subir nada.

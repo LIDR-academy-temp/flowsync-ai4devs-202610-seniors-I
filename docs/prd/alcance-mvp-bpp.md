@@ -36,10 +36,10 @@ El MVP existe para validar tres hipótesis:
 
 ### Alcance
 
-1. **Crear una tarea en segundos.** Título y responsable son obligatorios. El responsable viene puesto por defecto: quien crea la tarea. La fecha de vencimiento es opcional.
-2. **Reasignar una tarea** a otra persona. Una tarea nunca se queda sin responsable.
+1. **Crear una tarea en segundos.** Solo el título es obligatorio. El responsable y la fecha de vencimiento son opcionales.
+2. **Asignar, reasignar o soltar una tarea.** Puedo coger una tarea libre, dársela a otra persona o dejarla sin responsable.
 3. **Cambiar el estado en dos clics** desde la lista: *Por hacer*, *En curso* o *Hecha*.
-4. **Ver qué tiene cada persona en curso** (eso no se toca) y cuál es mi propia cola en *Por hacer*.
+4. **Ver qué está libre y qué tiene cada persona en curso.** Una tarea sin responsable y sin terminar está libre: es lo siguiente que se puede coger sin pisar a nadie. Lo que otra persona tiene *En curso* no se toca.
 5. **Distinguir de un vistazo** las tareas que se han pasado de fecha.
 6. **Filtrar la lista por estado.**
 7. **Ver los cambios de los demás sin refrescar.** La lista se ordena por el cambio más reciente.
@@ -60,30 +60,25 @@ Cada exclusión lleva al lado qué hipótesis no ayuda a validar.
 - **Sprints, estimaciones, épicas y backlog priorizado.** Son el «rollo» que el producto quita. Un equipo que los necesite no es nuestro usuario.
 - **Resolver bloqueos**, la otra mitad de la daily. Mezclarlo impediría saber si la ronda cayó gracias a la lista (H1).
 - **Estados configurables o más de tres.** Configurar flujos es justo lo que sobra de Jira, y tres estados bastan para H3.
-- **Varios responsables por tarea o trabajo en pareja.** Un único responsable es lo que hace legible «quién está con qué» (H1).
-- **Soltar o rechazar una tarea asignada.** No hace falta para validar H1–H3. Entra si aparecen asignaciones que nadie aceptó (riesgo 3).
+- **Varios responsables por tarea o trabajo en pareja.** Un responsable como máximo es lo que hace legible «quién está con qué» (H1).
 - **Vista de «novedades desde tu última visita».** El orden por cambio reciente ya cubre el caso de la mañana (S4). Entra si la demo muestra que no basta.
 - **Chat, videollamada y edición simultánea.** «Tiempo real» aquí significa estado fresco, no colaboración en directo.
 
 ### Supuestos y decisiones
 
 - **S1. Tres estados visibles:** *Por hacer*, *En curso* y *Hecha*. *En curso* es la señal que evita la colisión.
-- **S2. Cada tarea tiene siempre exactamente un responsable** (decisión de producto). Para que crear siga costando segundos, el responsable viene puesto con quien crea la tarea.
+- **S2. Cada tarea tiene un responsable o ninguno.** Sin responsable quiere decir libre.
 - **S3. Cualquiera que se registre entra en el espacio compartido y lo ve todo.** Vale para el caso de estudio, pero no para un despliegue público.
 - **S4.** El caso «vuelvo y veo qué se ha movido» se cubre ordenando la lista por el cambio más reciente.
 - **S5. El criterio de una semana no se puede medir con un caso de estudio.** Lo sustituye una demo del recorrido completo: llego por la mañana, veo qué se movió, cojo lo siguiente sin preguntar y otra persona lo ve al momento.
-- **S6. Sin tareas sin dueño, la idea de tarea «libre» desaparece.** Lo siguiente sale de mi propia cola en *Por hacer*. Coger una tarea en *Por hacer* de otra persona es reasignarla, y todo el equipo lo ve.
 
-Dos incoherencias de la ficha de partida, resueltas así:
-
-- **«Sin campos obligatorios» frente a «siempre hay responsable».** Se resuelve con el responsable precargado: escribir el título sigue bastando.
-- **«Elegir lo siguiente sabiendo qué está libre» frente a «siempre hay responsable».** Se resuelve con S6.
+**Decisión revertida:** se probó exigir siempre un responsable y se descartó. Chocaba con dos puntos de la ficha: «sin campos obligatorios» y «elegir lo siguiente sabiendo qué está libre». Además, obligaba a asignar tareas que nadie había aceptado. Está en la [parte B](parte-b-bpp.md).
 
 ### Riesgos
 
 1. **Que la información se quede vieja** (riesgo #1). Mitigación: ningún cambio de estado pide más de dos clics. Es un criterio de diseño para cada pantalla.
 2. **Trabajo que empieza sin tarea.** La colisión del episodio se repite si alguien empieza sin tener una tarea en curso a su nombre. Es una norma del equipo y una condición de adopción, no una función.
-3. **Asignaciones que nadie aceptó.** Con el responsable obligatorio, el reparto ocurre al crear la tarea. Si alguien asigna una tarea a otra persona sin hablarlo, vuelve el «¿esto me lo has puesto a mí?».
+3. **Asignar una tarea a otra persona sin hablarlo.** Como todos editan todo, puede volver el «¿esto me lo has puesto a mí?». Mitigación: quien la recibe la suelta con la misma facilidad.
 4. **El tiempo real es la pieza más cara** y con 3 husos horarios rinde sobre todo en las horas de solape. Si hay que recortar, se baja a una lista actualizada al abrirla, y las hipótesis siguen siendo comprobables.
 
 ### Métricas de éxito
@@ -94,8 +89,6 @@ Dos incoherencias de la ficha de partida, resueltas así:
 
 ---
 
-## Parte B: las tres líneas
+## Parte B
 
-1. **Los dos números:** la IA propuso meter 8 cosas dentro del alcance. Después de mi recorte quedaron _(pendiente)_.
-2. **Tres cosas que dejé fuera y por qué:** _(pendiente)_
-3. **La exclusión de la que menos seguro estoy:** _(pendiente)_
+Las tres líneas están en [parte-b-bpp.md](parte-b-bpp.md).
