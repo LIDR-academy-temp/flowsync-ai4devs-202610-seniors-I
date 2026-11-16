@@ -22,14 +22,52 @@ Borra el ejemplo de abajo cuando escribas el primero.
 
 ## Prompt 1
 
-**Modelo:** Opus 1M xHigh
-**Herramienta:** Claude Code
+**Modelo:** GLM-5.3-Flash 
+**Herramienta:**  Opencode
 
 ```
-Este es el ejemplo. Bórralo.
-
-El prompt va aquí dentro, entero y con sus saltos de línea,
-para que se sepa dónde empieza y dónde acaba.
+Siguiendo el readme, tengo que hacer los ejercicios que nombra ahi (parte A y parte B), me ayudas hacerlo. Vamos parte por parte ya que es   muy confusa la redaccion. Podrias hacerme un listado de lo hay que hacer de la parte A
 ```
 
-**Qué salió:** (opcional, una línea) funcionó a la primera / tuve que insistir / me inventó una ruta que no existe.
+**Qué salió:** 
+
+```
+Me detallo muy bien los steps a seguir, de forma mas ordenada y ya cargo en su contexto lo que habia que hacer
+```
+
+---
+
+## Prompt 2
+
+**Modelo:** GLM-5.3-Flash 
+**Herramienta:**  Opencode
+
+```
+Empezamos con la matriz del A.1
+```
+
+**Qué salió:** 
+
+```
+Me generó la martiz, me menciono la ruta de la spect y de la suite de tests
+```
+
+---
+
+## Prompt 3
+
+**Modelo:** GLM-5.3-Flash 
+**Herramienta:**  Opencode
+
+```
+Vamos A.2. 
+De las filas que quedaron en No cubierto, escribe los tests que faltan: uno por scenario, siguiendo el estilo de los que ya existen en el proyecto, y sin tocar nada fuera de la carpeta de tests.
+Después, ejecútalos.
+Pase lo que pase, no arregles el código, y no aflojes el test para que pase. Si algo se pone rojo, se queda rojo
+```
+
+**Qué salió:** 
+
+```
+Funciono a la primera y me resalto el bug de TaskTransformer (el que usa la lista y la creación) serializa el assignee con UserTransformer
+```
