@@ -20,16 +20,39 @@ Borra el ejemplo de abajo cuando escribas el primero.
 
 ---
 
-## Prompt 1
+## Prompts
 
-**Modelo:** Opus 1M xHigh
+**Modelo:** Sonnet
 **Herramienta:** Claude Code
 
-```
-Este es el ejemplo. Bórralo.
+## Prompt #1
 
-El prompt va aquí dentro, entero y con sus saltos de línea,
-para que se sepa dónde empieza y dónde acaba.
+
+```
+ lee el @README.md y explicame la tarea que tengo que hacer. Tanto la parte A como la parte B.
 ```
 
-**Qué salió:** (opcional, una línea) funcionó a la primera / tuve que insistir / me inventó una ruta que no existe.
+## Prompt #2
+
+```
+crea la rama. Mis iniciale son ml. Crea un template de la tabla del archivo
+  en docs/auditoria
+```
+
+## Prompt #3
+
+```
+ Pregunta: no entiendo si yo tengo que completar la columna "Qué pide la
+  regla", o alguna otra a mano antes de lanzar la peticion para que analice
+  los commits, o la tabla de auditoria completa del archivo
+  @docs/auditoria/ml.md es llenada por el agente.
+```
+
+## Prompt #4
+
+```
+actualiza la tabla de la seccion "Tabla de auditoría" del
+  archivo @docs/auditoria/ml.md , con el resultado de analizar los ultimos 15
+  commits del source branch (s5/start del repo upstream) y el estado actual
+  del arbol. El unico archivo a modificar es @docs/auditoria/ml.md.
+```
