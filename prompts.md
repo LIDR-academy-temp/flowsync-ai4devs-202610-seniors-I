@@ -17,8 +17,6 @@ prompt vago necesitan feedback distinto, y sin este archivo no se distinguen.
 - `Modelo` y `Herramienta` en todos. Si cambiaste de una a otra a mitad, se nota
   aquí.
 
-Borra el ejemplo de abajo cuando escribas el primero.
-
 ---
 
 ## Prompt 1
@@ -92,22 +90,22 @@ archivos: si una regla no deja rastro comprobable, dilo en vez de suponer. No ca
 ningún archivo: esto es una auditoría, no un arreglo.
 ```
 
-**Qué salió:** La tabla de las siete reglas con su veredicto y su evidencia, y las
+**Qué salió:** La tabla de las siete filas con su veredicto y su evidencia, y las
 tres líneas. Lo de «no cambies ningún archivo» se cumplió: la comprobación del
 `.adonisjs/` se hizo en una copia aparte, en `/tmp`, y el árbol quedó intacto.
 
 ## Prompt 6
 
-**Modelo:** MiniMax-M3.1-Flash-Preview[1m]
-**Herramienta:** Claude Code
+**Modelo:** gpt-5.6-sol
+**Herramienta:** Codex
 
 ```
-(cd backend && npm run openapi:check)
+agfrega este doc al material del curso:
+
+file:///Users/alfonso/Library/Containers/net.whatsapp.WhatsApp/Data/tmp/documents/BA60692F-F7CB-4B1C-98E9-4E3EAFAB61A9/PROMPTS-ALUMNO-s5.pdf
 ```
 
-**Qué salió:** Un comando, no un encargo: el `openapi:check` salió en verde,
-`EXIT CODE: 0`. Se registra porque es lo que se lanzó, y porque en la lista de
-prompts también caben los que no son encargos.
+**Qué salió:** Metió el PDF de los prompts del alumno en el material del curso.
 
 ## Prompt 7
 
@@ -139,6 +137,37 @@ salía vacío.
 **Herramienta:** Claude Code
 
 ```
+(cd backend && npm run openapi:check)
+```
+
+**Qué salió:** Un comando, no un encargo: el `openapi:check` salió en verde,
+`EXIT CODE: 0`. Se registra porque es lo que se lanzó, y porque en la lista de
+prompts también caben los que no son encargos.
+
+## Prompt 9
+
+**Modelo:** MiniMax-M3.1-Flash-Preview[1m]
+**Herramienta:** Claude Code
+
+```
+Crea un trabajo de integración continua en `.github/workflows/` que ejecute esa
+comprobación sobre cada cambio propuesto y sobre cada push a la rama principal. Que
+instale las dependencias del backend y corra el script. Dale al trabajo únicamente los
+permisos que necesite y nada más, y pon un tiempo máximo de ejecución. Explícame en dos
+líneas qué hará y qué no.
+```
+
+**Qué salió:** El trabajo que comprueba el contrato en cada pull request y en cada
+push a `main`, con `contents: read` y nada más, y un corte a los diez minutos. Se
+encontró por el camino que el comando valida las variables de entorno al arrancar:
+sin un `.env` con `APP_KEY`, el trabajo se quedaba antes de comprobar nada.
+
+## Prompt 10
+
+**Modelo:** MiniMax-M3.1-Flash-Preview[1m]
+**Herramienta:** Claude Code
+
+```
 Crea otro trabajo de integración continua en `.github/workflows/` que lance un revisor
 de código sobre cada cambio propuesto, usando la acción oficial de Claude Code para
 GitHub Actions. Que reciba su credencial desde un secreto del repositorio, y que
@@ -165,7 +194,7 @@ desde un fork en un repositorio público.
 falta hacer después: `--allowedTools` no restringe herramientas —es la lista de
 auto-aprobación—, y sin secreto el trabajo fallaba en rojo en lugar de saltarse.
 
-## Prompt 9
+## Prompt 11
 
 **Modelo:** MiniMax-M3.1-Flash-Preview[1m]
 **Herramienta:** Claude Code
@@ -180,7 +209,7 @@ integración exige, y el plan «Ultra», que sí existe— y uno pilló a una af
 equivocada del documento: en los pull requests desde fork el trabajo **falla**, no se
 salta.
 
-## Prompt 10
+## Prompt 12
 
 **Modelo:** MiniMax-M3.1-Flash-Preview[1m]
 **Herramienta:** Claude Code
@@ -197,7 +226,7 @@ git push -u origin auditoria-<tus-iniciales>
 `auditoria-af`. `docs/auditoria/` no existía, así que antes de stagedarlo se
 escribió el fichero de la auditoría con la tabla y las tres líneas.
 
-## Prompt 11
+## Prompt 13
 
 **Modelo:** MiniMax-M3.1-Flash-Preview[1m]
 **Herramienta:** Claude Code
@@ -208,4 +237,51 @@ no, mejor crea la rama y volvamos a hacer el ejercicio, hayq ue registrart los p
 
 **Qué salió:** La funcionalidad de OpenAPI y los workflows de CI se movieron a su
 propia rama, `feat/openapi-versionado`, y aquí se completó el registro de prompts
-que faltaba: hasta el prompt 3 solo estaba el primero de la sesión.
+que faltaba.
+
+## Prompt 14
+
+**Modelo:** gpt-5.6-sol
+**Herramienta:** Codex
+
+```
+genera la guia de estudio por favor con base en todos los recursos que tenemso tambien agrega los recursos adicionales [https://training.lidr.co/posts/ai4devs-202610-seniors-%F0%9F%93%9A-recursos-%F0%9F%9F%A2-108868040](https://training.lidr.co/posts/ai4devs-202610-seniors-%F0%9F%93%9A-recursos-%F0%9F%9F%A2-108868040)
+
+crea la guia de estudio
+```
+
+**Qué salió:** La guía de estudio del módulo con los recursos del curso.
+
+## Prompt 15
+
+**Modelo:** MiniMax-M3.1-Flash-Preview[1m]
+**Herramienta:** Claude Code
+
+```
+ok mandalo asi
+```
+
+**Qué salió:** Abrió el pull request con los dos ficheros de la entrega y pasó el
+revisor adversarial sobre él. El revisor encontró errores de verdad en la tabla
+—«no hay ninguna otra ref» era falso, y el recuento de mensajesconventional
+estaba mal— y se corrigieron.
+
+## Prompt 16
+
+**Modelo:** gpt-5.6-sol
+**Herramienta:** Codex
+
+```
+ayudame a guardar todos los contenidos del modulo en mi repositorio, asi como lo hemos hecho en lo otro modulos
+```
+
+**Qué salió:** Guardó el material del módulo en el repositorio, como se hizo en
+los módulos anteriores.
+
+---
+
+> **Una nota sobre el registro.** Entre los prompts 12 y 13 hay un mensaje más en
+> el transcript: es el cuerpo de la skill `/commit`, que lanzó el propio repositorio
+> al cerrar la petición 12. No se registra aquí porque no es un encargo: es la
+> definición de una skill que el agente invocó. Todos los demás mensajes de las
+> dos sesiones están, con sus faltas y su texto tal cual.
