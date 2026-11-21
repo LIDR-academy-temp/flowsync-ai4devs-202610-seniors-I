@@ -39,6 +39,8 @@ Mientras tanto aparecen artefactos que tienden a repetir las reglas con sus prop
 
 ## Estado
 
+Reemplazada por el [ADR 0002](0002-tests-como-fuente-de-verdad-ejecutable.md) (noviembre de 2027).
+
 Aceptada, 20 de noviembre de 2026. Formaliza la práctica que el proyecto ya sigue desde los changes del 13 de agosto de 2026.
 
 ## Consecuencias
