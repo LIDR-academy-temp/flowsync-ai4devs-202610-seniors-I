@@ -22,14 +22,23 @@ Borra el ejemplo de abajo cuando escribas el primero.
 
 ## Prompt 1
 
-**Modelo:** Opus 1M xHigh
-**Herramienta:** Claude Code
+**Modelo:** DeepSeek V4.1 Flash Free
+**Herramienta:** OpenCode
 
 ```
-Este es el ejemplo. Bórralo.
-
-El prompt va aquí dentro, entero y con sus saltos de línea,
-para que se sepa dónde empieza y dónde acaba.
+podrias buscarme los ultimos commits y resumirmelos?
 ```
 
-**Qué salió:** (opcional, una línea) funcionó a la primera / tuve que insistir / me inventó una ruta que no existe.
+**Qué salió:** funcionó a la primera; 20 commits con fecha, autor y ficheros tocados.
+
+## Prompt 2
+
+**Modelo:** DeepSeek V4.1 Flash Free
+**Herramienta:** OpenCode
+
+```
+partiendo del README.md(parte A) ayudame a constatar que reglas de proceso definidas en el CLAUDE.md se cumplen acorde a los ultimos 15 commits, siguiendo la tabla y el archivo que solicita en el mismo ejercicio del README
+```
+
+**Qué salió:** funcionó, pero con un aviso: el agente tuvo que apoyarse en el `git reflog` y en los commits propios como evidencia secundaria.
+
